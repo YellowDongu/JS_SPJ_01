@@ -133,9 +133,9 @@ void Zombie::imgInit()
 	newAni->setBlank({ 2,2 });
 	newAni->init(
 		{
-		{"standR",{{0,0}}},//10
-		{"jumpR", {{0,2}}},
-		{"walkR", {{0,0}, {0,1}}}
+		{"standR", { false, {{0,0}} }},//10
+		{"jumpR",  { false, {{0,2}} }},
+		{"walkR",  { false, {{0,0}, {0,1}} }}
 		},
 		"standR", &worldPos, { 38, 46 }, { 0,0 });
 	aniCtrl->addAnimation("Standard", newAni);

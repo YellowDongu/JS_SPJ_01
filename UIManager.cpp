@@ -19,6 +19,16 @@ void UIManager::release()
 		}
 		uiList.clear();
 	}
+
+
+	if (!popUpUIList.empty())
+	{
+		for (auto& ui : popUpUIList)
+		{
+			delete ui;
+		}
+		popUpUIList.clear();
+	}
 }
 
 void UIManager::update()
@@ -27,9 +37,10 @@ void UIManager::update()
 	{
 		while (true)
 		{
+			if (popUpUIList.empty()) return;
 			popUpUI* pop = (popUpUI*)(popUpUIList.front());
 
-			if (pop->time() > 20.0f)
+			if (pop->time() > 3.0f)
 			{
 				delete pop;
 				popUpUIList.pop_front();
@@ -69,6 +80,14 @@ void UIManager::render(HDC _hdc)
 		{
 			ui->render(_hdc);
 		}
+	}
+	if (!popUpUIList.empty())
+	{
+		for (auto& ui : popUpUIList)
+		{
+			ui->render(_hdc);
+		}
+
 	}
 }
 

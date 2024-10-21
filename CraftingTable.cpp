@@ -60,7 +60,8 @@ void CraftingTable::init(Vector2Int _position)
 	placedImgSize = { 16, 18 };
 	pos = _position;
 	code = 4;
-	itemName = "CraftingTable";
+	itemName = L"CraftingTable";
+	itemUsingState = UsingState::Swing;
 }
 
 Item* CraftingTable::destroyed(Vector2Int _gridPos)

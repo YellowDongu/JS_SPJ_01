@@ -48,7 +48,8 @@ void Copper::init(Vector2Int _gridPos)
 	itemImg = rendering->findImage("Item_block", "copper", "shadow0rotation0")[0];
 	pos = _gridPos;
 	code = 5;
-	itemName = "Copper";
+	itemName = L"Copper";
+	itemUsingState = UsingState::Swing;
 }
 
 Item* Copper::destroyed(Vector2Int _gridPos)

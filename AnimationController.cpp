@@ -43,6 +43,14 @@ void AnimationController::release()
 	}
 }
 
+void AnimationController::reverseImg(bool _value)
+{
+	for (auto& ani : current)
+	{
+		ani.second->setLeft(_value);
+	}
+}
+
 void AnimationController::changeAnimationContianer(std::string _current, std::string stateName)
 {
 	if (current[_current])
@@ -58,6 +66,7 @@ void AnimationController::changeAnimation(std::string _current, std::string stat
 {
 	if (current[_current] && current[_current] != container[stateName])
 	{
+		if (current[_current]->triggered()) return;
 		current[_current]->resetAnimation();
 		current[_current]->changeImg(stateName);
 	}
@@ -68,4 +77,19 @@ void AnimationController::changeAnimation(std::string _current, std::string stat
 void AnimationController::addAnimation(std::string stateName, animationContainer* newAni)
 {
 	container[stateName] = newAni;
+}
+
+const std::string& AnimationController::checkCurrentState(std::string parts)
+{
+	return current[parts]->getCurrentState();
+}
+
+bool AnimationController::checkNormalState(std::string parts)
+{
+	return current[parts]->isNormalState();
+}
+
+void AnimationController::changeAnimationSlpeed(std::string parts, float speed)
+{
+	current[parts]->setSpeed(speed);
 }

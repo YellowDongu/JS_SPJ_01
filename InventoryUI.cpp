@@ -188,8 +188,11 @@ void InventoryUI::render(HDC _hdc)
 		Vector2Int mousePos = { (int)Input->getMousePos().x, (int)Input->getMousePos().y };
 
 		ImageHandler::renderWithoutBack(*inven->pickedItem()->item()->linkItemImg(), _hdc, mousePos.x, mousePos.y);
-		ImageHandler::textResize(20, _hdc);
-		ImageHandler::DrawOutlinedText(_hdc, std::to_wstring(inven->pickedItem()->item()->itemCount()).c_str(), mousePos.x, mousePos.y);
+		if (inven->pickedItem()->item()->itemMaxCount() != 1)
+		{
+			ImageHandler::textResize(20, _hdc);
+			ImageHandler::DrawOutlinedText(_hdc, std::to_wstring(inven->pickedItem()->item()->itemCount()).c_str(), mousePos.x, mousePos.y + 15);
+		}
 	}
 }
 

@@ -2,6 +2,8 @@
 #include "InventorySlot.h"
 #include "Item.h"
 #include "SoundManager.h"
+#include "UIManager.h"
+
 InventorySlot::InventorySlot() : itemType(nullptr), itemCount(nullptr) {}
 
 InventorySlot::~InventorySlot() { release(); }
@@ -11,6 +13,7 @@ bool InventorySlot::aquireItem(Item* newItem, int count)
 	if (!newItem) return false;
 	if (!itemType)
 	{
+		UIMgr->createPopUpText(newItem->position(), newItem->name() + L"(" + std::to_wstring(newItem->itemCount()) + L")");
 		itemType = newItem;
 		itemCount = itemType->linkItemCount();
 		music->playNew("Grab.wav");
@@ -23,10 +26,12 @@ bool InventorySlot::aquireItem(Item* newItem, int count)
 		{
 			itemType->addItemCount(abs(surplus));
 			newItem->addItemCount(surplus);
+			UIMgr->createPopUpText(newItem->position(), newItem->name() + L"(" + std::to_wstring(newItem->itemCount()) + L")");
 			music->playNew("Grab.wav");
 
 			return false;
 		}
+		UIMgr->createPopUpText(newItem->position(), newItem->name() + L"(" + std::to_wstring(newItem->itemCount()) + L")");
 		itemType->addItemCount(newItem->itemCount());
 		delete newItem;
 		music->playNew("Grab.wav");
@@ -37,6 +42,8 @@ bool InventorySlot::aquireItem(Item* newItem, int count)
 
 Item* InventorySlot::swapItem(Item* newItem)
 {
+	if (!newItem && !itemType) return nullptr;
+
 	if (newItem && itemType &&
 		itemType->itemCode() == newItem->itemCode() &&
 		itemType->itemMaxCount() >= itemType->itemCount() + newItem->itemCount())

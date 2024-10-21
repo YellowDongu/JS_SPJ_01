@@ -2,6 +2,7 @@
 #include "popUpUI.h"
 #include "TimeManager.h"
 #include "ImageHandler.h"
+#include "CameraManager.h"
 
 popUpUI::popUpUI() : liveTime(0), size(0)
 {
@@ -22,10 +23,12 @@ void popUpUI::init(Vector2Int pos, std::wstring _text)
 void popUpUI::update()
 {
 	liveTime += Time->deltaTime();
+	/*
 	if (liveTime > 10.0f)
 	{
 		size -= Time->deltaTime() * 3.0f;
 	}
+	*/
 }
 
 void popUpUI::triggered()
@@ -34,6 +37,7 @@ void popUpUI::triggered()
 
 void popUpUI::render(HDC _hdc)
 {
-	ImageHandler::textResize((int)size, _hdc);
-	ImageHandler::DrawOutlinedText(_hdc, text.c_str(), lt.x, lt.y);
+	Vector2 pos = cam->calculateScreenPosition(lt);
+	ImageHandler::textResize(20, _hdc);
+	ImageHandler::DrawOutlinedText(_hdc, text.c_str(), pos.x, pos.y);
 }

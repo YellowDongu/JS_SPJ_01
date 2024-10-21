@@ -26,7 +26,9 @@ void Dirt::init(Vector2Int _gridPos)
 	itemImg = rendering->findImage("Item_block", "dirt", "shadow0rotation0")[0];
 	pos = _gridPos;
 	code = 1;
-	itemName = "Dirt";
+	itemName = L"Dirt";
+
+	itemUsingState = UsingState::Swing;
 }
 
 Item* Dirt::destroyed(Vector2Int _gridPos)

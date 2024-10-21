@@ -51,6 +51,7 @@ void DirtWall::init(Vector2Int _gridPos)
 	itemImg = rendering->findImage("Item_block", "dirtWall", "shadow0rotation0")[0];
 	pos = _gridPos;
 	code = 2;
+	itemUsingState = UsingState::Swing;
 }
 
 Wall* DirtWall::destroyed(Vector2Int _gridPos)

@@ -29,6 +29,7 @@ public:
     // 이미지 렌더 - 뒷 배경을 투명하게 만듬(배경색 : RGB(255,0,255))
     static void renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, int x, int y);
     static void renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos);
+    static void renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos, bool reverse);
     // 이미지 렌더 - 이미지 전체를 alpha값(0~255, 값이 낮을수록 투명)만큼 투명하게 만듬
     static void TransparentRender(const HBITMAP& hBitmap, HDC& _hdc, int x, int y, BYTE alpha);
     // 이미지 렌더 - 이미지 전체를 alpha값(0~255, 값이 낮을수록 투명)만큼 투명하게 만듬

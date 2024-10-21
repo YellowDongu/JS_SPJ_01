@@ -4,6 +4,7 @@
 #include "animationContainer.h"
 #include "InputManager.h"
 #include "TimeManager.h"
+#include "CameraManager.h"
 
 Player::Player() : currentState("Stand"), inven(nullptr)
 {
@@ -116,10 +117,10 @@ void Player::imgInit()
 	newAni->setRawImg(rendering->findImage("Entity_Player", "headR", 0, 0)[0]);
 	newAni->setBlank({ 2,2 });
 	newAni->init({
-		{"standR",{{0,1}} }, //10
-		{"jumpR", {{0,5}} },
-		{"walkR", {{0,6}, {0,7}, {0,8}, {0,9} ,{0,10}, {0,11},
-		{0,12}, {0,13}, {0,14}, {0,15}, {0,16}, {0,17}, {0,18}, {0,19}} } }, 
+		{"standR",{ false, {{0,1}}} }, //10
+		{"jumpR", { false, {{0,5}}} },
+		{"walkR", { false, {{0,6}, {0,7}, {0,8}, {0,9} ,{0,10}, {0,11},
+		{0,12}, {0,13}, {0,14}, {0,15}, {0,16}, {0,17}, {0,18}, {0,19}}}} },
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("head", newAni);
 	aniCtrl->changeAnimationContianer("00.head", "head");
@@ -129,10 +130,10 @@ void Player::imgInit()
 	newAni->setBlank({ 2,2 });
 	newAni->init(
 		{
-		{"standR",{{0,1}}}, //10
-		{"jumpR", {{0,5}}},
-		{"walkR", {{0,6}, {0,7}, {0,8}, {0,9} ,{0,10}, {0,11},
-		{0,12}, {0,13}, {0,14}, {0,15}, {0,16}, {0,17}, {0,18}, {0,19}}}
+		{"standR",{ false, {{0,1}} }}, //10
+		{"jumpR", { false, {{0,5}} }},
+		{"walkR", { false, {{0,6}, {0,7}, {0,8}, {0,9} ,{0,10}, {0,11},
+		{0,12}, {0,13}, {0,14}, {0,15}, {0,16}, {0,17}, {0,18}, {0,19}}}}
 		},
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("eye", newAni);
@@ -143,9 +144,13 @@ void Player::imgInit()
 	newAni->setBlank({ 0,2 });
 	newAni->init(
 		{
-		{"standR", {{2,2}}},
-		{"jumpR", {{2,3}}},
-		{"walkR", {{3,3}, {5,3}, {6,3}, {6,3}, {5,3}, {3,3}, {4,3}}}
+		{"standR",{ false, {{2,2}} }},
+		{"jumpR", { false, {{2,3}} }},
+		{"walkR", { false, {{3,3}, {5,3}, {6,3}, {6,3}, {5,3}, {3,3}, {4,3}} }},
+		{"swingR",{ true,  {{3,2}, {4,2}, {5,2}, {6,2}} }},
+		{"useTopR",{ true, {{4,2}} }},
+		{"useMiddleR",{ true,{{5,2}} }},
+		{"useBottomR",{ true,{{6,2}} }}
 		},
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("armRR", newAni);
@@ -156,9 +161,13 @@ void Player::imgInit()
 	newAni->setBlank({ 0,2 });
 	newAni->init(
 		{
-		{"standR", {{2,0}}},
-		{"jumpR", {{3,0}}},
-		{"walkR", {{3,1}, {5,1}, {6,1}, {6,1}, {5,1}, {3,1}, {4,1}}}
+		{"standR",{ false, {{2,0}} }},
+		{"jumpR", { false, {{3,0}} }},
+		{"walkR", { false, {{3,1}, {5,1}, {6,1}, {6,1}, {5,1}, {3,1}, {4,1}} }},
+		{"swingR",{ true,  {{3,0}, {4,0}, {5,0}, {6,0}} }},
+		{"useTopR",{ true, {{4,0}} }},
+		{"useMiddleR",{ true,{{5,0}} }},
+		{"useBottomR",{ true,{{6,0}} }}
 		},
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("armFR", newAni);
@@ -169,9 +178,9 @@ void Player::imgInit()
 	newAni->setBlank({ 2,2 });
 	newAni->init(
 		{
-		{ "standR", {{ 0,0 }}},
-		{ "jumpR", {{ 0,0 }}},
-		{ "walkR", {{ 0,0 }, { 1,0 }} }
+		{ "jumpR", { false, {{ 0,0 }} }},
+		{ "standR",{ false, {{ 0,0 }} }},
+		{ "walkR", { false, {{ 0,0 }, { 1,0 }} }}
 		},
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("torsoR", newAni);
@@ -182,9 +191,9 @@ void Player::imgInit()
 	newAni->setBlank({ 2,2 });
 	newAni->init(
 		{
-		{ "standR", {{ 0,0 }} },
-		{ "jumpR", {{ 0,0 }} },
-		{ "walkR", {{ 0,0 }, { 1,0 }} }
+		{ "standR",{ false, {{ 0,0 }} }},
+		{ "jumpR", { false, {{ 0,0 }} }},
+		{ "walkR", { false, {{ 0,0 }, { 1,0 }} }}
 		},
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("clothesR", newAni);
@@ -195,9 +204,9 @@ void Player::imgInit()
 	newAni->setBlank({ 2,2 });
 	newAni->init(
 		{
-		{"standR",{{0,1}}},//10
-		{"jumpR", {{0,5}}},
-		{"walkR", {{0,12}, {0,13}, {0,14}, {0,15}, {0,16}, {0,17}, {0,18}, {0,19}, {0,6}, {0,7}, {0,8}, {0,9} ,{0,10}, {0,11}}}
+		{"standR",{ false, {{0,1}} }},//10
+		{"jumpR", { false, {{0,5}} }},
+		{"walkR", { false, {{0,12}, {0,13}, {0,14}, {0,15}, {0,16}, {0,17}, {0,18}, {0,19}, {0,6}, {0,7}, {0,8}, {0,9} ,{0,10}, {0,11}} }}
 		},
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("legR", newAni);
@@ -238,6 +247,7 @@ void Player::updateAni()
 
 	if (moveVec.x > 0)
 	{
+		aniCtrl->reverseImg(false);
 		if (currentState == "WalkR") return;
 		aniCtrl->changeAnimation("00.head", "walkR");
 		aniCtrl->changeAnimation("01.armR", "walkR");
@@ -251,6 +261,7 @@ void Player::updateAni()
 	}
 	else if (moveVec.x < 0)
 	{
+		aniCtrl->reverseImg(true);
 		if (currentState == "WalkL") return;
 		aniCtrl->changeAnimation("00.head", "walkR");
 		aniCtrl->changeAnimation("01.armR", "walkR");
@@ -263,7 +274,101 @@ void Player::updateAni()
 		return;
 	}
 
+	if (currentSubState != aniCtrl->checkCurrentState("01.armR"))
+	{
+		currentSubState = aniCtrl->checkCurrentState("01.armR");
+	}
+}
 
-
-
+void Player::useItem()
+{
+	std::string currentState = aniCtrl->checkCurrentState("01.armR");
+	if (currentState == "swingR" || currentState == "useTopR" || currentState == "useMiddleR" || currentState == "useBottomR") return;
+	Item* item;
+	if (inven->pickedItem()->item())
+	{
+		Vector2 mousePos = cam->calculateWorldPosition({ (float)Input->getMousePos().x, (float)Input->getMousePos().y });
+		item = inven->pickedItem()->item();
+		UsingState state = item->usingState();
+		float angle = Vector2::angle(mousePos - worldPos);
+		switch (state)
+		{
+		case UsingState::Swing:
+			aniCtrl->changeAnimation("01.armR", "swingR");
+			aniCtrl->changeAnimation("05.armF", "swingR");
+			break;
+		case UsingState::Use:
+			aniCtrl->changeAnimation("01.armR", "useTopR");
+			aniCtrl->changeAnimation("05.armF", "useTopR");
+			break;
+		case UsingState::Directinal:
+			if (angle >= 45.0f && angle < 135.0f)
+			{
+				aniCtrl->changeAnimation("01.armR", "useTopR");
+				aniCtrl->changeAnimation("05.armF", "useTopR");
+			}
+			else if ((angle < 45.0f && angle >= 330.0f) || (angle >= 135.0f && angle < 225.0f))
+			{
+				aniCtrl->changeAnimation("01.armR", "useMiddleR");
+				aniCtrl->changeAnimation("05.armF", "useMiddleR");
+			}
+			else if (angle >= 225.0f && angle < 330.0f)
+			{
+				aniCtrl->changeAnimation("01.armR", "useBottomR");
+				aniCtrl->changeAnimation("05.armF", "useBottomR");
+			}
+			break;
+		default:
+			break;
+		}
+		inven->pickedItem()->useItem();
+	}
+	else if (inven->selectedAtHotBar()->item())
+	{
+		Vector2 mousePos = cam->calculateWorldPosition({ (float)Input->getMousePos().x, (float)Input->getMousePos().y });
+		item = inven->selectedAtHotBar()->item();
+		UsingState state = item->usingState();
+		float angle = Vector2::angle(mousePos - worldPos);
+		switch (state)
+		{
+		case UsingState::Swing:
+			aniCtrl->changeAnimation("01.armR", "swingR");
+			aniCtrl->changeAnimation("05.armF", "swingR");
+			aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
+			aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+			break;
+		case UsingState::Use:
+			aniCtrl->changeAnimation("01.armR", "useTopR");
+			aniCtrl->changeAnimation("05.armF", "useTopR");
+			aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
+			aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+			break;
+		case UsingState::Directinal:
+			if (angle >= 45.0f && angle < 135.0f)
+			{
+				aniCtrl->changeAnimation("01.armR", "useTopR");
+				aniCtrl->changeAnimation("05.armF", "useTopR");
+				aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+			}
+			else if ((angle < 45.0f && angle >= 330.0f) || (angle >= 135.0f && angle < 225.0f))
+			{
+				aniCtrl->changeAnimation("01.armR", "useMiddleR");
+				aniCtrl->changeAnimation("05.armF", "useMiddleR");
+				aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+			}
+			else if (angle >= 225.0f && angle < 330.0f)
+			{
+				aniCtrl->changeAnimation("01.armR", "useBottomR");
+				aniCtrl->changeAnimation("05.armF", "useBottomR");
+				aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+			}
+			break;
+		default:
+			break;
+		}
+		inven->selectedAtHotBar()->useItem();
+	}
 }

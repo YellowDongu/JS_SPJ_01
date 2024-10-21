@@ -38,7 +38,8 @@ void InventorySlotUI::renderSlot(HDC _hdc)
 		ImageHandler::renderWithoutBack((*imageSet->find("Hotbar_Selected")).second[0], _hdc, (int)lt.x, 20 - 3);
 		if (slot->item())
 		{
-			displayItem(_hdc, *slot->item()->linkItemImg(), slot->item()->itemCount(), Vector2Int{ (int)lt.x, 20 - 3 }, Vector2Int{ 55,55 });
+			if (slot->item()->itemCount() <= 0) slot->deleteItem();
+			else displayItem(_hdc, *slot->item()->linkItemImg(), slot->item()->itemCount(), Vector2Int{ (int)lt.x, 20 - 3 }, Vector2Int{ 55,55 });
 		}
 	}
 	else if (chest)
@@ -46,7 +47,8 @@ void InventorySlotUI::renderSlot(HDC _hdc)
 		ImageHandler::renderWithoutBack((*imageSet->find("chest_normal")).second[0], _hdc, (int)lt.x, (int)lt.y);
 		if (slot && slot->item())
 		{
-			displayItem(_hdc, *slot->item()->linkItemImg(), slot->item()->itemCount(), Vector2Int{ (int)lt.x, (int)lt.y }, Vector2Int{ 45,45 });
+			if (slot->item()->itemCount() <= 0) slot->deleteItem();
+			else displayItem(_hdc, *slot->item()->linkItemImg(), slot->item()->itemCount(), Vector2Int{ (int)lt.x, (int)lt.y }, Vector2Int{ 45,45 });
 		}
 	}
 	else
@@ -54,7 +56,8 @@ void InventorySlotUI::renderSlot(HDC _hdc)
 		ImageHandler::renderWithoutBack((*imageSet->find("slot_normal")).second[0], _hdc, (int)lt.x, (int)lt.y);
 		if (slot->item())
 		{
-			displayItem(_hdc, *slot->item()->linkItemImg(), slot->item()->itemCount(), Vector2Int{ (int)lt.x, (int)lt.y }, Vector2Int{ 50,50 });
+			if (slot->item()->itemCount() <= 0) slot->deleteItem();
+			else displayItem(_hdc, *slot->item()->linkItemImg(), slot->item()->itemCount(), Vector2Int{ (int)lt.x, (int)lt.y }, Vector2Int{ 50,50 });
 		}
 	}
 }

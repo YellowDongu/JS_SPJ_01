@@ -1,16 +1,11 @@
 #pragma once
 
-enum class ItemCode
+enum class UsingState
 {
-	Null,
-	Block,
-	Wall,
-	Furniture,
-	Tool,
-	Armour,
-	UseableItem
-
-
+	Swing,
+	Use,
+	Directinal,
+	End
 };
 
 
@@ -42,6 +37,8 @@ public:
 	const Vector2& position() const { return pos; }
 	const Vector2Int& size() const { return placedImgSize; }
 	const Vector2Int& itemSize() const { return itemImgSize; }
+	const UsingState& usingState() const { return itemUsingState; }
+	const std::wstring& name() const { return itemName; }
 
 protected:
 	bool onGround;
@@ -57,7 +54,8 @@ protected:
 	Vector2 hitAreaStart;
 	Vector2 hitAreaEnd;
 
-	std::string itemName;
+	UsingState itemUsingState;
+	std::wstring itemName;
 	Vector2Int placedImgSize;
 	Vector2Int itemImgSize;
 	Vector2Int placedImgPos;

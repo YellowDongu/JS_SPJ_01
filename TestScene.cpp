@@ -209,11 +209,7 @@ int TestScene::update()
 
 	if (Input->getButton(KeyType::LeftMouse) && !check)
 	{
-		if ((player->linkInven()->pickedItem()) ||
-			player->linkInven()->selectedAtHotBar()->item())
-		{
-			player->linkInven()->selectedAtHotBar()->useItem();
-		}
+		player->useItem();
 		
 	}
 

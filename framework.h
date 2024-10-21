@@ -25,14 +25,12 @@
 //namespace fs = std::filesystem;
 //#include <gdiplus.h>
 
-#include "Vector2.h"
-#include "DefineArea.h"
 
 #pragma comment (lib, "Msimg32.lib")
-
+#pragma comment(lib, "fmodex_vc.lib")
 #include "fmod.h"
 #include "fmod.hpp"
-#pragma comment(lib, "fmodex_vc.lib")
+
 
 
 
@@ -52,6 +50,8 @@
 
 
 
+#include "Vector2.h"
+#include "DefineArea.h"
 
 #pragma region Managers
 #include "CameraManager.h"

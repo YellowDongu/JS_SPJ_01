@@ -208,6 +208,26 @@ void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2I
     DeleteDC(dcMem);
 }
 
+void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos, bool reverse)
+{
+    if (_bitMap == NULL) { return; }
+
+    HDC dcMem = CreateCompatibleDC(_hdc);
+    HBITMAP hOldBitmap = (HBITMAP)SelectObject(dcMem, _bitMap);
+
+    if (reverse) // 좌우 반전: 너비를 음수로 설정하여 이미지를 반전하여 출력
+    {
+        TransparentBlt(_hdc, startPos.x + size.x, startPos.y, -size.x, size.y, dcMem, imagePos.x, imagePos.y, size.x, size.y, BackColor);
+    }
+    else // 일반 출력
+    {
+        TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, dcMem, imagePos.x, imagePos.y, size.x, size.y, BackColor);
+    }
+
+    SelectObject(dcMem, hOldBitmap);
+    DeleteDC(dcMem);
+}
+
 //alpha에 0~255 정수 넣기(값 낮을수록 투명)
 void ImageHandler::TransparentRender(const HBITMAP& hBitmap, HDC& _hdc, int x, int y, BYTE alpha)
 {

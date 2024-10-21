@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "ItemManager.h"
 #include "Block.h"
+#include "Furniture.h"
 #include "RenderManager.h"
 #include "CameraManager.h"
 #include "SoundManager.h"
@@ -45,7 +46,10 @@ void copperPickAxe::use()
 		}
 		else if (node->furniture())
 		{
-
+			Furniture* item = node->destroyFurniture();
+			if (!item) return;
+			item->position(Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8,8 }));
+			itemMgr->appendList(item);
 		}
 	}
 
@@ -60,6 +64,7 @@ void copperPickAxe::init()
 	itemImgSize.y = 32;
 	onGround = false;
 	code = 10;
+	itemUsingState = UsingState::Swing;
 }
 
 Item* copperPickAxe::clone() const

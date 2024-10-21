@@ -1,7 +1,7 @@
 #pragma once
 
 
-
+class UI;
 class UIManager
 {
 	DECLARE_SINGLETON(UIManager)

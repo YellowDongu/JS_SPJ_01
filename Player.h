@@ -18,6 +18,7 @@ public:
 	void vertical();
 	void imgInit();
 	void updateAni();
+	void useItem();
 
 	PlayerInventory* linkInven() { return inven; }
 
@@ -27,6 +28,7 @@ public:
 private:
 	//std::map<std::string, animationContainer*> animations;
 	std::string currentState;
+	std::string currentSubState;
 	PlayerInventory* inven;
 
 	int mp;

@@ -9,6 +9,7 @@
 #include "Recipe.h"
 #include "UIManager.h"
 #include "EntityManager.h"
+#include "SoundManager.h"
 
 CraftUI::CraftUI() : basePos(Vector2::zero()), upLimit(0.0f), downLimit(0.0f)
 {
@@ -76,13 +77,26 @@ void CraftUI::update()
 		{
 			InventorySlot* hand = playerInven->pickedItem();
 
-			if (hand->item()) return;
+			if (hand->item())
+			{
+				if (hand->item()->itemCode() == slot->linkRecipe()->resItem->itemCode() &&
+					hand->item()->itemMaxCount() >= hand->item()->itemCount() + slot->linkRecipe()->resItem->itemCount())
+				{
+					Item* item = Craft->craft(slot->getRecipe());
+					if (!item) return;
+					hand->item()->addItemCount(slot->linkRecipe()->resItem->itemCount());
+					delete item;
+					music->playNew("Grab.wav");
+					return;
+				}
+				else return;
+			}
 
 			Item* item = Craft->craft(slot->getRecipe());
 			if (item)
 			{
 				hand->aquireItem(item, 0);
-				
+				music->playNew("Grab.wav");
 			}
 			slot->changeState(UIState::normal);
 			return;

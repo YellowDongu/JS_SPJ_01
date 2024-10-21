@@ -48,7 +48,8 @@ void Wood::init(Vector2Int _gridPos)
 	itemImg = rendering->findImage("Item_block", "wood", "shadow0rotation0")[0];
 	pos = _gridPos;
 	code = 3;
-	itemName = "wood";
+	itemName = L"wood";
+	itemUsingState = UsingState::Swing;
 }
 
 Item* Wood::destroyed(Vector2Int _gridPos)

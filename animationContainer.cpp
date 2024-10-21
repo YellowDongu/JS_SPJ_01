@@ -5,7 +5,8 @@
 #include "Entity.h"
 #include "CameraManager.h"
 
-animationContainer::animationContainer() : speed(0.0f), time(0.0f), maxTime(0.0f), sequence(0) , currentImg(NULL), width(0), height(0), imgPos(nullptr), blank(Vector2Int::zero()), imgOffset(Vector2Int::zero()), imgSize(Vector2Int::zero())
+animationContainer::animationContainer() : speed(0.0f), time(0.0f), maxTime(0.0f), sequence(0), width(0), height(0), imgPos(nullptr), once(false),
+blank(Vector2Int::zero()), imgOffset(Vector2Int::zero()), imgSize(Vector2Int::zero())
 {
 }
 
@@ -25,16 +26,24 @@ void animationContainer::update()
 	{
 		time -= maxTime;
 		sequence++;
-		if (sequence >= imgPos->size()) sequence = 0;
+		if (sequence >= imgPos->size())
+		{
+
+			if (once)
+			{
+				changeImg(normalState);
+			}
+			else
+			{
+				sequence = 0;
+			}
+		}
 	}
 }
 
 void animationContainer::render(HDC _hdc)
 {
 	Vector2Int ScreenPos = cam->calculateScreenPosition(*masterPos) - Vector2Int{ imgSize.x / 2, imgSize.y / 2 };
-	/*
-	ImageHandler::renderWithoutBack(currentImg, _hdc, ScreenPos.x, ScreenPos.y);
-	*/
 	Vector2Int pos = Vector2Int{ imgSize.x * (*imgPos)[sequence].x + (*imgPos)[sequence].x * blank.x, imgSize.y * (*imgPos)[sequence].y + (*imgPos)[sequence].y * blank.y };
 	ImageHandler::renderWithoutBack(rawImg, _hdc, ScreenPos + imgOffset, imgSize, pos);
 
@@ -42,10 +51,12 @@ void animationContainer::render(HDC _hdc)
 
 }
 
-void animationContainer::init(std::map<std::string, std::vector<Vector2Int>> _posValue, std::string defultState, Vector2* _masterPos, Vector2Int _imgSizeValue, Vector2Int _imgOffsetValue)
+void animationContainer::init(std::map<std::string, std::pair<bool, std::vector<Vector2Int>>> _posValue, std::string defultState, Vector2* _masterPos, Vector2Int _imgSizeValue, Vector2Int _imgOffsetValue)
 {
 	imgPosSet = _posValue;
-	changeImg(defultState);
+	normalState = defultState;
+	currentState = defultState;
+	changeImg(normalState);
 
 	masterPos = _masterPos;
 	imgSize = _imgSizeValue;
@@ -55,10 +66,14 @@ void animationContainer::init(std::map<std::string, std::vector<Vector2Int>> _po
 
 void animationContainer::changeImg(std::string state)
 {
-	imgPos = &(*imgPosSet.find(state)).second;
-	maxTime = 1.0f / (float)imgPos->size();
+	auto iter = imgPosSet.find(state);
+	imgPos = &(iter->second.second);
+	once = iter->second.first;
+	maxTime = 1.0f / static_cast<float>(imgPos->size());
 	time = 0.0f;
 	sequence = 0;
+	speed = 1.0f;
+	currentState = state;
 }
 
 void animationContainer::resetAnimation()
