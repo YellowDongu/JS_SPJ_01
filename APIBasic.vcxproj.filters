@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="99. base">
+      <UniqueIdentifier>{0af64ae3-9feb-4871-b5a0-6a5f88ca5cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Main">
+      <UniqueIdentifier>{2fdb0e9d-035a-4aa7-8bad-68c463f1b4a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scenes">
+      <UniqueIdentifier>{fe829dc5-9b8a-4814-b5de-a6f1ec8f45a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scenes\Scene">
+      <UniqueIdentifier>{d3018702-e2dd-4b41-b355-e2468d49d82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scenes\Scene\MainMenu">
+      <UniqueIdentifier>{47f02b39-a132-475b-8249-cae01c252903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scenes\Scene\InGame">
+      <UniqueIdentifier>{d0ee7ff4-8b75-45f6-b84e-9de0d9488aea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tiles">
+      <UniqueIdentifier>{ec4c71bb-c543-4ce1-b833-38feaa7d9873}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Tiles\Tile">
+      <UniqueIdentifier>{f2392b05-67b7-459a-b8c3-b79729597850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI">
+      <UniqueIdentifier>{6a54e74a-1bc7-4a14-b1cb-d0866e905e37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Entity">
+      <UniqueIdentifier>{558940c1-d595-4c7a-9438-615cf311f91f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Item">
+      <UniqueIdentifier>{d18430d2-afe6-4055-9763-bf57991de074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\MainMenu">
+      <UniqueIdentifier>{57caea6d-fa08-4d3b-8985-2355413f177a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Entity\Player">
+      <UniqueIdentifier>{f644679d-4745-4638-98d9-ec67fa2ae409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. base\Animation">
+      <UniqueIdentifier>{e635f18b-cbbe-4f34-98f2-ffce35954f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Item\Inventory">
+      <UniqueIdentifier>{3c5935fe-9aa2-455f-aeb5-1bbb0bfac95f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scenes\Scene\TestScene">
+      <UniqueIdentifier>{19039886-bd08-47bb-889e-2e4f8f2742e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\NewFilter1">
+      <UniqueIdentifier>{e7b71fcb-40a5-4657-9229-98752b3782d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\InGame">
+      <UniqueIdentifier>{7167cb46-c7ef-4533-ae29-e62db55f1695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Item\Item_Furniture">
+      <UniqueIdentifier>{a2320ab7-a822-4457-a1f4-192ea1a6bd68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Item\Item_Block">
+      <UniqueIdentifier>{bd97e24b-13b5-4622-8495-77b85c75665a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Entity\Enemy">
+      <UniqueIdentifier>{733a97a9-963d-4a68-8cdf-aab597d6b621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Entity\Boss">
+      <UniqueIdentifier>{893df2cd-85d5-42ab-ab66-146d52a3b4b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Item\Item_Wall">
+      <UniqueIdentifier>{8eeb795d-7558-452f-8876-09ee4c4f1b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Item\Item_Tool">
+      <UniqueIdentifier>{09bd862d-5071-4153-98c2-6c80fada97eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Item\Item_other">
+      <UniqueIdentifier>{4dca6a9b-2843-4de0-a51b-e9afd55f6cd0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="APIBasic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineArea.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageHandler.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>00. Main</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>01. Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>01. Scenes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuScene.h">
+      <Filter>01. Scenes\Scene\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="GridMap.h">
+      <Filter>03. Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TileNode.h">
+      <Filter>03. Tiles\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>01. Scenes\Scene\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>05. Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>06.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="StartButton.h">
+      <Filter>04. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="EndButton.h">
+      <Filter>04. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>05. Entity\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>06.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="animationContainer.h">
+      <Filter>99. base\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationController.h">
+      <Filter>99. base\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>06.Item\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="InventorySlot.h">
+      <Filter>06.Item\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInventory.h">
+      <Filter>06.Item\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>01. Scenes\Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>05. Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugUI.h">
+      <Filter>04. UI\NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="InventorySlotUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>03. Tiles\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Dirt.h">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Furniture.h">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClInclude>
+    <ClInclude Include="HPBarUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MPBarUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="CraftUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="popUpUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Recipe.h">
+      <Filter>06.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>05. Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>99. base</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="copperPickAxe.h">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="CraftingTable.h">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="DirtWall.h">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="CraftSlotUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Wood.h">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Copper.h">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="APIBasic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="framework.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>00. Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageHandler.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>01. Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>01. Scenes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuScene.cpp">
+      <Filter>01. Scenes\Scene\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="GridMap.cpp">
+      <Filter>03. Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TileNode.cpp">
+      <Filter>03. Tiles\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>01. Scenes\Scene\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>05. Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>06.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="StartButton.cpp">
+      <Filter>04. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="EndButton.cpp">
+      <Filter>04. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>05. Entity\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>06.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="animationContainer.cpp">
+      <Filter>99. base\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.cpp">
+      <Filter>99. base\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="InventorySlot.cpp">
+      <Filter>06.Item\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>06.Item\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInventory.cpp">
+      <Filter>06.Item\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>01. Scenes\Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>05. Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugUI.cpp">
+      <Filter>04. UI\NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="temp.cpp">
+      <Filter>00. Main</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="InventorySlotUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>03. Tiles\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Dirt.cpp">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Furniture.cpp">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClCompile>
+    <ClCompile Include="HPBarUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="MPBarUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CraftUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="popUpUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Recipe.cpp">
+      <Filter>06.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>05. Entity\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>99. base</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="copperPickAxe.cpp">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="CraftingTable.cpp">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="DirtWall.cpp">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="CraftSlotUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Wood.cpp">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Copper.cpp">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="APIBasic.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="APIBasic.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
