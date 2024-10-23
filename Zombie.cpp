@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "TimeManager.h"
 #include "RenderManager.h"
+#include "SoundManager.h"
 
 Zombie::Zombie() : player(nullptr)
 {
@@ -10,6 +11,15 @@ Zombie::Zombie() : player(nullptr)
 
 Zombie::~Zombie()
 {
+	if (aniCtrl)
+	{
+		aniCtrl->release();
+		delete aniCtrl;
+		aniCtrl = nullptr;
+	}
+
+
+
 }
 
 void Zombie::init()
@@ -22,6 +32,7 @@ void Zombie::init()
 	LeftSideWall = false;
 	hp = 100;
 	maxHp = 100;
+	dead = false;
 	imgInit();
 }
 
@@ -29,7 +40,9 @@ void Zombie::update()
 {
 	if (hp <= 0)
 	{
-
+		dead = true;
+		music->playNew("NPC_Killed_1.wav");
+		music->playNew("NPC_Killed_2.wav");
 	}
 
 
@@ -60,14 +73,6 @@ void Zombie::update()
 			aniCtrl->changeAnimation("status", "standR");
 	}
 
-	if (moveVec.x > 0)
-	{
-		aniCtrl->reverseImg(false);
-	}
-	else if (moveVec.x < 0)
-	{
-		aniCtrl->reverseImg(true);
-	}
 
 }
 
@@ -127,6 +132,7 @@ void Zombie::tracePlayer()
 			return;
 		}
 		moveVec.x += speed * Time->deltaTime();
+		aniCtrl->reverseImg(true);
 	}
 	else
 	{
@@ -136,6 +142,7 @@ void Zombie::tracePlayer()
 			return;
 		}
 		moveVec.x += (-speed) * Time->deltaTime();
+		aniCtrl->reverseImg(false);
 	}
 
 
@@ -175,4 +182,6 @@ void Zombie::CollisionWithItem(Item* _col)
 		moveVec.x = 500.0f;
 		moveVec.y = 500.0f;
 	}
+	music->playNew("NPC_Hit_1.wav");
+	hp -= 20;
 }

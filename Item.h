@@ -29,6 +29,7 @@ public:
 	int* linkItemCount() { return &count; }
 	int itemMaxCount() const { return maxCount; }
 	int itemCode() const { return code; }
+	int itemCategory() const { return category; }
 
 	void setItemCount(int _value) { count = _value; }
 	void addItemCount(int _value) { count += _value; }
@@ -51,6 +52,7 @@ protected:
 	int count;
 	int maxCount;
 	int code;
+	int category;
 
 	float speed;
 

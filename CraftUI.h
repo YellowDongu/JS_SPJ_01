@@ -32,6 +32,7 @@ private:
 	float moveDist;
 	float upLimit;
 	float downLimit;
+	float scrollSpeed;
 
 	std::vector<CraftSlotUI*> currentSlots;
 	std::vector<CraftSlotUI*> slots;

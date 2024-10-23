@@ -33,7 +33,7 @@ void Chest::use()
 	float distance = Vector2::distance(entityMgr->linkPlayer()->position(), Vector2Int::toVec2(baseNode->position() * 16 + Vector2Int{ 8,8 }));
 	if (distance > 100.0f) return;
 
-	std::list<Node*> nodes = gridMap->findNodes(baseNode->position() + Vector2Int{ -1, -2 }, baseNode->position());
+	std::list<Node*> nodes = gridMap->findNodes(baseNode->position() + Vector2Int{ 0, -2 }, baseNode->position() + Vector2Int{ 1, 0 } );
 
 	for (auto& node : nodes)
 	{

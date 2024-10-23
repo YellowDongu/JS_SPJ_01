@@ -1,17 +1,18 @@
 #pragma once
-#include "Helmet.h"
+#include "Leggings.h"
 
-class CopperHelmet : public Helmet
+class CopperLeggings : public Leggings
 {
 public:
-	CopperHelmet();
-	virtual ~CopperHelmet();
+	CopperLeggings();
+	virtual ~CopperLeggings();
 
-	// Helmet을(를) 통해 상속됨
 	Item* clone() const override;
 	void dragDrop() override;
 	void use() override;
 	void init() override;
 	void render(HDC _hdc) override;
+
 private:
+
 };

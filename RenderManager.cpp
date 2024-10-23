@@ -393,9 +393,7 @@ void RenderManager::processEntityWithState(std::vector<std::string>& imageName, 
         }
         return;
     }
-
-
-    if (imageName[1] == "npcBoss")
+    else if (imageName[1] == "npcBoss")
     {
         if (imageName[2] == "skeleton")
         {
@@ -403,9 +401,10 @@ void RenderManager::processEntityWithState(std::vector<std::string>& imageName, 
         }
         if (imageName[2] == "bigEye")
         {
-            Vector2Int size = Vector2Int{ 110,164 };
+            Vector2Int size = Vector2Int{ 110,166 };
             for (int i = 0; i < 6; i++)
             {
+                imageContainer[imageName[0] + "_" + imageName[1]][imageName[2]]["shadow0rotation0"].push_back(raw);
                 HBITMAP processed = ImageHandler::cropImage(raw, Vector2Int{ 0,size.y * i + (i + 1) * 2 }, size);
                 if (i < 3)
                 {
@@ -420,6 +419,9 @@ void RenderManager::processEntityWithState(std::vector<std::string>& imageName, 
 
         return;
     }
-
+    else
+    {
+        imageContainer[imageName[0] + "_" + imageName[1]][imageName[2]]["shadow0rotation0"].push_back(raw);
+    }
 
 }

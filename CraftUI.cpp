@@ -35,6 +35,7 @@ void CraftUI::init()
 	basePos.y = 600.0f;
 	index = 0;
 	selectedIndex = 0;
+	scrollSpeed = 200.0f;
 	Vector2 currentPos = basePos;
 	playerInven = entityMgr->linkPlayer()->linkInven();
 	Craft->init();
@@ -60,9 +61,15 @@ void CraftUI::update()
 
 
 
-	if (Input->getButtonDown(KeyType::Escape))
+	if (UIMgr->getInven()->isActive() != active)
 	{
 		active = !active;
+		for (auto& slot : currentSlots)
+		{
+			if (slot->position().y > upLimit) slot->setActive(false);
+			else if (slot->position().y < downLimit) slot->setActive(false);
+			else slot->setActive(active);
+		}
 	}
 	if (Input->getButtonDown(KeyType::T) && selectedIndex != currentSlots.size() - 1)
 	{
@@ -79,10 +86,16 @@ void CraftUI::update()
 
 	if (moveDown)
 	{
+		moveDown = index < selectedIndex;
+		moveUp = index > selectedIndex;
+
 		scrollDown();
 	}
 	else if (moveUp)
 	{
+		moveDown = index < selectedIndex;
+		moveUp = index > selectedIndex;
+
 		scrollUp();
 	}
 	else
@@ -150,9 +163,9 @@ void CraftUI::scrollDown()
 {
 	for (auto& slot : currentSlots)
 	{
-		slot->position().y += Time->deltaTime() * 50.0f;
+		slot->position().y += Time->deltaTime() * scrollSpeed;
 
-		if (slot->position().y > basePos.y - 1.5f && slot->position().y < basePos.y + 1.5f)
+		if (slot->position().y > basePos.y - 5.0f && slot->position().y < basePos.y + 5.0f)
 		{
 			float diff = basePos.y - slot->position().y;
 			if (slot->isSelected())
@@ -186,9 +199,9 @@ void CraftUI::scrollUp()
 {
 	for (auto& slot : currentSlots)
 	{
-		slot->position().y -= Time->deltaTime() * 50.0f;
+		slot->position().y -= Time->deltaTime() * scrollSpeed;
 
-		if (slot->position().y > basePos.y - 1.5f && slot->position().y < basePos.y + 1.5f)
+		if (slot->position().y > basePos.y - 5.0f && slot->position().y < basePos.y + 5.0f)
 		{
 			float diff = basePos.y - slot->position().y;
 			if (slot->isSelected())
@@ -234,12 +247,13 @@ void CraftUI::resetSlot()
 			currentSlots.push_back(slot);
 			i++;
 		}
-		if (slot->position().y > upLimit) slot->setActive(false);
-		else if (slot->position().y < downLimit) slot->setActive(false);
+		if (slot->position().y > upLimit && active) slot->setActive(false);
+		else if (slot->position().y < downLimit && active) slot->setActive(false);
 		else slot->setActive(true);
 	}
 
 	selectedIndex = 0;
+	index = 0;
 	currentSlots.front()->setSelected(true);
 
 

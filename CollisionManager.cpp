@@ -49,6 +49,7 @@ void CollisionHandler::collision(Entity* obj, Tool* item)
 
 	if (boxCollision(objMin, objMax, sbjMin, sbjMax, coll))
 	{
+		item->apeendhittedList(obj);
 		obj->CollisionWithItem(item);
 	}
 

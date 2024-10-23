@@ -67,7 +67,8 @@ bool UIManager::checkColl()
 	for (auto& ui : uiList)
 	{
 		if (!ui->isActive()) continue;
-		if (CollisionHandler::collision(ui)) return true;
+		if (CollisionHandler::collision(ui))
+			return true;
 	}
 	return false;
 }

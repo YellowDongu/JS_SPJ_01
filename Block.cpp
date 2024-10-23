@@ -5,6 +5,7 @@
 
 Block::Block() : harden(0.0f)
 {
+    category = 0;
 }
 
 Block::~Block()

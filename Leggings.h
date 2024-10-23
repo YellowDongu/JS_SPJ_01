@@ -4,8 +4,8 @@
 class Leggings : public Armour
 {
 public:
-	Leggings() {}
-	virtual ~Leggings() {}
+	Leggings();
+	virtual ~Leggings();
 
 private:
 

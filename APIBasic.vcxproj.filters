@@ -61,9 +61,6 @@
     <Filter Include="01. Scenes\Scene\TestScene">
       <UniqueIdentifier>{19039886-bd08-47bb-889e-2e4f8f2742e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. UI\NewFilter1">
-      <UniqueIdentifier>{e7b71fcb-40a5-4657-9229-98752b3782d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. UI\InGame">
       <UniqueIdentifier>{7167cb46-c7ef-4533-ae29-e62db55f1695}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,9 @@
     </Filter>
     <Filter Include="06.Item\Item_Armour">
       <UniqueIdentifier>{bdbf17ff-a61f-4288-9482-60aa8a266713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\Debug">
+      <UniqueIdentifier>{e7b71fcb-40a5-4657-9229-98752b3782d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -196,7 +196,7 @@
       <Filter>05. Entity</Filter>
     </ClInclude>
     <ClInclude Include="DebugUI.h">
-      <Filter>04. UI\NewFilter1</Filter>
+      <Filter>04. UI\Debug</Filter>
     </ClInclude>
     <ClInclude Include="InventoryUI.h">
       <Filter>04. UI\InGame</Filter>
@@ -291,6 +291,36 @@
     <ClInclude Include="CopperHelmet.h">
       <Filter>06.Item\Item_Armour</Filter>
     </ClInclude>
+    <ClInclude Include="ArmourSlotUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmourUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="CopperPlate.h">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClInclude>
+    <ClInclude Include="CopperLeggings.h">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClInclude>
+    <ClInclude Include="Furnace.h">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClInclude>
+    <ClInclude Include="Ingredient.h">
+      <Filter>06.Item\Item_other</Filter>
+    </ClInclude>
+    <ClInclude Include="CopperBar.h">
+      <Filter>06.Item\Item_other</Filter>
+    </ClInclude>
+    <ClInclude Include="Stone.h">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Anvil.h">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClInclude>
+    <ClInclude Include="BigEye.h">
+      <Filter>05. Entity\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIBasic.cpp">
@@ -384,7 +414,7 @@
       <Filter>05. Entity</Filter>
     </ClCompile>
     <ClCompile Include="DebugUI.cpp">
-      <Filter>04. UI\NewFilter1</Filter>
+      <Filter>04. UI\Debug</Filter>
     </ClCompile>
     <ClCompile Include="temp.cpp">
       <Filter>00. Main</Filter>
@@ -482,6 +512,36 @@
     <ClCompile Include="CopperHelmet.cpp">
       <Filter>06.Item\Item_Armour</Filter>
     </ClCompile>
+    <ClCompile Include="ArmourSlotUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmourUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CopperPlate.cpp">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClCompile>
+    <ClCompile Include="CopperLeggings.cpp">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClCompile>
+    <ClCompile Include="Furnace.cpp">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClCompile>
+    <ClCompile Include="Ingredient.cpp">
+      <Filter>06.Item\Item_other</Filter>
+    </ClCompile>
+    <ClCompile Include="CopperBar.cpp">
+      <Filter>06.Item\Item_other</Filter>
+    </ClCompile>
+    <ClCompile Include="Stone.cpp">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Anvil.cpp">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClCompile>
+    <ClCompile Include="BigEye.cpp">
+      <Filter>05. Entity\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="APIBasic.rc">
@@ -493,9 +553,6 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="APIBasic.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="bitmap1.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

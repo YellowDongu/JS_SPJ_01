@@ -75,6 +75,14 @@ bool InventorySlot::useItem()
 	return true;
 }
 
+void InventorySlot::deleteItem()
+{
+	if (!itemType) return;
+	delete itemType;
+	itemType = nullptr;
+	itemCount = nullptr;
+}
+
 void InventorySlot::release()
 {
 	if (!itemType) return;

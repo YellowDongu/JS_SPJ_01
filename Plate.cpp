@@ -4,6 +4,8 @@
 
 Plate::Plate()
 {
+	category = -11;
+	maxCount = 1;
 }
 
 Plate::~Plate()

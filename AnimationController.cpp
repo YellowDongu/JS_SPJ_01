@@ -104,7 +104,7 @@ bool AnimationController::checkNormalState(std::string parts)
 	return current[parts]->isNormalState();
 }
 
-void AnimationController::changeAnimationSlpeed(std::string parts, float speed)
+void AnimationController::changeAnimationSpeed(std::string parts, float speed)
 {
 	current[parts]->setSpeed(speed);
 }

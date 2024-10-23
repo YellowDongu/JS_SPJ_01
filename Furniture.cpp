@@ -5,6 +5,7 @@
 
 Furniture::Furniture() : placedPos({-1,-1}), imgGridSize(Vector2Int::zero()), bottomPos(0), imgGridPos(Vector2Int::zero())
 {
+    category = 0;
 }
 
 Furniture::~Furniture()

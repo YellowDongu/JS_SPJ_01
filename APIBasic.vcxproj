@@ -133,16 +133,23 @@
   <ItemGroup>
     <ClInclude Include="animationContainer.h" />
     <ClInclude Include="AnimationController.h" />
+    <ClInclude Include="Anvil.h" />
     <ClInclude Include="APIBasic.h" />
     <ClInclude Include="Armour.h" />
+    <ClInclude Include="ArmourSlotUI.h" />
+    <ClInclude Include="ArmourUI.h" />
+    <ClInclude Include="BigEye.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Copper.h" />
+    <ClInclude Include="CopperBar.h" />
     <ClInclude Include="CopperBow.h" />
     <ClInclude Include="CopperHelmet.h" />
+    <ClInclude Include="CopperLeggings.h" />
+    <ClInclude Include="CopperPlate.h" />
     <ClInclude Include="CraftingTable.h" />
     <ClInclude Include="CraftSlotUI.h" />
     <ClInclude Include="CraftUI.h" />
@@ -153,7 +160,9 @@
     <ClInclude Include="EndButton.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Ingredient.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Furnace.h" />
     <ClInclude Include="Furniture.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Gore.h" />
@@ -186,6 +195,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StartButton.h" />
+    <ClInclude Include="Stone.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TileNode.h" />
     <ClInclude Include="Resource.h" />
@@ -204,16 +214,23 @@
   <ItemGroup>
     <ClCompile Include="animationContainer.cpp" />
     <ClCompile Include="AnimationController.cpp" />
+    <ClCompile Include="Anvil.cpp" />
     <ClCompile Include="APIBasic.cpp" />
     <ClCompile Include="Armour.cpp" />
+    <ClCompile Include="ArmourSlotUI.cpp" />
+    <ClCompile Include="ArmourUI.cpp" />
+    <ClCompile Include="BigEye.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Copper.cpp" />
+    <ClCompile Include="CopperBar.cpp" />
     <ClCompile Include="CopperBow.cpp" />
     <ClCompile Include="CopperHelmet.cpp" />
+    <ClCompile Include="CopperLeggings.cpp" />
+    <ClCompile Include="CopperPlate.cpp" />
     <ClCompile Include="CraftingTable.cpp" />
     <ClCompile Include="CraftSlotUI.cpp" />
     <ClCompile Include="CraftUI.cpp" />
@@ -226,6 +243,7 @@
     <ClCompile Include="framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Furnace.cpp" />
     <ClCompile Include="Furniture.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Gore.cpp" />
@@ -236,6 +254,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImageHandler.cpp" />
+    <ClCompile Include="Ingredient.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventorySlot.cpp" />
     <ClCompile Include="InventorySlotUI.cpp" />
@@ -260,6 +279,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="Stone.cpp" />
     <ClCompile Include="temp.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TileNode.cpp" />
@@ -276,7 +296,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="APIBasic.ico" />
-    <Image Include="bitmap1.bmp" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

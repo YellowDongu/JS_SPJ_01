@@ -5,34 +5,42 @@
 
 #include "DirtWall.h"
 #include "CraftingTable.h"
-#include "Furniture.h"
+#include "Wood.h"
+#include "Copper.h"
 #include "Chest.h"
+#include "Dirt.h"
+#include "copperPickAxe.h"
+#include "CopperBow.h"
+#include "CopperHelmet.h"
+#include "CopperPlate.h"
+#include "CopperLeggings.h"
+#include "CopperBar.h"
+#include "Furnace.h"
+#include "Stone.h"
+#include "Anvil.h"
+
+
+
 
 void Recipe::init()
 {
-	Item* item = nullptr;
-	RecipeInfo* newRecipe = nullptr;
 
 	inven = entityMgr->linkPlayer()->linkInven();
 
 	{
 		DirtWall* newItem = new DirtWall();
 		newItem->init({ -1,-1 });
-		item = newItem;
-		*item->linkItemCount() = 4;
-		newRecipe = new RecipeInfo{ item, item->linkItemCount(), true, {{1, 1}} };
+		*newItem->linkItemCount() = 4;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{1, 1}} };
 		recipes.push_back(newRecipe);
 		recipeCategory[0].first.push_back(newRecipe);
 		recipeCategory[0].second = true;
-
 	}
-
 	{
 		CraftingTable* newItem = new CraftingTable();
 		newItem->init({ -1,-1 });
-		item = newItem;
-		*item->linkItemCount() = 1;
-		newRecipe = new RecipeInfo{ item, item->linkItemCount(), true, {{3, 10}} };
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{3, 10}} };
 		recipes.push_back(newRecipe);
 		recipeCategory[0].first.push_back(newRecipe);
 		recipeCategory[0].second = true;
@@ -40,12 +48,74 @@ void Recipe::init()
 	{
 		Chest* newItem = new Chest();
 		newItem->init({ -1,-1 });
-		item = newItem;
-		*item->linkItemCount() = 1;
-		newRecipe = new RecipeInfo{ item, item->linkItemCount(), false, {{3, 10}} };
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{3, 10}} };
 		recipes.push_back(newRecipe);
 		recipeCategory[4].first.push_back(newRecipe);
 		recipeCategory[4].second = false;
+	}
+	{
+		CopperBar* newItem = new CopperBar();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{5, 4}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
+	}
+	{
+		Furnace* newItem = new Furnace();
+		newItem->init({-1, -1});
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{5, 4}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[4].first.push_back(newRecipe);
+		recipeCategory[4].second = false;
+	}
+	{
+		CopperHelmet* newItem = new CopperHelmet();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
+	}
+	{
+		CopperPlate* newItem = new CopperPlate();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
+	}
+	{
+		CopperLeggings* newItem = new CopperLeggings();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
+	}
+	{
+		copperPickAxe* newItem = new copperPickAxe();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
+	}
+	{
+		CopperBow* newItem = new CopperBow();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
 	}
 
 

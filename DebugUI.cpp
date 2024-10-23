@@ -7,7 +7,7 @@
 #include "TimeManager.h"
 #include "LightManager.h"
 
-DebugUI::DebugUI()
+DebugUI::DebugUI() : size(0.0f)
 {
 }
 

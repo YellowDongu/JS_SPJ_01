@@ -6,6 +6,7 @@
 
 Wall::Wall()
 {
+    category = 0;
 }
 
 Wall::~Wall()

@@ -1,8 +1,14 @@
 #pragma once
 #include "Entity.h"
 #include "PlayerInventory.h"
+#include "Helmet.h"
+#include "Plate.h"
+#include "Leggings.h"
 
 class animationContainer;
+//class Helmet;
+//class Plate;
+//class Leggings;
 class Player : public Entity
 {
 public:
@@ -28,6 +34,19 @@ public:
 	int* linkMana() { return &mp; }
 	int* linkMaxMana() { return &maxMp; }
 
+
+	Helmet* helmetSlot() { return helmet; }
+	Plate* plateSlot() { return plate; }
+	Leggings* leggingsSlot() { return leggings; }
+	
+	void helmetSlot(Item* newItem);
+	void plateSlot(Item* newItem);
+	void leggingsSlot(Item* newItem);
+
+	Helmet* helmetOff();
+	Plate* plateOff();
+	Leggings* leggingsOff();
+
 private:
 	//std::map<std::string, animationContainer*> animations;
 	std::string currentState;
@@ -36,7 +55,12 @@ private:
 
 	int mp;
 	int maxMp;
+	int defense;
 
 	Item* usingItem;
+
+	Helmet* helmet;
+	Plate* plate;
+	Leggings* leggings;
 
 };

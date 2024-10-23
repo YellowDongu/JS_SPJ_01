@@ -1,14 +1,15 @@
 #pragma once
 #include "Entity.h"
 
+class Player;
 class Boss : public Entity
 {
 public:
 	Boss();
-	~Boss();
+	virtual ~Boss();
 
 	virtual void render(HDC _hdc) abstract;
-
-private:
-
+	void linkPlayer(Player* player);
+protected:
+	Player* player;
 };

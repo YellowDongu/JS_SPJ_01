@@ -19,7 +19,7 @@ public:
 	const std::string& checkCurrentState(std::string parts);
 	const int& checkSequence(std::string parts) { return current[parts]->getSequence(); }
 	bool checkNormalState(std::string parts);
-	void changeAnimationSlpeed(std::string parts, float speed);
+	void changeAnimationSpeed(std::string parts, float speed);
 	bool checkTriggered(std::string parts) { return current[parts]->triggered(); }
 
 	void linkState(std::string* state) { currentState = state; }

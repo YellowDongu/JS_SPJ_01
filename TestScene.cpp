@@ -1,23 +1,27 @@
 #include "framework.h"
 #include "TestScene.h"
-#include "GridMap.h"
+
 #include "CameraManager.h"
 #include "RenderManager.h"
-#include "Node.h"
-#include "Player.h"
-#include "EntityManager.h"
 #include "CollisionManager.h"
+#include "SoundManager.h"
+#include "LightManager.h"
+#include "ItemManager.h"
+
+#include "GridMap.h"
+
+#include "EntityManager.h"
+#include "Player.h"
+#include "Zombie.h"
+#include "BigEye.h"
+
 #include "UIManager.h"
 #include "DebugUI.h"
 #include "InventoryUI.h"
 #include "HPBarUI.h"
 #include "MPBarUI.h"
 #include "CraftUI.h"
-#include "Zombie.h"
-#include "SoundManager.h"
-#include "LightManager.h"
-#include "ItemManager.h"
-
+#include "ArmourUI.h"
 
 #include "DirtWall.h"
 #include "Wood.h"
@@ -26,7 +30,10 @@
 #include "Dirt.h"
 #include "copperPickAxe.h"
 #include "CopperBow.h"
-
+#include "CopperHelmet.h"
+#include "CopperPlate.h"
+#include "CopperLeggings.h"
+#include "Stone.h"
 
 
 
@@ -131,7 +138,11 @@ void TestScene::init()
 	testMob->position({ 700.0f, 400.0f });
 	testMob->linkPlayer(player);
 	entityMgr->addEntity(testMob);
-	
+
+	BigEye* testBoss = new BigEye();
+	testBoss->init();
+	testBoss->position({ 900.0f, 500.0f });
+	entityMgr->addBossEntity(testBoss);
 	
 	InventoryUI* invenUI = new InventoryUI();
 	invenUI->init(rendering->linkplayer()->linkInven());
@@ -151,6 +162,9 @@ void TestScene::init()
 
 	itemMgr->init(player);
 
+	ArmourUI* armourUI = new ArmourUI();
+	armourUI->init();
+	UIMgr->appendUI(armourUI);
 
 	DebugUI* testUI = (DebugUI*)UIMgr->appendUI(new DebugUI());
 	testUI->leftTop({ 0.0f,0.0f });
@@ -177,7 +191,7 @@ void TestScene::init()
 	
 	Copper* copperTest = new Copper();
 	copperTest->init({ -1, -1 });
-	copperTest->addItemCount(50);
+	copperTest->addItemCount(999);
 	player->linkInven()->pickUp(copperTest, 1);
 
 	Chest* chestTest = new Chest();
@@ -188,7 +202,26 @@ void TestScene::init()
 	CopperBow* bowTest = new CopperBow();
 	bowTest->init();
 	player->linkInven()->pickUp(bowTest, 1);
+
+	CopperHelmet* helmetTes = new CopperHelmet();
+	helmetTes->init();
+	player->linkInven()->pickUp(helmetTes, 1);
+
+	CopperPlate* plateTest = new CopperPlate();
+	plateTest->init();
+	player->linkInven()->pickUp(plateTest, 1);
 	
+	CopperLeggings* leggingsTest = new CopperLeggings();
+	leggingsTest->init();
+	player->linkInven()->pickUp(leggingsTest, 1);
+	
+	Stone* furnaceTest = new Stone;
+	furnaceTest->init({-1, -1});
+	furnaceTest->addItemCount(900);
+	player->linkInven()->pickUp(furnaceTest, 1);
+
+
+
 	cam->Position(player->position());
 	gridMap->getVisiableNodes();
 

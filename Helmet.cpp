@@ -4,6 +4,8 @@
 
 Helmet::Helmet()
 {
+	category = -10;
+	maxCount = 1;
 }
 
 Helmet::~Helmet()

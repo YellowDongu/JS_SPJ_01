@@ -64,6 +64,7 @@ void InventoryUI::init(PlayerInventory* _playerInven)
 
 			slotUI->setSelected(false);
 			slotUI->setChestSlot(false);
+			slotUI->setActive(false);
 			slotUI->rightBottom(slotUI->leftTop() + Vector2{ 50.0f,50.0f });
 
 			invenSlot.push_back(slotUI);
@@ -87,6 +88,7 @@ void InventoryUI::init(PlayerInventory* _playerInven)
 
 			slotUI->setSelected(false);
 			slotUI->setChestSlot(true);
+			slotUI->setActive(false);
 			slotUI->rightBottom(slotUI->leftTop() + Vector2{ 45.0f,45.0f });
 			chestSlot.push_back(slotUI);
 			UIMgr->appendUI(slotUI);
@@ -309,7 +311,7 @@ void InventoryUI::chestSelected(Inventory* inven)
 		chestSlot[i]->linkChestSlot((*chestInven->linkInven())[i]);
 	}
 
-	active = true;
+	inventoryActive(true);
 	music->playNew("Menu_Open.wav");
 }
 

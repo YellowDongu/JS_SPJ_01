@@ -6,7 +6,8 @@
 #include "TimeManager.h"
 #include "CameraManager.h"
 
-Player::Player() : currentState("Stand"), inven(nullptr), usingItem(nullptr)
+
+Player::Player() : currentState("Stand"), inven(nullptr), usingItem(nullptr), helmet(nullptr), plate(nullptr), leggings(nullptr)
 {
 }
 
@@ -39,6 +40,31 @@ void Player::update()
 	keyInput();
 	aniCtrl->update();
 	aniCtrl->syncTrigger("01.armR");
+
+	if (leggings)
+	{
+		(*leggings->linkAniList())[0]->syncTriggered(aniCtrl->checkTriggered("01.armR"));
+		(*leggings->linkAniList())[0]->setLeft(aniCtrl->reversed("01.armR"));
+
+	}
+	if (plate)
+	{
+		(*plate->linkAniList())[0]->syncTriggered(aniCtrl->checkTriggered("01.armR"));
+		(*plate->linkAniList())[0]->setLeft(aniCtrl->reversed("01.armR"));
+		if(!aniCtrl->checkTriggered("01.armR"))
+			for (auto& ani : *plate->linkAniList())
+			{
+				ani->setLeft(aniCtrl->reversed("01.armR"));
+			}
+	}
+	if (helmet)
+	{
+		(*helmet->linkAniList())[0]->syncTriggered(aniCtrl->checkTriggered("01.armR"));
+		(*helmet->linkAniList())[0]->setLeft(aniCtrl->reversed("01.armR"));
+	}
+
+
+
 	updateAni();
 
 	if (moveVec == Vector2::zero()) return;
@@ -47,6 +73,26 @@ void Player::update()
 
 void Player::release()
 {
+	if (plate)
+	{
+		delete plate;
+		plate = nullptr;
+	}
+	
+	if (helmet)
+	{
+		delete helmet;
+		helmet = nullptr;
+	}
+	
+	if (leggings)
+	{
+		delete leggings;
+		leggings = nullptr;
+	}
+
+
+
 	if (!aniCtrl) return;
 	aniCtrl->release();
 	delete aniCtrl;
@@ -241,6 +287,34 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("04.leg", "standR");
 		aniCtrl->changeAnimation("05.armF", "standR");
 		aniCtrl->changeAnimation("07.eye", "standR");
+		if (leggings)
+		{
+			for (auto& ani : *leggings->linkAniList())
+			{
+				if (ani->getCurrentState() == "Stand") continue;
+				ani->resetAnimation();
+				ani->changeImg("standR");
+			}
+		}
+		if (plate)
+		{
+			for (auto& ani : *plate->linkAniList())
+			{
+				if (ani->getCurrentState() == "Stand") continue;
+				if (ani != (*plate->linkAniList())[0] && ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("standR");
+			}
+		}
+		if (helmet)
+		{
+			for (auto& ani : *helmet->linkAniList())
+			{
+				if (ani->getCurrentState() == "Stand") continue;
+				ani->resetAnimation();
+				ani->changeImg("standR");
+			}
+		}
 		currentState = "Stand";
 		return;
 	}
@@ -255,6 +329,34 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("04.leg", "jumpR");
 		aniCtrl->changeAnimation("05.armF", "jumpR");
 		aniCtrl->changeAnimation("07.eye", "jumpR");
+		if (leggings)
+		{
+			for (auto& ani : *leggings->linkAniList())
+			{
+				if (ani->getCurrentState() == "jumpR") continue;
+				ani->resetAnimation();
+				ani->changeImg("jumpR");
+			}
+		}
+		if (plate)
+		{
+			for (auto& ani : *plate->linkAniList())
+			{
+				if (ani->getCurrentState() == "jumpR") continue;
+				if (ani != (*plate->linkAniList())[0] && ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("jumpR");
+			}
+		}
+		if (helmet)
+		{
+			for (auto& ani : *helmet->linkAniList())
+			{
+				if (ani->getCurrentState() == "jumpR") continue;
+				ani->resetAnimation();
+				ani->changeImg("jumpR");
+			}
+		}
 		currentState = "Jump";
 		return;
 	}
@@ -262,7 +364,34 @@ void Player::updateAni()
 	if (moveVec.x > 0)
 	{
 		if (!aniCtrl->checkTriggered("01.armR"))
+		{
 			aniCtrl->reverseImg(false);
+			if (leggings)
+			{
+				for (auto& ani : *leggings->linkAniList())
+				{
+					if (ani->triggered()) continue;
+					ani->setLeft(false);
+				}
+			}
+			if (plate)
+			{
+				for (auto& ani : *plate->linkAniList())
+				{
+					if (ani->triggered()) continue;
+					ani->setLeft(false);
+				}
+			}
+			if (helmet)
+			{
+				for (auto& ani : *helmet->linkAniList())
+				{
+					if (ani->triggered()) continue;
+					ani->setLeft(false);
+				}
+			}
+		}
+
 		if (currentState == "WalkR") return;
 		aniCtrl->changeAnimation("06.head", "walkR");
 		aniCtrl->changeAnimation("01.armR", "walkR");
@@ -271,13 +400,70 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("04.leg", "walkR");
 		aniCtrl->changeAnimation("05.armF", "walkR");
 		aniCtrl->changeAnimation("07.eye", "walkR");
+		if (leggings)
+		{
+			for (auto& ani : *leggings->linkAniList())
+			{
+				if (ani->getCurrentState() == "walkR" || ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("walkR");
+			}
+		}
+		if (plate)
+		{
+			for (auto& ani : *plate->linkAniList())
+			{
+				if (ani->getCurrentState() == "walkR" || ani->triggered()) continue;
+				if (ani != (*plate->linkAniList())[0] && ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("walkR");
+			}
+		}
+		if (helmet)
+		{
+			for (auto& ani : *helmet->linkAniList())
+			{
+				if (ani->getCurrentState() == "walkR" || ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("walkR");
+			}
+		}
 		currentState = "WalkR";
 		return;
 	}
 	else if (moveVec.x < 0)
 	{
-		if(!aniCtrl->checkTriggered("01.armR"))
+		if (!aniCtrl->checkTriggered("01.armR"))
+		{
 			aniCtrl->reverseImg(true);
+			if (leggings)
+			{
+				for (auto& ani : *leggings->linkAniList())
+				{
+					if (ani->triggered()) continue;
+					ani->setLeft(true);
+				}
+			}
+			if (plate)
+			{
+				for (auto& ani : *plate->linkAniList())
+				{
+					if (ani->triggered()) continue;
+					ani->setLeft(true);
+				}
+			}
+			if (helmet)
+			{
+				for (auto& ani : *helmet->linkAniList())
+				{
+					if (ani->triggered()) continue;
+					ani->setLeft(true);
+				}
+			}
+
+
+		}
+
 		if (currentState == "WalkL") return;
 		aniCtrl->changeAnimation("06.head", "walkR");
 		aniCtrl->changeAnimation("01.armR", "walkR");
@@ -286,6 +472,34 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("04.leg", "walkR");
 		aniCtrl->changeAnimation("05.armF", "walkR");
 		aniCtrl->changeAnimation("07.eye", "walkR");
+		if (leggings)
+		{
+			for (auto& ani : *leggings->linkAniList())
+			{
+				if (ani->getCurrentState() == "walkR" || ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("walkR");
+			}
+		}
+		if (plate)
+		{
+			for (auto& ani : *plate->linkAniList())
+			{
+				if (ani->getCurrentState() == "walkR" || ani->triggered()) continue;
+				if (ani != (*plate->linkAniList())[0] && ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("walkR");
+			}
+		}
+		if (helmet)
+		{
+			for (auto& ani : *helmet->linkAniList())
+			{
+				if (ani->getCurrentState() == "walkR" || ani->triggered()) continue;
+				ani->resetAnimation();
+				ani->changeImg("walkR");
+			}
+		}
 		currentState = "WalkL";
 		return;
 	}
@@ -307,41 +521,142 @@ void Player::useItem()
 		item = inven->pickedItem()->item();
 		UsingState state = item->usingState();
 		float angle = Vector2::angle(mousePos - worldPos);
+		bool left = angle >= 90.0f && angle < 270.0f;
+		if (leggings)
+		{
+			for (auto& ani : *leggings->linkAniList())
+			{
+				ani->setLeft(left);
+			}
+		}
+		if (helmet)
+		{
+			for (auto& ani : *helmet->linkAniList())
+			{
+				ani->setLeft(left);
+			}
+		}
 		switch (state)
 		{
 		case UsingState::Swing:
-			aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "swingR");
 			aniCtrl->changeAnimation("05.armF", "swingR");
+			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			if (plate)
+			{
+				for (auto& ani : *plate->linkAniList())
+				{
+					if (ani == (*plate->linkAniList())[0])
+					{
+						ani->setLeft(left);
+						continue;
+					}
+					ani->setLeft(left);
+					ani->resetAnimation();
+					ani->changeImg("swingR");
+					ani->setSpeed(3.0f);
+				}
+			}
 			break;
 		case UsingState::Use:
-			aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "useTopR");
 			aniCtrl->changeAnimation("05.armF", "useTopR");
+			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			if (plate)
+			{
+				for (auto& ani : *plate->linkAniList())
+				{
+					if (ani == (*plate->linkAniList())[0])
+					{
+						ani->setLeft(left);
+						continue;
+					}
+					ani->setLeft(left);
+					ani->resetAnimation();
+					ani->changeImg("swingR");
+					ani->setSpeed(3.0f);
+				}
+			}
 			break;
 		case UsingState::Directinal:
 			if (angle >= 45.0f && angle < 135.0f)
 			{
-				aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useTopR");
 				aniCtrl->changeAnimation("05.armF", "useTopR");
+				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				if (plate)
+				{
+					for (auto& ani : *plate->linkAniList())
+					{
+						if (ani == (*plate->linkAniList())[0])
+						{
+							ani->setLeft(left);
+							continue;
+						}
+						ani->setLeft(left);
+						ani->resetAnimation();
+						ani->changeImg("swingR");
+						ani->setSpeed(3.0f);
+					}
+				}
 			}
 			else if ((angle < 45.0f || angle >= 330.0f) || (angle >= 135.0f && angle < 225.0f))
 			{
-				aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useMiddleR");
 				aniCtrl->changeAnimation("05.armF", "useMiddleR");
+				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				if (plate)
+				{
+					for (auto& ani : *plate->linkAniList())
+					{
+						if (ani == (*plate->linkAniList())[0])
+						{
+							ani->setLeft(left);
+							continue;
+						}
+						ani->setLeft(left);
+						ani->resetAnimation();
+						ani->changeImg("swingR");
+						ani->setSpeed(3.0f);
+					}
+				}
 			}
 			else if (angle >= 225.0f && angle < 330.0f)
 			{
-				aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useBottomR");
 				aniCtrl->changeAnimation("05.armF", "useBottomR");
+				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				if (plate)
+				{
+					for (auto& ani : *plate->linkAniList())
+					{
+						if (ani == (*plate->linkAniList())[0])
+						{
+							ani->setLeft(left);
+							continue;
+						}
+						ani->setLeft(left);
+						ani->resetAnimation();
+						ani->changeImg("swingR");
+						ani->setSpeed(3.0f);
+					}
+				}
 			}
 			break;
 		default:
 			break;
 		}
+
 		usingItem = inven->pickedItem()->item();
 		inven->pickedItem()->useItem();
 	}
@@ -351,46 +666,116 @@ void Player::useItem()
 		item = inven->selectedAtHotBar()->item();
 		UsingState state = item->usingState();
 		float angle = Vector2::angle(mousePos - worldPos);
+		bool left = angle >= 90.0f && angle < 270.0f;
+		if (leggings)
+		{
+			for (auto& ani : *leggings->linkAniList())
+			{
+				ani->setLeft(left);
+			}
+		}
+		if (helmet)
+		{
+			for (auto& ani : *helmet->linkAniList())
+			{
+				ani->setLeft(left);
+			}
+		}
 		switch (state)
 		{
 		case UsingState::Swing:
-			aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "swingR");
 			aniCtrl->changeAnimation("05.armF", "swingR");
-			aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
-			aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			if (plate)
+			{
+				for (auto& ani : *plate->linkAniList())
+				{
+					if (ani == (*plate->linkAniList())[0]) continue;
+					ani->setLeft(left);
+					ani->resetAnimation();
+					ani->changeImg("swingR");
+					ani->setSpeed(3.0f);
+				}
+			}
 			break;
 		case UsingState::Use:
-			aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "useTopR");
 			aniCtrl->changeAnimation("05.armF", "useTopR");
-			aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
-			aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			if (plate)
+			{
+				for (auto& ani : *plate->linkAniList())
+				{
+					if (ani == (*plate->linkAniList())[0]) continue;
+					ani->setLeft(left);
+					ani->resetAnimation();
+					ani->changeImg("swingR");
+					ani->setSpeed(3.0f);
+				}
+			}
 			break;
 		case UsingState::Directinal:
 			if (angle >= 45.0f && angle < 135.0f)
 			{
-				aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useTopR");
 				aniCtrl->changeAnimation("05.armF", "useTopR");
-				aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				if (plate)
+				{
+					for (auto& ani : *plate->linkAniList())
+					{
+						if (ani == (*plate->linkAniList())[0]) continue;
+						ani->setLeft(left);
+						ani->resetAnimation();
+						ani->changeImg("swingR");
+						ani->setSpeed(3.0f);
+					}
+				}
 			}
 			else if ((angle < 45.0f || angle >= 330.0f) || (angle >= 135.0f && angle < 225.0f))
 			{
-				aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useMiddleR");
 				aniCtrl->changeAnimation("05.armF", "useMiddleR");
-				aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				if (plate)
+				{
+					for (auto& ani : *plate->linkAniList())
+					{
+						if (ani == (*plate->linkAniList())[0]) continue;
+						ani->setLeft(left);
+						ani->resetAnimation();
+						ani->changeImg("swingR");
+						ani->setSpeed(3.0f);
+					}
+				}
 			}
 			else if (angle >= 225.0f && angle < 330.0f)
 			{
-				aniCtrl->reverseImg(angle >= 90.0f && angle < 270.0f);
+				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useBottomR");
 				aniCtrl->changeAnimation("05.armF", "useBottomR");
-				aniCtrl->changeAnimationSlpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSlpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
+				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				if (plate)
+				{
+					for (auto& ani : *plate->linkAniList())
+					{
+						if (ani == (*plate->linkAniList())[0]) continue;
+						ani->setLeft(left);
+						ani->resetAnimation();
+						ani->changeImg("swingR");
+						ani->setSpeed(3.0f);
+					}
+				}
 			}
 			break;
 		default:
@@ -399,6 +784,48 @@ void Player::useItem()
 		usingItem = inven->selectedAtHotBar()->item();
 		inven->selectedAtHotBar()->useItem();
 	}
+}
+
+void Player::helmetSlot(Item* newItem)
+{
+	if (!newItem || newItem->itemCategory() != -10) return;
+	helmet = (Helmet*)newItem;
+}
+
+void Player::plateSlot(Item* newItem)
+{
+	if (!newItem || newItem->itemCategory() != -11) return;
+	plate = (Plate*)newItem;
+}
+
+void Player::leggingsSlot(Item* newItem)
+{
+	if (!newItem || newItem->itemCategory() != -12) return;
+	leggings = (Leggings*)newItem;
+}
+
+Helmet* Player::helmetOff()
+{
+	if (!helmet) return nullptr;
+	Helmet* temp = helmet;
+	helmet = nullptr;
+	return temp;
+}
+
+Plate* Player::plateOff()
+{
+	if (!plate) return nullptr;
+	Plate* temp = plate;
+	plate = nullptr;
+	return temp;
+}
+
+Leggings* Player::leggingsOff()
+{
+	if (!leggings) return nullptr;
+	Leggings* temp = leggings;
+	leggings = nullptr;
+	return temp;
 }
 
 void Player::CollisionWithItem(Item* _col)
