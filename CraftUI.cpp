@@ -34,6 +34,7 @@ void CraftUI::init()
 	basePos.x = 35.0f;
 	basePos.y = 600.0f;
 	index = 0;
+	selectedIndex = 0;
 	Vector2 currentPos = basePos;
 	playerInven = entityMgr->linkPlayer()->linkInven();
 	Craft->init();
@@ -45,66 +46,66 @@ void CraftUI::init()
 		newSlot->init(slot, { 0,0 });
 
 		slots.push_back(newSlot);
-		if (slots.size() <= 3)
-		{
-			currentSlots.push_back(newSlot);
-			newSlot->position({ 35.0f, basePos.y - (50.0f * (currentSlots.size() - 1)) });
-			
-			if (slots.size() == 1) newSlot->setSelected(true);
-			else
-			{
-				newSlot->translate({ 0.0f, -10.0f });
-				newSlot->setSelected(false);
-			}
-
-		}
 	}
-
+	resetSlot();
 }
 
 void CraftUI::update()
 {
+	if (Craft->isChanged())
+	{
+		resetSlot();
+		Craft->checkChanged();
+	}
+
+
+
 	if (Input->getButtonDown(KeyType::Escape))
 	{
 		active = !active;
 	}
-
-	if (!active) return;
-
-	for (auto& slot : currentSlots)
+	if (Input->getButtonDown(KeyType::T) && selectedIndex != currentSlots.size() - 1)
 	{
-		if (slot->state() == UIState::End)
-		{
-			InventorySlot* hand = playerInven->pickedItem();
-
-			if (hand->item())
-			{
-				if (hand->item()->itemCode() == slot->linkRecipe()->resItem->itemCode() &&
-					hand->item()->itemMaxCount() >= hand->item()->itemCount() + slot->linkRecipe()->resItem->itemCount())
-				{
-					Item* item = Craft->craft(slot->getRecipe());
-					if (!item) return;
-					hand->item()->addItemCount(slot->linkRecipe()->resItem->itemCount());
-					delete item;
-					music->playNew("Grab.wav");
-					return;
-				}
-				else return;
-			}
-
-			Item* item = Craft->craft(slot->getRecipe());
-			if (item)
-			{
-				hand->aquireItem(item, 0);
-				music->playNew("Grab.wav");
-			}
-			slot->changeState(UIState::normal);
-			return;
-		}
-
+		currentSlots[selectedIndex]->setSelected(false);
+		selectedIndex++;
+		currentSlots[selectedIndex]->setSelected(true);
+	}
+	if (Input->getButtonDown(KeyType::F) && selectedIndex != 0)
+	{
+		currentSlots[selectedIndex]->setSelected(false);
+		selectedIndex--;
+		currentSlots[selectedIndex]->setSelected(true);
 	}
 
-
+	if (moveDown)
+	{
+		scrollDown();
+	}
+	else if (moveUp)
+	{
+		scrollUp();
+	}
+	else
+	{
+		if (index != selectedIndex)
+		{
+			moveDown = index < selectedIndex;
+			moveUp = index > selectedIndex;
+		}
+		else if (!slots[index]->isSelected())
+		{
+			int i = 0;
+			for (auto& slot : currentSlots)
+			{
+				if (slot->isSelected())
+				{
+					selectedIndex = i;
+					break;
+				}
+				i++;
+			}
+		}
+	}
 
 
 }
@@ -117,10 +118,19 @@ void CraftUI::render(HDC _hdc)
 {
 	if (!active) return;
 
-
+	int i = 0;
 	for (auto& slot : currentSlots)
 	{
+		if (slot->state() == UIState::End)
+		{
+			currentSlots[selectedIndex]->setSelected(false);
+			currentSlots[i]->setSelected(true);
+			slot->changeState(UIState::normal);
+		}
+
+		if (!slot->isActive()) continue;
 		slot->renderSlot(_hdc);
+		i++;
 	}
 
 	ImageHandler::renderWithoutBack(smallSlotImg, _hdc, 100, 600);
@@ -138,8 +148,101 @@ void CraftUI::release()
 
 void CraftUI::scrollDown()
 {
+	for (auto& slot : currentSlots)
+	{
+		slot->position().y += Time->deltaTime() * 50.0f;
+
+		if (slot->position().y > basePos.y - 1.5f && slot->position().y < basePos.y + 1.5f)
+		{
+			float diff = basePos.y - slot->position().y;
+			if (slot->isSelected())
+			{
+				for (auto& slotOther : currentSlots)
+				{
+					slotOther->position().y += diff;
+				}
+				moveDown = false;
+				if (slot != currentSlots[index])
+					index++;
+				return;
+			}
+			else
+			{
+				if (slot != currentSlots[index])
+					index++;
+			}
+
+		}
+
+		if (slot->position().y > upLimit) slot->setActive(false);
+		else if (slot->position().y < downLimit) slot->setActive(false);
+		else slot->setActive(true);
+	}
+
+
 }
 
 void CraftUI::scrollUp()
 {
+	for (auto& slot : currentSlots)
+	{
+		slot->position().y -= Time->deltaTime() * 50.0f;
+
+		if (slot->position().y > basePos.y - 1.5f && slot->position().y < basePos.y + 1.5f)
+		{
+			float diff = basePos.y - slot->position().y;
+			if (slot->isSelected())
+			{
+				for (auto& slotOther : currentSlots)
+				{
+					slotOther->position().y += diff;
+				}
+				moveUp = false;
+				if (slot != currentSlots[index])
+					index--;
+				return;
+			}
+			else
+			{
+				if (slot != currentSlots[index])
+					index--;
+			}
+
+		}
+		if (slot->position().y > upLimit) slot->setActive(false);
+		else if (slot->position().y < downLimit) slot->setActive(false);
+		else slot->setActive(true);
+	}
+}
+
+void CraftUI::resetSlot()
+{
+	currentSlots.clear();
+	int i = 0;
+
+	for (auto& slot : slots)
+	{
+		slot->setActive(false);
+		if (slot->isSelected())
+		{
+			slot->setSelected(false);
+		}
+		if (slot->getRecipe()->craftable)
+		{
+			slot->position({ 35.0f, 600.0f - (65.0f * i) });
+
+			currentSlots.push_back(slot);
+			i++;
+		}
+		if (slot->position().y > upLimit) slot->setActive(false);
+		else if (slot->position().y < downLimit) slot->setActive(false);
+		else slot->setActive(true);
+	}
+
+	selectedIndex = 0;
+	currentSlots.front()->setSelected(true);
+
+
+	moveUp = false;
+	moveDown = false;
 }

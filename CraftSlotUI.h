@@ -37,7 +37,7 @@ public:
 	RecipeInfo* linkRecipe() const{ return recipe; }
 	bool isSelected() const { return selected; }
 	bool isactive() const { return active; }
-	const Vector2& position() const { return lt; }
+	Vector2& position() { return lt; }
 
 
 private:

@@ -39,5 +39,5 @@ void popUpUI::render(HDC _hdc)
 {
 	Vector2 pos = cam->calculateScreenPosition(lt);
 	ImageHandler::textResize(20, _hdc);
-	ImageHandler::DrawOutlinedText(_hdc, text.c_str(), pos.x, pos.y);
+	ImageHandler::DrawOutlinedText(_hdc, text.c_str(), (int)pos.x, (int)pos.y);
 }

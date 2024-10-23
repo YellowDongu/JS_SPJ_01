@@ -6,6 +6,7 @@
 #include "Block.h"
 #include "Wall.h"
 #include "Furniture.h"
+#include "InputManager.h"
 
 
 void GridMap::init(int _width, int _height)
@@ -315,11 +316,22 @@ void GridMap::render(HDC _hdc)
 				{
 					Vector2Int drawPos = Vector2::toVec2Int(cam->calculateScreenPosition(Vector2Int::toVec2(selectedNode->position() * nodeSize)));
 					drawPos.y -= node->furniture()->size().y;
-					Vector2Int imageStartPos = Vector2Int{ node->furniture()->imagePosInfo()[i].x * node->furniture()->size().x,
+
+					Vector2Int imageStartPos = Vector2Int{ 
+						node->furniture()->imageGridPosition().x * (node->furniture()->size().x + 2) * node->furniture()->imageGridSize().x ,
+						node->furniture()->imageGridPosition().y * (node->furniture()->size().y + 2) * node->furniture()->imageGridSize().y
+							+ node->furniture()->imageGridPosition().y * 2
+					};
+					
+					imageStartPos += Vector2Int{ node->furniture()->imagePosInfo()[i].x * node->furniture()->size().x,
 						node->furniture()->imagePosInfo()[i].y * node->furniture()->size().y };
 					imageStartPos += node->furniture()->imagePosInfo()[i] * 2;
 
-					ImageHandler::renderWithoutBack(node->frontImg(), _hdc, drawPos, node->furniture()->size(), imageStartPos);
+					if (node->furniture()->placedInfo()[i].y == node->furniture()->bottomPosition())
+					{
+						ImageHandler::renderWithoutBack(node->frontImg(), _hdc, drawPos, node->furniture()->size() + Vector2Int{ 0,2 }, imageStartPos);
+					}
+					else ImageHandler::renderWithoutBack(node->frontImg(), _hdc, drawPos, node->furniture()->size(), imageStartPos);
 					i++;
 				}
 			}
@@ -461,6 +473,15 @@ void GridMap::updateWorldLight(int worldLight)
 	{
 		node->updateWorldLight(worldLight);
 	}
+}
+
+void GridMap::nodeInteraction()
+{
+	Node* node = findNode(cam->calculateWorldPosition({(float)Input->getMousePos().x, (float)Input->getMousePos().y }));
+	if (!node) return;
+	Furniture* furniture = node->furniture();
+	if (!furniture) return;
+	furniture->useInField();
 }
 
 std::list<Node*> GridMap::findNearNode(Node* _node)

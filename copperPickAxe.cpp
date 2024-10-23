@@ -64,6 +64,7 @@ void copperPickAxe::init()
 	itemImgSize.y = 32;
 	onGround = false;
 	code = 10;
+	itemImgCenter = { 3, 30 };
 	itemUsingState = UsingState::Swing;
 }
 

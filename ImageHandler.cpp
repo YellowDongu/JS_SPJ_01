@@ -213,54 +213,158 @@ void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2I
     if (_bitMap == NULL) { return; }
 
     HDC dcMem = CreateCompatibleDC(_hdc);
+    HDC dcTemp = CreateCompatibleDC(_hdc); // 임시 DC 생성
     HBITMAP hOldBitmap = (HBITMAP)SelectObject(dcMem, _bitMap);
 
-    if (reverse) // 좌우 반전: 너비를 음수로 설정하여 이미지를 반전하여 출력
+    // 반전된 비트맵 생성
+    HBITMAP hBitmapReversed = CreateCompatibleBitmap(_hdc, size.x, size.y);
+    HBITMAP hOldTempBitmap = (HBITMAP)SelectObject(dcTemp, hBitmapReversed);
+
+    // 원본 이미지를 반전하여 복사
+    if (reverse)
     {
-        TransparentBlt(_hdc, startPos.x + size.x, startPos.y, -size.x, size.y, dcMem, imagePos.x, imagePos.y, size.x, size.y, BackColor);
+        StretchBlt(dcTemp, size.x - 1, 0, -size.x, size.y, dcMem, imagePos.x, imagePos.y, size.x, size.y, SRCCOPY);
     }
-    else // 일반 출력
+    else
     {
-        TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, dcMem, imagePos.x, imagePos.y, size.x, size.y, BackColor);
+        BitBlt(dcTemp, 0, 0, size.x, size.y, dcMem, imagePos.x, imagePos.y, SRCCOPY);
     }
 
+    // 투명하게 비트맵 출력
+    TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, dcTemp, 0, 0, size.x, size.y, BackColor);
+
+    // 자원 해제
+    SelectObject(dcTemp, hOldTempBitmap);
+    DeleteObject(hBitmapReversed);
     SelectObject(dcMem, hOldBitmap);
+    DeleteDC(dcTemp);
     DeleteDC(dcMem);
 }
 
 //alpha에 0~255 정수 넣기(값 낮을수록 투명)
 void ImageHandler::TransparentRender(const HBITMAP& hBitmap, HDC& _hdc, int x, int y, BYTE alpha)
 {
-    /*
     HDC hdcMem = CreateCompatibleDC(_hdc);
-    SelectObject(hdcMem, hBitmap);
-
-    BITMAP bitmap;
-    GetObject(hBitmap, sizeof(BITMAP), &bitmap);
-
-    BLENDFUNCTION blendFunc{ AC_SRC_OVER, 0, alpha, AC_SRC_ALPHA }; // 기본 합성 방식/플래그/알파 값 설정/소스 비트맵의 알파 채널 사용
-
-    AlphaBlend(_hdc, x, y, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, blendFunc); //BOOL result = AlphaBlend(대상 DC, X 위치, Y 위치, 비트맵 너비, 비트맵 높이, 원본 DC, 원본 비트맵 X 좌표, 원본 비트맵 Y 좌표, 원본 비트맵 너비, 원본 비트맵 높이, BLENDFUNCTION 구조체);
-
-    DeleteDC(hdcMem);*/
-    HDC hdcMem = CreateCompatibleDC(_hdc);
-    // 수정 시작
     // 원래 선택된 비트맵을 저장
     HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBitmap);
-    // 수정 끝
 
     BITMAP bitmap;
     GetObject(hBitmap, sizeof(BITMAP), &bitmap);
 
-    BLENDFUNCTION blendFunc{ AC_SRC_OVER, 0, alpha, AC_SRC_ALPHA }; // 기본 합성 방식/플래그/알파 값 설정/소스 비트맵의 알파 채널 사용
+    // 기본 합성 방식/플래그/알파 값 설정/소스 비트맵의 알파 채널 사용
+    BLENDFUNCTION blendFunc{ AC_SRC_OVER, 0, alpha, AC_SRC_ALPHA };
 
-    AlphaBlend(_hdc, x, y, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, blendFunc); // BOOL result = AlphaBlend(대상 DC, X 위치, Y 위치, 비트맵 너비, 비트맵 높이, 원본 DC, 원본 비트맵 X 좌표, 원본 비트맵 Y 좌표, 원본 비트맵 너비, 원본 비트맵 높이, BLENDFUNCTION 구조체);
+    // BOOL result = AlphaBlend(대상 DC, X 위치, Y 위치, 비트맵 너비, 비트맵 높이, 원본 DC, 원본 비트맵 X 좌표, 원본 비트맵 Y 좌표, 원본 비트맵 너비, 원본 비트맵 높이, BLENDFUNCTION 구조체);
+    AlphaBlend(_hdc, x, y, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, blendFunc);
 
-    // 수정 시작
     // DC에서 원래 비트맵으로 복원
     SelectObject(hdcMem, hOldBitmap);
-    // 수정 끝
     DeleteDC(hdcMem);
+}
+
+
+HBITMAP ImageHandler::RotateImage(HBITMAP hBitmap, float angle)
+{
+    BITMAP bmp;
+    GetObject(hBitmap, sizeof(bmp), &bmp);
+
+    // 회전 각도를 라디안으로 변환
+    float radians = angle * (3.14159f / 180.0f);
+    float cosTheta = cos(radians);
+    float sinTheta = sin(radians);
+
+    // 회전 후 새 이미지 크기 계산
+    int newWidth = (int)(abs(bmp.bmWidth * cosTheta) + abs(bmp.bmHeight * sinTheta));
+    int newHeight = (int)(abs(bmp.bmHeight * cosTheta) + abs(bmp.bmWidth * sinTheta));
+
+    // 새 비트맵 생성
+    HBITMAP hRotatedBitmap = CreateCompatibleBitmap(GetDC(NULL), newWidth, newHeight);
+    HDC hdcMem = CreateCompatibleDC(GetDC(NULL));
+    HDC hdcRotated = CreateCompatibleDC(GetDC(NULL));
+
+    // 비트맵 선택
+    SelectObject(hdcMem, hBitmap);
+    SelectObject(hdcRotated, hRotatedBitmap);
+
+    HBRUSH hPinkBrush = CreateSolidBrush(RGB(255, 0, 255));
+    HPEN hPinkPen = CreatePen(PS_SOLID, 2, RGB(255, 0, 255));
+    SelectObject(hdcRotated, hPinkBrush);
+    SelectObject(hdcRotated, hPinkPen);
+    Rectangle(hdcRotated, 0, 0, newWidth, newHeight);
+
+    DeleteObject(hPinkBrush);
+    DeleteObject(hPinkPen);
+
+    // 회전 변환 행렬 설정
+    SetGraphicsMode(hdcRotated, GM_ADVANCED);
+    XFORM xform;
+    xform.eM11 = cosTheta;
+    xform.eM12 = sinTheta;
+    xform.eM21 = -sinTheta;
+    xform.eM22 = cosTheta;
+    xform.eDx = newWidth / 2;
+    xform.eDy = newHeight / 2;
+
+    SetWorldTransform(hdcRotated, &xform);
+
+    // 비트맵을 새 비트맵으로 복사
+    BitBlt(hdcRotated, -bmp.bmWidth / 2, -bmp.bmHeight / 2, bmp.bmWidth, bmp.bmHeight, hdcMem, 0, 0, SRCCOPY);
+
+    // DC 정리
+    DeleteDC(hdcMem);
+    DeleteDC(hdcRotated);
+
+    return hRotatedBitmap;
+}
+
+
+
+void ImageHandler::renderRotateWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, Vector2Int pos, float angle, bool reverse)
+{
+    HBITMAP img = RotateImage(hBitmap, angle);
+    BITMAP bmp;
+    GetObject(img, sizeof(bmp), &bmp);
+    // 회전된 이미지를 지정된 위치에 렌더링
+    renderWithoutBack(img, _hdc, pos, { (int)bmp.bmWidth, (int)bmp.bmHeight }, { 0, 0 }, reverse);
+    DeleteObject(img);
+
+}
+
+void ImageHandler::renderRotateWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, Vector2Int pos, Vector2Int center, float angle, bool reverse, Vector2& outPut)
+{
+    // 이미지를 회전시키기
+    HBITMAP img = RotateImage(hBitmap, angle);
+
+    BITMAP bmp;
+    GetObject(img, sizeof(bmp), &bmp); // 회전된 이미지의 정보 가져오기
+    int width = bmp.bmWidth;
+    int height = bmp.bmHeight;
+
+    // 회전 각도를 라디안으로 변환
+    float radians = angle * (3.1415926535f / 180.0f);
+
+    // 이미지 중심 계산 (회전의 중심)
+    Vector2 imgCenter = { width / 2.0f, height / 2.0f };
+
+    // 회전된 이미지의 중심 좌표 계산
+    Vector2 rotated = Vector2::zero();
+    rotated.x = imgCenter.x + (center.x - imgCenter.x) * cos(radians) - (center.y - imgCenter.y) * sin(radians);
+    rotated.y = imgCenter.y + (center.x - imgCenter.x) * sin(radians) + (center.y - imgCenter.y) * cos(radians);
+
+    if (reverse)
+    {
+        rotated.x = -rotated.x + width; // X축 반전
+    }
+
+    // 회전된 이미지를 그릴 위치 계산
+    Vector2Int drawPos = pos - Vector2Int(static_cast<int>(rotated.x), static_cast<int>(rotated.y));
+
+    // 회전된 이미지를 지정된 위치에 렌더링
+    renderWithoutBack(img, _hdc, drawPos, { width, height }, { 0, 0 }, reverse);
+
+    // 회전된 비트맵 메모리 해제
+    DeleteObject(img);
+    outPut = drawPos;
 }
 
 void ImageHandler::renderTransparentWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, int x, int y, BYTE alpha)
@@ -483,9 +587,9 @@ HBITMAP ImageHandler::shadowImage(const HBITMAP& _bitMap, int value)
                 continue; // 특정 색상은 무시
             }
 
-            int r = GetRValue(color) * percent;
-            int g = GetGValue(color) * percent;
-            int b = GetBValue(color) * percent;
+            int r = (int)(GetRValue(color) * percent);
+            int g = (int)(GetGValue(color) * percent);
+            int b = (int)(GetBValue(color) * percent);
 
             SetPixel(hdcMem, x, y, RGB(r, g, b));
         }

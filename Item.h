@@ -34,30 +34,40 @@ public:
 	void addItemCount(int _value) { count += _value; }
 	void position(Vector2 _value) { pos = _value; }
 	void translate(Vector2 _value) { pos += _value; }
+	void leftTop(Vector2 _value) { lt = _value; }
+	void rightBottom(Vector2 _value) { rb = _value; }
 	const Vector2& position() const { return pos; }
 	const Vector2Int& size() const { return placedImgSize; }
 	const Vector2Int& itemSize() const { return itemImgSize; }
+	const Vector2Int& itemImageCenter() const { return itemImgCenter; }
 	const UsingState& usingState() const { return itemUsingState; }
+	const Vector2& leftTop() const { return lt; }
+	const Vector2& rightBottom() const { return rb; }
 	const std::wstring& name() const { return itemName; }
 
 protected:
 	bool onGround;
+
 	int count;
 	int maxCount;
 	int code;
+
 	float speed;
 
 	HBITMAP itemImg;
 	HBITMAP rawPlacedImg;
 
+	ULONGLONG lastTime;
+
 	Vector2 pos;
-	Vector2 hitAreaStart;
-	Vector2 hitAreaEnd;
+	Vector2 lt;
+	Vector2 rb;
 
 	UsingState itemUsingState;
 	std::wstring itemName;
 	Vector2Int placedImgSize;
 	Vector2Int itemImgSize;
+	Vector2Int itemImgCenter;
 	Vector2Int placedImgPos;
 
 	std::map<std::string, std::vector<HBITMAP>>* placedImgSet;

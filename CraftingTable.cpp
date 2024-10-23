@@ -57,11 +57,19 @@ void CraftingTable::init(Vector2Int _position)
 	itemImgSize.x = 16;
 	itemImgSize.y = 16;
 	imgPosInfo = { {0,0}, {1,0} };
-	placedImgSize = { 16, 18 };
+	placedImgSize = { 16, 16 };
 	pos = _position;
 	code = 4;
 	itemName = L"CraftingTable";
 	itemUsingState = UsingState::Swing;
+	maxCount = 1;
+	bottomPos = 0;
+	imgGridSize = { 1,1 };
+	imgGridPos = { 0,0 };
+}
+
+void CraftingTable::useInField()
+{
 }
 
 Item* CraftingTable::destroyed(Vector2Int _gridPos)

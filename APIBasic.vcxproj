@@ -134,10 +134,15 @@
     <ClInclude Include="animationContainer.h" />
     <ClInclude Include="AnimationController.h" />
     <ClInclude Include="APIBasic.h" />
+    <ClInclude Include="Armour.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="Chest.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Copper.h" />
+    <ClInclude Include="CopperBow.h" />
+    <ClInclude Include="CopperHelmet.h" />
     <ClInclude Include="CraftingTable.h" />
     <ClInclude Include="CraftSlotUI.h" />
     <ClInclude Include="CraftUI.h" />
@@ -151,7 +156,9 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Furniture.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Gore.h" />
     <ClInclude Include="GridMap.h" />
+    <ClInclude Include="Helmet.h" />
     <ClInclude Include="HPBarUI.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -163,9 +170,11 @@
     <ClInclude Include="InventoryUI.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="Leggings.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="MPBarUI.h" />
     <ClInclude Include="copperPickAxe.h" />
+    <ClInclude Include="Plate.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="popUpUI.h" />
@@ -196,10 +205,15 @@
     <ClCompile Include="animationContainer.cpp" />
     <ClCompile Include="AnimationController.cpp" />
     <ClCompile Include="APIBasic.cpp" />
+    <ClCompile Include="Armour.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="Chest.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Copper.cpp" />
+    <ClCompile Include="CopperBow.cpp" />
+    <ClCompile Include="CopperHelmet.cpp" />
     <ClCompile Include="CraftingTable.cpp" />
     <ClCompile Include="CraftSlotUI.cpp" />
     <ClCompile Include="CraftUI.cpp" />
@@ -214,7 +228,9 @@
     </ClCompile>
     <ClCompile Include="Furniture.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Gore.cpp" />
     <ClCompile Include="GridMap.cpp" />
+    <ClCompile Include="Helmet.cpp" />
     <ClCompile Include="HPBarUI.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -226,9 +242,11 @@
     <ClCompile Include="InventoryUI.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="Leggings.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="MPBarUI.cpp" />
     <ClCompile Include="copperPickAxe.cpp" />
+    <ClCompile Include="Plate.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="popUpUI.cpp" />

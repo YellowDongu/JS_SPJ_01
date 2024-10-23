@@ -7,6 +7,7 @@
 #include "Furniture.h"
 #include "SoundManager.h"
 #include "Wall.h"
+#include "Recipe.h"
 
 Node::Node() : blockSlot(nullptr), furnitureSlot(nullptr), wallSlot(nullptr), pos(Vector2Int::zero()), backBitmap(NULL), frontBitmap(NULL), light(20), worldLight(20)
 {
@@ -178,6 +179,7 @@ void Node::furniture(Furniture* newItem)
 		node->linkFurniture(newItem);
 	}
 	newItem->gridPosition(pos);
+	Craft->appendFurniture(newItem);
 }
 
 void Node::block(Block* newBlock)
@@ -219,16 +221,17 @@ Furniture* Node::destroyFurniture()
 	}
 
 	music->playNew("Dig_0.wav");
+	Craft->eraseFurniture(furniture);
 	return furniture;
 }
 
 Block* Node::destroyBlock()
 {
 	if (!blockSlot) { return nullptr; }
-	Block* block = blockSlot;
+	Block* block = (Block*)blockSlot->destroyed(pos);
+	if (block == nullptr) return nullptr;
 	blockSlot = nullptr;
 	frontBitmap = nullptr;
-	music->playNew("Dig_0.wav");
 	return block;
 }
 	

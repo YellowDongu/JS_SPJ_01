@@ -12,6 +12,8 @@ public:
 
     // .bmp을 불러와서 HBITMAP으로 변환
     static HBITMAP loadImg(std::wstring filePath);
+    // 이미지를 중앙 기준 회전
+    static HBITMAP RotateImage(HBITMAP hBitmap, float angle);
     // 이미지를 지정한 크기만큼 자르고 반환
     static HBITMAP cropImage(const HBITMAP& hOriginalBitmap, int x, int y, int width, int height);
     // 이미지를 지정한 크기만큼 자르고 반환(vector2 전용)
@@ -30,8 +32,12 @@ public:
     static void renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, int x, int y);
     static void renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos);
     static void renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos, bool reverse);
+
     // 이미지 렌더 - 이미지 전체를 alpha값(0~255, 값이 낮을수록 투명)만큼 투명하게 만듬
     static void TransparentRender(const HBITMAP& hBitmap, HDC& _hdc, int x, int y, BYTE alpha);
+    // 이미지 렌더 - 이미지의 중앙점을 선택해 그곳을 중심으로 회전하고 뒷 배경까지 투명하게 만듬
+    static void renderRotateWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, Vector2Int pos, float angle, bool reverse);
+    static void renderRotateWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, Vector2Int pos, Vector2Int center, float angle, bool reverse, Vector2& imgSize);
     // 이미지 렌더 - 이미지 전체를 alpha값(0~255, 값이 낮을수록 투명)만큼 투명하게 만듬
     static void renderTransparentWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, int x, int y, BYTE alpha);
     // 이미지 렌더 - 이미지를 디지털 줌 후 렌더해줌

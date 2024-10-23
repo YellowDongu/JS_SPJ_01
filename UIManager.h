@@ -1,5 +1,5 @@
 #pragma once
-
+#include "InventoryUI.h"
 
 class UI;
 class UIManager
@@ -13,9 +13,13 @@ public:
 	void render(HDC _hdc);
 	UI* appendUI(UI* ui) { uiList.push_back(ui); return ui; }
 	void createPopUpText(Vector2 pos, std::wstring content);
+	void appendInven(InventoryUI* _inven) { inven = _inven; }
+	InventoryUI* getInven() { return inven; }
 
 private:
 	std::list<UI*> uiList;
 	std::list<UI*> popUpUIList;
+	InventoryUI* inven;
+
 };
 #define UIMgr GET_SINGLETON(UIManager)

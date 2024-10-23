@@ -20,6 +20,7 @@ public:
 	void setSelected(bool _value) { selected = _value; }
 	void setChestSlot(bool _value) { chest = _value; }
 	void linkChestSlot(InventorySlot* _slot) { slot = _slot; }
+	void unlinkChestSlot() { slot = nullptr; }
 
 	InventorySlot* getSlot() { return slot; }
 

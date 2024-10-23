@@ -7,12 +7,16 @@ public:
 	CraftingTable();
 	~CraftingTable();
 
-	Item* destroyed(Vector2Int _gridPos) override;
-	Item* clone() const override;
+
+	void useInField() override;
+	void init(Vector2Int _position) override;
 	void dragDrop() override;
 	void use() override;
-	void init(Vector2Int _position) override;
+	Item* clone() const override;
+	Item* destroyed(Vector2Int _gridPos) override;
 private:
+
+
 
 
 };

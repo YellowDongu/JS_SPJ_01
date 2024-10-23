@@ -14,12 +14,15 @@ public:
 	void resetAnimation();
 
 	bool triggered() const { return once; }
+	int getSequence() const { return sequence; }
+	bool isLeft() const { return left; }
 
+	void syncTriggered(bool value) { once = value; }
 	void setSpeed(float _value) { speed = _value; }
 	void setTime(float _value) { maxTime = _value; }
 	void setBlank(Vector2Int _value) { blank = _value; }
 	void setRawImg(HBITMAP _rawImg) { rawImg = _rawImg; }
-	void setLeft(bool _value) { if (!once) left = _value; }\
+	void setLeft(bool _value) { if (!once) left = _value; }
 	void setImgPos(std::map<std::string, std::pair<bool, std::vector<Vector2Int>>> _value) { imgPosSet = _value; }
 
 	const std::string& getCurrentState() const { return currentState; }

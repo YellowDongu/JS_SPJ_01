@@ -16,7 +16,7 @@ public:
 	void hotBarSelect();
 	void inventoryActive(bool _value);
 
-	void chestSelected(Inventory* inven) { chestInven = inven; active = true; }
+	void chestSelected(Inventory* inven);
 	void invenOpened() { active = false; }
 	void invenClosed();
 	void displayItem(HDC _hdc, HBITMAP img, int count, Vector2Int Center, Vector2Int slotSize);

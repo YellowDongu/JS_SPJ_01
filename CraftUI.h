@@ -17,24 +17,26 @@ public:
 
 	void scrollDown();
 	void scrollUp();
+
+	void resetSlot();
 private:
 	bool moveUp;
 	bool moveDown;
 	int index;
-	int selectedIndex;
 
 	int minIndex;
 	int maxIndex;
+	int selectedIndex;
 	int maxVisiableSlot;
 
 	float moveDist;
+	float upLimit;
+	float downLimit;
 
-	std::list<CraftSlotUI*> currentSlots;
+	std::vector<CraftSlotUI*> currentSlots;
 	std::vector<CraftSlotUI*> slots;
 
 
-	float upLimit;
-	float downLimit;
 
 	PlayerInventory* playerInven;
 

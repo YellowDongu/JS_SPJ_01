@@ -3,6 +3,7 @@
 #include "GridMap.h"
 #include "RenderManager.h"
 #include "SoundManager.h"
+#include "TimeManager.h"
 Copper::Copper()
 {
 }
@@ -50,9 +51,37 @@ void Copper::init(Vector2Int _gridPos)
 	code = 5;
 	itemName = L"Copper";
 	itemUsingState = UsingState::Swing;
+	harden = 1.0f;
+	lastTime = GetTickCount64();
 }
 
 Item* Copper::destroyed(Vector2Int _gridPos)
 {
-	return nullptr;
+	ULONGLONG currentTime = GetTickCount64();
+	if (currentTime - lastTime >= 5000)
+	{
+		lastTime = currentTime;
+		harden = 1.0f;
+	}
+	else lastTime = currentTime;
+	harden -= Time->deltaTime() * 5.0f;
+
+	srand((unsigned int)currentTime);
+	int rndInt = rand() % 3;
+	switch (rndInt)
+	{
+	case 0:
+		music->playNew("Tink_0.wav");
+		break;
+	case 1:
+		music->playNew("Tink_1.wav");
+		break;
+	case 2:
+		music->playNew("Tink_2.wav");
+		break;
+	default:
+		break;
+	}
+	if (harden > 0) return nullptr;
+	return this;
 }

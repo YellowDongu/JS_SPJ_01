@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "Item.h"
+#include "Tool.h"
 #include "Block.h"
 #include "EntityManager.h"
 
@@ -21,7 +22,37 @@ CollisionHandler::~CollisionHandler()
 
 void CollisionHandler::collision(Entity* obj, Entity* sbj)
 {
-	//RECT playerRect = { startPos.x + correction.x, startPos.y + correction.y, endPos.x + correction.x, endPos.y + correction.y };
+	Vector2 objMin = obj->position() - obj->size() / 2;
+	Vector2 objMax = obj->position() + obj->size() / 2;
+
+	Vector2 sbjMin = sbj->position() - sbj->size() / 2;
+	Vector2 sbjMax = sbj->position() + sbj->size() / 2;
+
+	Vector2 coll = Vector2::zero();
+
+	if (boxCollision(objMin, objMax, sbjMin, sbjMax, coll))
+	{
+		obj->CollisionWithEntity(sbj);
+		sbj->CollisionWithEntity(obj);
+	}
+}
+
+void CollisionHandler::collision(Entity* obj, Tool* item)
+{
+	Vector2 objMin = obj->position() - obj->size() / 2;
+	Vector2 objMax = obj->position() + obj->size() / 2;
+
+	Vector2 sbjMin = Vector2{ item->leftTop().x, item->rightBottom().y };
+	Vector2 sbjMax = Vector2{ item->rightBottom().x, item->leftTop().y };
+
+	Vector2 coll = Vector2::zero();
+
+	if (boxCollision(objMin, objMax, sbjMin, sbjMax, coll))
+	{
+		obj->CollisionWithItem(item);
+	}
+
+
 
 
 }
@@ -109,6 +140,9 @@ void CollisionHandler::collision(Entity* obj)
 							float sign = (obj->position().x - node->position().x * 16) / abs(obj->position().x - node->position().x * 16);
 							obj->position(obj->position() + Vector2{ coll.x * (relativePos.x / abs(relativePos.x)) , 0.0f });
 							obj->translate(Vector2{ -obj->moveVector().x ,0 });
+
+							if (relativePos.x > 0) obj->setRWall(true);
+							else obj->setLWall(true);
 							break;
 						}
 

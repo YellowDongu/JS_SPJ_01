@@ -54,5 +54,6 @@ void Wood::init(Vector2Int _gridPos)
 
 Item* Wood::destroyed(Vector2Int _gridPos)
 {
-	return nullptr;
+	music->playNew("Dig_0.wav");
+	return this;
 }

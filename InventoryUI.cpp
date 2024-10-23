@@ -153,7 +153,7 @@ void InventoryUI::render(HDC _hdc)
 		slot->renderSlot(_hdc);
 		if (i == 10) i = 0;
 		ImageHandler::textResize(20, _hdc);
-		ImageHandler::DrawOutlinedText(_hdc, std::to_wstring(i).c_str(), slot->leftTop().x + 5, slot->leftTop().y + 5);
+		ImageHandler::DrawOutlinedText(_hdc, std::to_wstring(i).c_str(), (int)slot->leftTop().x + 5, (int)slot->leftTop().y + 5);
 		i++;
 	}
 
@@ -272,7 +272,7 @@ void InventoryUI::inventoryActive(bool _value)
 	active = _value;
 	if (!active)
 	{
-		chestInven = nullptr;
+		invenClosed();
 		music->playNew("Menu_Close.wav");
 	}
 	else
@@ -300,8 +300,29 @@ void InventoryUI::inventoryActive(bool _value)
 	}
 }
 
+void InventoryUI::chestSelected(Inventory* inven)
+{ 
+	chestInven = inven;
+
+	for (int i = 0; i < chestSlot.size(); i++)
+	{
+		chestSlot[i]->linkChestSlot((*chestInven->linkInven())[i]);
+	}
+
+	active = true;
+	music->playNew("Menu_Open.wav");
+}
+
 void InventoryUI::invenClosed()
 {
+	if (chestInven)
+	{
+		for (auto& slot : chestSlot)
+		{
+			slot->unlinkChestSlot();
+		}
+		chestInven = nullptr;
+	}
 }
 
 void InventoryUI::displayItem(HDC _hdc, HBITMAP img, int count, Vector2Int start, Vector2Int slotSize)

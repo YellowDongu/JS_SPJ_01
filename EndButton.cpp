@@ -21,8 +21,8 @@ void EndButton::triggered()
 
 void EndButton::render(HDC _hdc)
 {
-	int x = lt.x + (size - 100.0f);
-	int y = lt.y + (size - 100.0f);
+	int x = (int)(lt.x + (size - 100.0f));
+	int y = (int)(lt.y + (size - 100.0f));
 
 	COLORREF currnetColor = RGB(0, 0, 0);
 	switch (currentState)
@@ -42,7 +42,7 @@ void EndButton::render(HDC _hdc)
 		break;
 	}
 
-	ImageHandler::textResize(size, _hdc);
+	ImageHandler::textResize((int)size, _hdc);
 
 	const TCHAR* text = _T("End");
 	SIZE textSize;
@@ -50,5 +50,5 @@ void EndButton::render(HDC _hdc)
 
 	lt = { (cam->getWindowSize().x / 2) - textSize.cx / 2, 500.0f };
 	rb = { (cam->getWindowSize().x / 2) + textSize.cx / 2, 500.0f + textSize.cy - 20 };
-	ImageHandler::DrawOutlinedText(_hdc, text, lt.x, lt.y, currnetColor);
+	ImageHandler::DrawOutlinedText(_hdc, text, (int)lt.x, (int)lt.y, currnetColor);
 }

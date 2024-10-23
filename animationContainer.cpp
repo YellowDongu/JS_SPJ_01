@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "CameraManager.h"
 
-animationContainer::animationContainer() : speed(0.0f), time(0.0f), maxTime(0.0f), sequence(0), width(0), height(0), imgPos(nullptr), once(false),
+animationContainer::animationContainer() : speed(0.0f), time(0.0f), maxTime(0.0f), sequence(0), width(0), height(0), imgPos(nullptr), once(false), left(false),
 blank(Vector2Int::zero()), imgOffset(Vector2Int::zero()), imgSize(Vector2Int::zero())
 {
 }
@@ -26,7 +26,7 @@ void animationContainer::update()
 	{
 		time -= maxTime;
 		sequence++;
-		if (sequence >= imgPos->size())
+		if (sequence >= (int)imgPos->size())
 		{
 
 			if (once)
@@ -45,7 +45,8 @@ void animationContainer::render(HDC _hdc)
 {
 	Vector2Int ScreenPos = cam->calculateScreenPosition(*masterPos) - Vector2Int{ imgSize.x / 2, imgSize.y / 2 };
 	Vector2Int pos = Vector2Int{ imgSize.x * (*imgPos)[sequence].x + (*imgPos)[sequence].x * blank.x, imgSize.y * (*imgPos)[sequence].y + (*imgPos)[sequence].y * blank.y };
-	ImageHandler::renderWithoutBack(rawImg, _hdc, ScreenPos + imgOffset, imgSize, pos);
+	//ImageHandler::renderWithoutBack(rawImg, _hdc, ScreenPos + imgOffset, imgSize, pos);
+	ImageHandler::renderWithoutBack(rawImg, _hdc, ScreenPos + imgOffset, imgSize, pos, left);
 
 
 

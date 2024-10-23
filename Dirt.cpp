@@ -33,8 +33,7 @@ void Dirt::init(Vector2Int _gridPos)
 
 Item* Dirt::destroyed(Vector2Int _gridPos)
 {
-
-
+	music->playNew("Dig_0.wav");
 	return this;
 }
 
@@ -56,6 +55,7 @@ void Dirt::use()
 	gridMap->updateNearNode(node, 3);
 	music->playNew("Dig_0.wav");
 	count -= 1;
+	itemImgCenter = { 8,8 };
 }
 
 Item* Dirt::clone() const

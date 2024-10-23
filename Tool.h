@@ -10,6 +10,8 @@ public:
 	virtual void init() abstract;
 	
 private:
+	bool use;
+
 	float efficiency;
 	float damage;
 	float speed;

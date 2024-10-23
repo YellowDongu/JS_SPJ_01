@@ -88,6 +88,9 @@
     <Filter Include="06.Item\Item_other">
       <UniqueIdentifier>{4dca6a9b-2843-4de0-a51b-e9afd55f6cd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Item\Item_Armour">
+      <UniqueIdentifier>{bdbf17ff-a61f-4288-9482-60aa8a266713}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -261,6 +264,33 @@
     <ClInclude Include="Copper.h">
       <Filter>06.Item\Item_Block</Filter>
     </ClInclude>
+    <ClInclude Include="Chest.h">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClInclude>
+    <ClInclude Include="CopperBow.h">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Gore.h">
+      <Filter>05. Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>05. Entity\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Armour.h">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClInclude>
+    <ClInclude Include="Helmet.h">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClInclude>
+    <ClInclude Include="Plate.h">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClInclude>
+    <ClInclude Include="Leggings.h">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClInclude>
+    <ClInclude Include="CopperHelmet.h">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIBasic.cpp">
@@ -424,6 +454,33 @@
     </ClCompile>
     <ClCompile Include="Copper.cpp">
       <Filter>06.Item\Item_Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Chest.cpp">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClCompile>
+    <ClCompile Include="CopperBow.cpp">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Gore.cpp">
+      <Filter>05. Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>05. Entity\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Armour.cpp">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClCompile>
+    <ClCompile Include="Helmet.cpp">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClCompile>
+    <ClCompile Include="Plate.cpp">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClCompile>
+    <ClCompile Include="Leggings.cpp">
+      <Filter>06.Item\Item_Armour</Filter>
+    </ClCompile>
+    <ClCompile Include="CopperHelmet.cpp">
+      <Filter>06.Item\Item_Armour</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

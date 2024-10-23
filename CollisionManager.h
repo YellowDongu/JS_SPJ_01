@@ -4,6 +4,7 @@ class Entity;
 class GridMap;
 class UI;
 class Item;
+class Tool;
 class CollisionHandler
 {
 public:
@@ -11,6 +12,7 @@ public:
 	~CollisionHandler();
 
 	static void collision(Entity* obj, Entity* sbj);
+	static void collision(Entity* obj, Tool* item);
 	static void collision(Entity* obj);
 	static bool collision(UI* ui);
 	static bool collision(Item* item);

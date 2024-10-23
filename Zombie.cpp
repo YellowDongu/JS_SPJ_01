@@ -27,14 +27,47 @@ void Zombie::init()
 
 void Zombie::update()
 {
+	if (hp <= 0)
+	{
+
+	}
+
+
+
 	if (Time->deltaTime() > 0.3f) return;
-	worldPos += moveVec * Time->deltaTime();
 	if (!onGround)
 	{
 		if (Time->deltaTime() >= 0.5f) return;
 		moveVec.y -= 1000.0f * Time->deltaTime();
 	}
+	worldPos += moveVec * Time->deltaTime();
 	tracePlayer();
+
+	aniCtrl->update();
+	if (moveVec.y != 0)
+	{
+		if (aniCtrl->checkCurrentState("status") != "jumpR")
+			aniCtrl->changeAnimation("status", "jumpR");
+	}
+	else if (moveVec.y == 0 && moveVec.x != 0)
+	{
+		if (aniCtrl->checkCurrentState("status") != "walkR")
+			aniCtrl->changeAnimation("status", "walkR");
+	}
+	else
+	{
+		if (aniCtrl->checkCurrentState("status") != "standR")
+			aniCtrl->changeAnimation("status", "standR");
+	}
+
+	if (moveVec.x > 0)
+	{
+		aniCtrl->reverseImg(false);
+	}
+	else if (moveVec.x < 0)
+	{
+		aniCtrl->reverseImg(true);
+	}
 
 }
 
@@ -65,12 +98,12 @@ void Zombie::linkPlayer(Player* _player)
 
 void Zombie::tracePlayer()
 {
-	if (onGround && (rightSideWall || LeftSideWall))
+	if (onGround && (rightSideWall || LeftSideWall) && abs(player->position().x - worldPos.x) > 50.0f)
 	{
 		moveVec.y += 500.0f;
 		onGround = false;
 	}
-	if (player->position().y > worldPos.y + 50.0f)
+	if (onGround && player->position().y > worldPos.y + 50.0f && abs(player->position().x - worldPos.x) > 50.0f)
 	{
 		moveVec.y += 500.0f;
 		onGround = false;
@@ -105,20 +138,6 @@ void Zombie::tracePlayer()
 		moveVec.x += (-speed) * Time->deltaTime();
 	}
 
-	if (moveVec.y != 0)
-	{
-		aniCtrl->changeAnimation("status", "jumpR");
-	}
-	else if (moveVec.x != 0)
-	{
-		aniCtrl->changeAnimation("status", "walkR");
-	}
-	else
-	{
-		aniCtrl->changeAnimation("status", "standR");
-	}
-
-
 
 
 }
@@ -141,4 +160,19 @@ void Zombie::imgInit()
 	aniCtrl->addAnimation("Standard", newAni);
 	aniCtrl->changeAnimationContianer("status", "Standard");
 
+}
+
+void Zombie::CollisionWithItem(Item* _col)
+{
+
+	if (moveVec.x > 0)
+	{
+		moveVec.x = -500.0f;
+		moveVec.y = 500.0f;
+	}
+	else
+	{
+		moveVec.x = 500.0f;
+		moveVec.y = 500.0f;
+	}
 }

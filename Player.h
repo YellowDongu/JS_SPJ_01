@@ -12,6 +12,7 @@ public:
 	void init() override;
 	void update() override;
 	void release() override;
+	void CollisionWithItem(Item* _col) override;
 	void CollisionWithEntity(Entity* _col) override;
 
 	void keyInput();
@@ -21,6 +22,8 @@ public:
 	void useItem();
 
 	PlayerInventory* linkInven() { return inven; }
+	Item*& currentUsingItem() { return usingItem; }
+	void deleteUsingItem() { usingItem = nullptr; }
 
 	int* linkMana() { return &mp; }
 	int* linkMaxMana() { return &maxMp; }
@@ -33,5 +36,7 @@ private:
 
 	int mp;
 	int maxMp;
+
+	Item* usingItem;
 
 };

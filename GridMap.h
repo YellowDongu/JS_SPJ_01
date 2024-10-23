@@ -17,6 +17,7 @@ public:
 	void updateNearNode(Node* _node, int range);
 	void updateAllBlock();
 	void updateWorldLight(int worldLight);
+	void nodeInteraction();
 	std::list<Node*> findNearNode(Node* _node);
 	std::list<Node*> findNodes(const Vector2& _start, const Vector2& _end);
 	std::list<Node*> findNodes(Vector2Int _start, Vector2Int _end);

@@ -51,6 +51,21 @@ void AnimationController::reverseImg(bool _value)
 	}
 }
 
+bool AnimationController::reversed(std::string parts)
+{
+	return current[parts]->isLeft();
+}
+
+void AnimationController::syncTrigger(std::string parts)
+{
+	animationContainer* standard = current[parts];
+	for (auto& ani : current)
+	{
+		if (ani.second == standard) continue;
+		ani.second->syncTriggered(standard->triggered());
+	}
+}
+
 void AnimationController::changeAnimationContianer(std::string _current, std::string stateName)
 {
 	if (current[_current])

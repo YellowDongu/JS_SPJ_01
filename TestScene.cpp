@@ -4,7 +4,6 @@
 #include "CameraManager.h"
 #include "RenderManager.h"
 #include "Node.h"
-#include "Dirt.h"
 #include "Player.h"
 #include "EntityManager.h"
 #include "CollisionManager.h"
@@ -17,11 +16,20 @@
 #include "Zombie.h"
 #include "SoundManager.h"
 #include "LightManager.h"
-#include "copperPickAxe.h"
 #include "ItemManager.h"
+
+
 #include "DirtWall.h"
 #include "Wood.h"
 #include "Copper.h"
+#include "Chest.h"
+#include "Dirt.h"
+#include "copperPickAxe.h"
+#include "CopperBow.h"
+
+
+
+
 TestScene::TestScene() : player(nullptr)
 {
 }
@@ -127,6 +135,8 @@ void TestScene::init()
 	
 	InventoryUI* invenUI = new InventoryUI();
 	invenUI->init(rendering->linkplayer()->linkInven());
+	UIMgr->appendInven(invenUI);
+	UIMgr->appendUI(invenUI);
 	
 	HPBarUI* hpBar = new HPBarUI();
 	hpBar->init(player);
@@ -138,7 +148,6 @@ void TestScene::init()
 	CraftUI* craftUI = new CraftUI();
 	craftUI->init();
 	UIMgr->appendUI(craftUI);
-	UIMgr->appendUI(invenUI);
 
 	itemMgr->init(player);
 
@@ -170,8 +179,16 @@ void TestScene::init()
 	copperTest->init({ -1, -1 });
 	copperTest->addItemCount(50);
 	player->linkInven()->pickUp(copperTest, 1);
-	
 
+	Chest* chestTest = new Chest();
+	chestTest->init({ -1, -1 });
+	chestTest->addItemCount(15);
+	player->linkInven()->pickUp(chestTest, 1);
+
+	CopperBow* bowTest = new CopperBow();
+	bowTest->init();
+	player->linkInven()->pickUp(bowTest, 1);
+	
 	cam->Position(player->position());
 	gridMap->getVisiableNodes();
 
@@ -201,7 +218,9 @@ int TestScene::update()
 
 	itemMgr->update();
 	cam->Position(player->position());
+	cam->update();
 
+	Craft->update();
 	UIMgr->update();
 
 
@@ -211,6 +230,10 @@ int TestScene::update()
 	{
 		player->useItem();
 		
+	}
+	if (Input->getButton(KeyType::RightMouse) && !check)
+	{
+		gridMap->nodeInteraction();
 	}
 
 	gridMap->update();

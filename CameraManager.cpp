@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "CameraManager.h"
-
+#include "EntityManager.h"
 
 void cameraManager::init(const Vector2& startPosition, const HWND& _hwnd)
 {
@@ -15,10 +15,14 @@ void cameraManager::update()
 
 	windowSize = Vector2{ static_cast<float>(clientRect.right - clientRect.left), static_cast<float>(clientRect.bottom - clientRect.top) };
 
-	if (centerPosition.x < borderMin.x + windowSize.x / 2) centerPosition.x = borderMin.x + windowSize.x / 2;
-	if (centerPosition.x > borderMax.x - windowSize.x / 2) centerPosition.x = borderMax.x - windowSize.x / 2;
-	if (centerPosition.y < borderMin.y + windowSize.y / 2) centerPosition.y = borderMin.y + windowSize.y / 2;
-	if (centerPosition.y > borderMax.y - windowSize.y / 2) centerPosition.y = borderMax.y - windowSize.y / 2;
+	if (centerPosition.x - windowSize.x / 2 < borderMin.x)
+		centerPosition.x = borderMin.x + windowSize.x / 2;
+	if (centerPosition.x + windowSize.x / 2 > borderMax.x)
+		centerPosition.x = borderMax.x - windowSize.x / 2;
+	if (centerPosition.y - windowSize.y / 2 < borderMin.y)
+		centerPosition.y = borderMin.y + windowSize.y / 2;
+	if (centerPosition.y + windowSize.y / 2 > borderMax.y)
+		centerPosition.y = borderMax.y - windowSize.y / 2;
 }
 
 void cameraManager::setBorder(const Vector2& _posMin, const Vector2& _posMax)
