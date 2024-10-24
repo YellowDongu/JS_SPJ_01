@@ -5,7 +5,7 @@ class CraftingTable : public Furniture
 {
 public:
 	CraftingTable();
-	~CraftingTable();
+	virtual ~CraftingTable();
 
 
 	void useInField() override;

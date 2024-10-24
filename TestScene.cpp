@@ -34,7 +34,7 @@
 #include "CopperPlate.h"
 #include "CopperLeggings.h"
 #include "Stone.h"
-
+#include "Tree.h"
 
 
 TestScene::TestScene() : player(nullptr)
@@ -179,10 +179,10 @@ void TestScene::init()
 	dirtTest->addItemCount(5);
 	player->linkInven()->pickUp(dirtTest, 1);
 
-	DirtWall* dirtWallTest = new DirtWall();
-	dirtWallTest->init({ -1, -1 });
-	dirtWallTest->addItemCount(5);
-	player->linkInven()->pickUp(dirtWallTest, 1);
+	Tree* tree = new Tree();
+	tree->init({ -1, -1 });
+	tree->addItemCount(5);
+	player->linkInven()->pickUp(tree, 1);
 
 	Wood* woodTest = new Wood();
 	woodTest->init({ -1, -1 });

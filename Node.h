@@ -30,6 +30,8 @@ public:
 	Wall* destroyWall();
 	Furniture* destroyFurniture();
 	Block* destroyBlock();
+	void unlinkBlock() { blockSlot = nullptr; }
+	void unlinkFrontBitmap() { frontBitmap = nullptr; }
 
 
 	Vector2Int position() const { return pos; }

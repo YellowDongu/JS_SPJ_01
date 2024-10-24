@@ -256,13 +256,24 @@ void EntityManager::release()
 		delete player;
 		player = nullptr;
 	}
-	if (entityList.empty()) return;
-	for (auto& entity : entityList)
+	if (!entityList.empty())
 	{
-		entity->release();
-		delete entity;
+		for (auto& entity : entityList)
+		{
+			entity->release();
+			delete entity;
+		}
+		entityList.clear();
 	}
-	entityList.clear();
+	if (!bossList.empty())
+	{
+		for (auto& entity : bossList)
+		{
+			entity->release();
+			delete entity;
+		}
+		bossList.clear();
+	}
 }
 
 void EntityManager::createPlayer(Vector2 _pos)

@@ -1,19 +1,19 @@
 #pragma once
-#include "Furniture.h"
+#include "Block.h"
 
-
-class Furnace : public Furniture
+class Grass : public Block
 {
 public:
-	Furnace();
-	virtual ~Furnace();
+	Grass();
+	virtual ~Grass();
+
 
 	Item* clone() const override;
 	void dragDrop() override;
 	void use() override;
-	void init(Vector2Int _position) override;
-	void useInField() override;
+	void init(Vector2Int _gridPos) override;
 	Item* destroyed(Vector2Int _gridPos) override;
+
 private:
 
 

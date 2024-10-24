@@ -321,6 +321,12 @@
     <ClInclude Include="BigEye.h">
       <Filter>05. Entity\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClInclude>
+    <ClInclude Include="Grass.h">
+      <Filter>06.Item\Item_Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIBasic.cpp">
@@ -541,6 +547,12 @@
     </ClCompile>
     <ClCompile Include="BigEye.cpp">
       <Filter>05. Entity\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClCompile>
+    <ClCompile Include="Grass.cpp">
+      <Filter>06.Item\Item_Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

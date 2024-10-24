@@ -204,7 +204,20 @@ Wall* Node::destroyWall()
 Furniture* Node::destroyFurniture()
 {
 	if (!furnitureSlot) { return nullptr; }
-	Furniture* furniture = furnitureSlot;
+	bool disassemble = furnitureSlot->disassemble();
+	//Furniture* furniture = furnitureSlot;
+	Item* item = furnitureSlot->destroyed(pos);
+	if (!item) return nullptr;
+	if (item != furnitureSlot)
+	{
+		frontBitmap = nullptr;
+		Craft->eraseFurniture(furnitureSlot);
+		delete furnitureSlot;
+		furnitureSlot = nullptr;
+		return (Furniture*)item;
+	}
+
+	Furniture* furniture = (Furniture*)item;
 	std::list<Node*> nodes;
 	nodes.push_back(gridMap->findNode(furniture->gridPosition()));
 

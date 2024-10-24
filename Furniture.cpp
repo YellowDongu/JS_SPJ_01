@@ -3,7 +3,7 @@
 #include "TimeManager.h"
 #include "RenderManager.h"
 
-Furniture::Furniture() : placedPos({-1,-1}), imgGridSize(Vector2Int::zero()), bottomPos(0), imgGridPos(Vector2Int::zero())
+Furniture::Furniture() : placedPos({-1,-1}), imgGridSize(Vector2Int::zero()), bottomPos(0), imgGridPos(Vector2Int::zero()), harden(1.0f), disAssemble(false)
 {
     category = 0;
 }

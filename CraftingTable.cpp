@@ -3,6 +3,8 @@
 #include "GridMap.h"
 #include "EntityManager.h"
 #include "RenderManager.h"
+#include "TimeManager.h"
+#include "SoundManager.h"
 
 CraftingTable::CraftingTable()
 {
@@ -46,6 +48,7 @@ void CraftingTable::use()
 	newItem->init(node->position());
 	node->furniture(newItem);
 	count -= 1;
+	music->playNew("Dig_0.wav");
 }
 
 void CraftingTable::init(Vector2Int _position)
@@ -58,7 +61,7 @@ void CraftingTable::init(Vector2Int _position)
 	itemImgSize.y = 16;
 	imgPosInfo = { {0,0}, {1,0} };
 	placedImgSize = { 16, 16 };
-	pos = _position;
+	placedPos = _position;
 	code = 4;
 	itemName = L"CraftingTable";
 	itemUsingState = UsingState::Swing;
@@ -74,5 +77,31 @@ void CraftingTable::useInField()
 
 Item* CraftingTable::destroyed(Vector2Int _gridPos)
 {
-	return nullptr;
+	ULONGLONG currentTime = GetTickCount64();
+	if (currentTime - lastTime >= 5000)
+	{
+		lastTime = currentTime;
+		harden = 1.0f;
+	}
+	else lastTime = currentTime;
+	harden -= Time->deltaTime() * 10.0f;
+
+	srand((unsigned int)currentTime);
+	int rndInt = rand() % 3;
+	switch (rndInt)
+	{
+	case 0:
+		music->playNew("Dig_0.wav");
+		break;
+	case 1:
+		music->playNew("Dig_1.wav");
+		break;
+	case 2:
+		music->playNew("Dig_2.wav");
+		break;
+	default:
+		break;
+	}
+	if (harden > 0) return nullptr;
+	return this;
 }

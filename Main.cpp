@@ -64,9 +64,6 @@ void MainGame::render()
 	HBITMAP hbmMem = CreateCompatibleBitmap(hdc, width, height);
 	HBITMAP oldBitmap = (HBITMAP)SelectObject(hdcMem, hbmMem);
 
-	// 수정 시작
-	HFONT oldFont = (HFONT)SelectObject(hdcMem, mainFont);
-	// 수정 끝
 
 	PatBlt(hdcMem, 0, 0, width, height, WHITENESS);
 
@@ -75,11 +72,8 @@ void MainGame::render()
 
 	BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
 
-	// 수정 시작
 	// 원래 객체로 복원
-	SelectObject(hdcMem, oldFont);
 	SelectObject(hdcMem, oldBitmap);
-	// 수정 끝
 
 	DeleteObject(hbmMem);
 	DeleteDC(hdcMem);

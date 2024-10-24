@@ -33,7 +33,32 @@ void Dirt::init(Vector2Int _gridPos)
 
 Item* Dirt::destroyed(Vector2Int _gridPos)
 {
-	music->playNew("Dig_0.wav");
+	ULONGLONG currentTime = GetTickCount64();
+	if (currentTime - lastTime >= 5000)
+	{
+		lastTime = currentTime;
+		harden = 1.0f;
+	}
+	else lastTime = currentTime;
+	harden -= Time->deltaTime() * 10.0f;
+
+	srand((unsigned int)currentTime);
+	int rndInt = rand() % 3;
+	switch (rndInt)
+	{
+	case 0:
+		music->playNew("Dig_0.wav");
+		break;
+	case 1:
+		music->playNew("Dig_1.wav");
+		break;
+	case 2:
+		music->playNew("Dig_2.wav");
+		break;
+	default:
+		break;
+	}
+	if (harden > 0) return nullptr;
 	return this;
 }
 

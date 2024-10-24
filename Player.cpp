@@ -577,7 +577,7 @@ void Player::useItem()
 					}
 					ani->setLeft(left);
 					ani->resetAnimation();
-					ani->changeImg("swingR");
+					ani->changeImg("useTopR");
 					ani->setSpeed(3.0f);
 				}
 			}
@@ -601,7 +601,7 @@ void Player::useItem()
 						}
 						ani->setLeft(left);
 						ani->resetAnimation();
-						ani->changeImg("swingR");
+						ani->changeImg("useTopR");
 						ani->setSpeed(3.0f);
 					}
 				}
@@ -624,7 +624,7 @@ void Player::useItem()
 						}
 						ani->setLeft(left);
 						ani->resetAnimation();
-						ani->changeImg("swingR");
+						ani->changeImg("useMiddleR");
 						ani->setSpeed(3.0f);
 					}
 				}
@@ -647,7 +647,7 @@ void Player::useItem()
 						}
 						ani->setLeft(left);
 						ani->resetAnimation();
-						ani->changeImg("swingR");
+						ani->changeImg("useBottomR");
 						ani->setSpeed(3.0f);
 					}
 				}
@@ -714,7 +714,7 @@ void Player::useItem()
 					if (ani == (*plate->linkAniList())[0]) continue;
 					ani->setLeft(left);
 					ani->resetAnimation();
-					ani->changeImg("swingR");
+					ani->changeImg("useTopR");
 					ani->setSpeed(3.0f);
 				}
 			}
@@ -734,7 +734,7 @@ void Player::useItem()
 						if (ani == (*plate->linkAniList())[0]) continue;
 						ani->setLeft(left);
 						ani->resetAnimation();
-						ani->changeImg("swingR");
+						ani->changeImg("useTopR");
 						ani->setSpeed(3.0f);
 					}
 				}
@@ -753,7 +753,7 @@ void Player::useItem()
 						if (ani == (*plate->linkAniList())[0]) continue;
 						ani->setLeft(left);
 						ani->resetAnimation();
-						ani->changeImg("swingR");
+						ani->changeImg("useMiddleR");
 						ani->setSpeed(3.0f);
 					}
 				}
@@ -772,7 +772,7 @@ void Player::useItem()
 						if (ani == (*plate->linkAniList())[0]) continue;
 						ani->setLeft(left);
 						ani->resetAnimation();
-						ani->changeImg("swingR");
+						ani->changeImg("useBottomR");
 						ani->setSpeed(3.0f);
 					}
 				}

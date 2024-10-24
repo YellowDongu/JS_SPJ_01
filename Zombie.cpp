@@ -46,6 +46,7 @@ void Zombie::update()
 	}
 
 
+	tracePlayer();
 
 	if (Time->deltaTime() > 0.3f) return;
 	if (!onGround)
@@ -54,7 +55,6 @@ void Zombie::update()
 		moveVec.y -= 1000.0f * Time->deltaTime();
 	}
 	worldPos += moveVec * Time->deltaTime();
-	tracePlayer();
 
 	aniCtrl->update();
 	if (moveVec.y != 0)
@@ -126,27 +126,24 @@ void Zombie::tracePlayer()
 
 	if (x > 0)
 	{
+		aniCtrl->reverseImg(true);
 		if (moveVec.x >= maxSpeed)
 		{
 			moveVec.x = maxSpeed;
 			return;
 		}
 		moveVec.x += speed * Time->deltaTime();
-		aniCtrl->reverseImg(true);
 	}
 	else
 	{
+		aniCtrl->reverseImg(true);
 		if (moveVec.x <= -maxSpeed)
 		{
 			moveVec.x = -maxSpeed;
 			return;
 		}
 		moveVec.x += (-speed) * Time->deltaTime();
-		aniCtrl->reverseImg(false);
 	}
-
-
-
 }
 
 void Zombie::imgInit()
@@ -166,7 +163,6 @@ void Zombie::imgInit()
 		"standR", &worldPos, { 38, 46 }, { 0,0 });
 	aniCtrl->addAnimation("Standard", newAni);
 	aniCtrl->changeAnimationContianer("status", "Standard");
-
 }
 
 void Zombie::CollisionWithItem(Item* _col)

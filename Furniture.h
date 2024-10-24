@@ -5,11 +5,12 @@ class Furniture : public Item
 {
 public:
 	Furniture();
-	~Furniture();
+	virtual ~Furniture();
 
 	virtual void init(Vector2Int _position) abstract;
 	virtual void useInField() abstract;
 	virtual Item* destroyed(Vector2Int _gridPos) abstract;
+	virtual void update() {};
 
 	void getImgSet(std::string name);
 
@@ -18,7 +19,8 @@ public:
 	void imageGridSize(Vector2Int& _value) { imgGridSize = _value; }
 	void imageGridPosition(Vector2Int& _value) { imgGridPos = _value; }
 
-	const int& bottomPosition() const { return bottomPos; }
+	const int& disassemble() const { return disAssemble; }
+	const bool& bottomPosition() const { return bottomPos; }
 	const Vector2Int& imageGridSize() const { return imgGridSize; }
 	const Vector2Int& imageGridPosition() const { return imgGridPos; }
 	const Vector2Int& gridPosition() const { return placedPos; }
@@ -27,6 +29,8 @@ public:
 
 protected:
 	int bottomPos;
+	float harden;
+	bool disAssemble;
 
 	Vector2Int placedPos;
 	Vector2Int imgGridSize;

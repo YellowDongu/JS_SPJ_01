@@ -125,6 +125,7 @@ void Recipe::update()
 {
 	for (auto iter = activeFurnitures.begin(); iter != activeFurnitures.end();)
 	{
+		(*iter)->update();
 		float dist = Vector2::distance((*iter)->gridPosition() * 16 - Vector2Int{8, 8}, entityMgr->linkPlayer()->position());
 
 		if (dist > 200.0f)
@@ -143,6 +144,7 @@ void Recipe::update()
 
 	for (auto iter = placedFurnitureList.begin(); iter != placedFurnitureList.end();)
 	{
+		(*iter)->update();
 		float dist = Vector2::distance((*iter)->gridPosition() * 16 - Vector2Int{ 8, 8 }, entityMgr->linkPlayer()->position());
 
 		if (dist < 200.0f)

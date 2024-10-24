@@ -140,7 +140,7 @@ void SoundManager::playNew(std::string name)
 	if (sound == soundList.end()) return;
 	FMOD_CHANNEL* newChannel = nullptr;
 	play((*sound).second, newChannel);
-	channelList.push_back(newChannel);
+	//channelList.push_back(newChannel);
 	FMOD_System_Update(fmodSys);
 }
 

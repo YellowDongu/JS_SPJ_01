@@ -1,6 +1,16 @@
 #include "framework.h"
 #include "ImageHandler.h"
 
+static HDC gMemDC = NULL; // 메모리 DC
+static HDC tempDC = NULL; // 임시 DC
+static HBITMAP bmpRev = NULL; // 반전된 비트맵
+static HBITMAP oldBmp = NULL; // 이전 비트맵
+static HDC hdcRotated = NULL;
+static HBITMAP gRotatedBitmap = NULL;
+static HDC gRotatedDC = NULL;
+
+static HBRUSH hPinkBrush = CreateSolidBrush(RGB(255, 0, 255));
+static HPEN hPinkPen = CreatePen(PS_SOLID, 2, RGB(255, 0, 255));
 
 void ImageHandler::Render(const HBITMAP& _bitMap, HDC& _hdc, int x, int y)
 {
@@ -175,6 +185,25 @@ HBITMAP ImageHandler::resizeImage(const HBITMAP& origin, int width, int height)
 
 void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, int x, int y)
 {
+
+    if (_bitMap == NULL) { return; }
+    BITMAP bitmap;
+    GetObject(_bitMap, sizeof(BITMAP), &bitmap);
+
+    // DC가 없으면 생성
+    if (!gMemDC)
+        gMemDC = CreateCompatibleDC(_hdc);
+
+    // 원래 선택된 비트맵을 저장
+    HBITMAP hOldBitmap = (HBITMAP)SelectObject(gMemDC, _bitMap);
+
+    // 배경색이 하얀색이여서 하얀색을 지정하면 깨짐
+    TransparentBlt(_hdc, x, y, bitmap.bmWidth, bitmap.bmHeight, gMemDC, 0, 0, bitmap.bmWidth, bitmap.bmHeight, BackColor);
+
+    // DC에서 원래 비트맵으로 복원
+    SelectObject(gMemDC, hOldBitmap);
+
+    /*
     if (_bitMap == NULL) { return; }
     BITMAP bitmap;
     GetObject(_bitMap, sizeof(BITMAP), &bitmap);
@@ -193,52 +222,65 @@ void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, int x, i
     SelectObject(dcMem, hOldBitmap);
     // 수정 끝
     DeleteDC(dcMem);
+    */
 
 }
 void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos)
 {
     if (_bitMap == NULL) { return; }
 
-    HDC dcMem = CreateCompatibleDC(_hdc);
-    HBITMAP hOldBitmap = (HBITMAP)SelectObject(dcMem, _bitMap);
+    // DC가 없으면 생성
+    if (!gMemDC)
+        gMemDC = CreateCompatibleDC(_hdc);
 
-    TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, dcMem, imagePos.x, imagePos.y, size.x, size.y, BackColor);
+    HBITMAP hOldBitmap = (HBITMAP)SelectObject(gMemDC, _bitMap);
 
-    SelectObject(dcMem, hOldBitmap);
-    DeleteDC(dcMem);
+    TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, gMemDC, imagePos.x, imagePos.y, size.x, size.y, BackColor);
+
+    // DC에서 원래 비트맵으로 복원
+    SelectObject(gMemDC, hOldBitmap);
 }
 
 void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos, bool reverse)
 {
+    if (!reverse)
+    {
+        renderWithoutBack(_bitMap, _hdc, startPos, size, imagePos);
+        return;
+    }
     if (_bitMap == NULL) { return; }
 
-    HDC dcMem = CreateCompatibleDC(_hdc);
-    HDC dcTemp = CreateCompatibleDC(_hdc); // 임시 DC 생성
-    HBITMAP hOldBitmap = (HBITMAP)SelectObject(dcMem, _bitMap);
+    // DC 생성
+    if (!gMemDC)
+        gMemDC = CreateCompatibleDC(_hdc);
 
+    if (!tempDC)
+        tempDC = CreateCompatibleDC(_hdc);
+
+    // 비트맵 선택
+    HBITMAP hOldBitmap = (HBITMAP)SelectObject(gMemDC, _bitMap);
+
+
+    /*
     // 반전된 비트맵 생성
-    HBITMAP hBitmapReversed = CreateCompatibleBitmap(_hdc, size.x, size.y);
-    HBITMAP hOldTempBitmap = (HBITMAP)SelectObject(dcTemp, hBitmapReversed);
-
-    // 원본 이미지를 반전하여 복사
-    if (reverse)
+    if (bmpRev)
     {
-        StretchBlt(dcTemp, size.x - 1, 0, -size.x, size.y, dcMem, imagePos.x, imagePos.y, size.x, size.y, SRCCOPY);
+        DeleteObject(bmpRev); // 이전 비트맵 삭제
     }
-    else
-    {
-        BitBlt(dcTemp, 0, 0, size.x, size.y, dcMem, imagePos.x, imagePos.y, SRCCOPY);
-    }
-
-    // 투명하게 비트맵 출력
-    TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, dcTemp, 0, 0, size.x, size.y, BackColor);
-
+    bmpRev = CreateCompatibleBitmap(_hdc, size.x, size.y);
+    oldBmp = (HBITMAP)SelectObject(tempDC, bmpRev);
+    
+    StretchBlt(tempDC, size.x - 1, 0, -size.x, size.y, gMemDC, imagePos.x, imagePos.y, size.x, size.y, SRCCOPY);
+    TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, tempDC, 0, 0, size.x, size.y, BackColor);
     // 자원 해제
-    SelectObject(dcTemp, hOldTempBitmap);
-    DeleteObject(hBitmapReversed);
-    SelectObject(dcMem, hOldBitmap);
-    DeleteDC(dcTemp);
-    DeleteDC(dcMem);
+    SelectObject(tempDC, oldBmp);
+    SelectObject(gMemDC, hOldBitmap); 
+    */
+    StretchBlt(gMemDC, size.x - 1, 0, -size.x, size.y, gMemDC, imagePos.x, imagePos.y, size.x, size.y, SRCCOPY);
+    TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, gMemDC, 0, 0, size.x, size.y, BackColor);
+    // 자원 해제
+    SelectObject(tempDC, oldBmp);
+    SelectObject(gMemDC, hOldBitmap); 
 }
 
 //alpha에 0~255 정수 넣기(값 낮을수록 투명)
@@ -279,21 +321,21 @@ HBITMAP ImageHandler::RotateImage(HBITMAP hBitmap, float angle)
 
     // 새 비트맵 생성
     HBITMAP hRotatedBitmap = CreateCompatibleBitmap(GetDC(NULL), newWidth, newHeight);
-    HDC hdcMem = CreateCompatibleDC(GetDC(NULL));
-    HDC hdcRotated = CreateCompatibleDC(GetDC(NULL));
+
+    if(!gMemDC)
+        gMemDC = CreateCompatibleDC(NULL);
+
+    HDC hdcRotated = CreateCompatibleDC(NULL);
 
     // 비트맵 선택
-    SelectObject(hdcMem, hBitmap);
+    HBITMAP oldTemp = (HBITMAP)SelectObject(gMemDC, hBitmap);
     SelectObject(hdcRotated, hRotatedBitmap);
 
-    HBRUSH hPinkBrush = CreateSolidBrush(RGB(255, 0, 255));
-    HPEN hPinkPen = CreatePen(PS_SOLID, 2, RGB(255, 0, 255));
-    SelectObject(hdcRotated, hPinkBrush);
-    SelectObject(hdcRotated, hPinkPen);
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdcRotated, hPinkBrush);
+    HPEN oldPen = (HPEN)SelectObject(hdcRotated, hPinkPen);
     Rectangle(hdcRotated, 0, 0, newWidth, newHeight);
-
-    DeleteObject(hPinkBrush);
-    DeleteObject(hPinkPen);
+    SelectObject(hdcRotated, oldBrush); 
+    SelectObject(hdcRotated, oldPen);
 
     // 회전 변환 행렬 설정
     SetGraphicsMode(hdcRotated, GM_ADVANCED);
@@ -308,10 +350,10 @@ HBITMAP ImageHandler::RotateImage(HBITMAP hBitmap, float angle)
     SetWorldTransform(hdcRotated, &xform);
 
     // 비트맵을 새 비트맵으로 복사
-    BitBlt(hdcRotated, -bmp.bmWidth / 2, -bmp.bmHeight / 2, bmp.bmWidth, bmp.bmHeight, hdcMem, 0, 0, SRCCOPY);
+    BitBlt(hdcRotated, -bmp.bmWidth / 2, -bmp.bmHeight / 2, bmp.bmWidth, bmp.bmHeight, gMemDC, 0, 0, SRCCOPY);
 
     // DC 정리
-    DeleteDC(hdcMem);
+    SelectObject(gMemDC, oldTemp);
     DeleteDC(hdcRotated);
 
     return hRotatedBitmap;

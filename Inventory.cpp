@@ -23,7 +23,7 @@ void Inventory::chestInit()
 		for (int x = 0; x < 10; x++)
 		{
 			InventorySlot* slot = new InventorySlot();
-
+			slot->swapItem(nullptr);
 			invenSlot.push_back(slot);
 		}
 	}

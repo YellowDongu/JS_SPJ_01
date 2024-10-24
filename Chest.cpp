@@ -5,6 +5,7 @@
 #include "SoundManager.h"
 #include "UIManager.h"
 #include "InventoryUI.h"
+#include "TimeManager.h"
 
 Chest::Chest() : chestInven(nullptr)
 {
@@ -13,8 +14,8 @@ Chest::Chest() : chestInven(nullptr)
 Chest::~Chest()
 {
 	if (!chestInven) return;
-
 	delete chestInven;
+	chestInven = nullptr;
 }
 
 Item* Chest::clone() const
@@ -64,7 +65,7 @@ void Chest::init(Vector2Int _position)
 	imgPosInfo = { {0,0}, {1,0} , {0,1}, {1,1} };
 	//imgPosInfo = { {0,4}, {1,4} , {0,5}, {1,5} };
 	placedImgSize = { 16, 16 };
-	pos = _position;
+	placedPos = _position;
 	code = 6;
 	itemName = L"Chest";
 	itemUsingState = UsingState::Swing;
@@ -79,7 +80,33 @@ void Chest::init(Vector2Int _position)
 
 Item* Chest::destroyed(Vector2Int _gridPos)
 {
-	return nullptr;
+	ULONGLONG currentTime = GetTickCount64();
+	if (currentTime - lastTime >= 5000)
+	{
+		lastTime = currentTime;
+		harden = 1.0f;
+	}
+	else lastTime = currentTime;
+	harden -= Time->deltaTime() * 10.0f;
+
+	srand((unsigned int)currentTime);
+	int rndInt = rand() % 3;
+	switch (rndInt)
+	{
+	case 0:
+		music->playNew("Dig_0.wav");
+		break;
+	case 1:
+		music->playNew("Dig_1.wav");
+		break;
+	case 2:
+		music->playNew("Dig_2.wav");
+		break;
+	default:
+		break;
+	}
+	if (harden > 0) return nullptr;
+	return this;
 }
 
 void Chest::useInField()

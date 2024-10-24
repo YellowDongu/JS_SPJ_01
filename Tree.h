@@ -1,24 +1,21 @@
 #pragma once
 #include "Furniture.h"
-#include "Inventory.h"
-class Chest : public Furniture
+
+class Tree : public Furniture
 {
 public:
-	Chest();
-	virtual ~Chest();
+	Tree();
+	virtual ~Tree();
 
-
-	void useInField() override;
 	Item* clone() const override;
 	void dragDrop() override;
 	void use() override;
 	void init(Vector2Int _position) override;
+	void useInField() override;
+	void update() override;
 	Item* destroyed(Vector2Int _gridPos) override;
-
-
 private:
-	Inventory* chestInven;
-
-
+	int height;
+	float liveTime;
 
 };

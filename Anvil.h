@@ -5,7 +5,7 @@ class Anvil : public Furniture
 {
 public:
 	Anvil();
-	~Anvil();
+	virtual ~Anvil();
 
 	// Furniture을(를) 통해 상속됨
 	Item* clone() const override;

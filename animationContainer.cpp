@@ -6,7 +6,7 @@
 #include "CameraManager.h"
 
 animationContainer::animationContainer() : speed(0.0f), time(0.0f), maxTime(0.0f), sequence(0), width(0), height(0), imgPos(nullptr), once(false), left(false),
-blank(Vector2Int::zero()), imgOffset(Vector2Int::zero()), imgSize(Vector2Int::zero())
+blank(Vector2Int::zero()), imgOffset(Vector2Int::zero()), imgSize(Vector2Int::zero()), masterPos(NULL), rawImg(NULL)
 {
 }
 
@@ -70,6 +70,7 @@ void animationContainer::changeImg(std::string state)
 	auto iter = imgPosSet.find(state);
 	imgPos = &(iter->second.second);
 	once = iter->second.first;
+	reverseBlock = iter->second.first;
 	maxTime = 1.0f / static_cast<float>(imgPos->size());
 	time = 0.0f;
 	sequence = 0;

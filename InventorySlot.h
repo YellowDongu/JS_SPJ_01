@@ -19,6 +19,6 @@ public:
 	//void release();
 
 private:
-	Item* itemType;
-	int* itemCount;
+	Item* itemType = nullptr;
+	int* itemCount = nullptr;
 };
