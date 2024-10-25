@@ -52,6 +52,14 @@ void animationContainer::render(HDC _hdc)
 
 }
 
+void animationContainer::render(HDC _hdc, float angle)
+{
+	Vector2Int ScreenPos = cam->calculateScreenPosition(*masterPos) - Vector2Int{ imgSize.x / 2, imgSize.y / 2 };
+	Vector2Int pos = Vector2Int{ imgSize.x * (*imgPos)[sequence].x + (*imgPos)[sequence].x * blank.x, imgSize.y * (*imgPos)[sequence].y + (*imgPos)[sequence].y * blank.y };
+	//ImageHandler::renderWithoutBack(rawImg, _hdc, ScreenPos + imgOffset, imgSize, pos);
+	ImageHandler::renderRotateWithoutBack(rawImg, _hdc, ScreenPos + imgOffset, imgSize, pos, angle, left);
+}
+
 void animationContainer::init(std::map<std::string, std::pair<bool, std::vector<Vector2Int>>> _posValue, std::string defultState, Vector2* _masterPos, Vector2Int _imgSizeValue, Vector2Int _imgOffsetValue)
 {
 	imgPosSet = _posValue;

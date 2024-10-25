@@ -36,6 +36,7 @@
 #include "Stone.h"
 #include "Tree.h"
 #include "CopperSword.h"
+#include "Grass.h"
 
 
 TestScene::TestScene() : player(nullptr)
@@ -59,22 +60,35 @@ void TestScene::init()
 	for (auto& node : nodes)
 	{
 		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
 		Stone* block = new Stone();
 		block->init(node->position());
 		node->block(block);
 	}
 	nodes.clear();
 
-	nodes = gridMap->findNodes(Vector2Int{ 0,31 }, Vector2Int{ 800,40 });
+	nodes = gridMap->findNodes(Vector2Int{ 0,31 }, Vector2Int{ 800,39 });
 	for (auto& node : nodes)
 	{
 		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
 		Dirt* block = new Dirt();
 		block->init(node->position());
 		node->block(block);
 	}
 	nodes.clear();
-	
+
+	nodes = gridMap->findNodes(Vector2Int{ 0,40 }, Vector2Int{ 800,40 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+	}
+	nodes.clear();
+
 
 	gridMap->updateAllBlock();
 
@@ -130,13 +144,6 @@ void TestScene::init()
 	dirtTest->init({-1, -1});
 	dirtTest->addItemCount(5);
 	player->linkInven()->pickUp(dirtTest, 1);
-	/*
-	Tree* tree = new Tree();
-	Node* node = gridMap->findNode(Vector2Int{ 50, 12 });
-	tree->init(node->position());
-	tree->setGrowTime(65535.0f);
-	node->furniture(tree);
-	*/
 
 	Tree* tree = new Tree();
 	tree->init({ -1, -1 });

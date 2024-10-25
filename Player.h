@@ -57,6 +57,8 @@ private:
 	int maxMp;
 	int defense;
 
+	float healSpeed;
+
 	Item* usingItem;
 
 	Helmet* helmet;

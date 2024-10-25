@@ -4,8 +4,9 @@
 #include "TimeManager.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
+#include "Tool.h"
 
-BigEye::BigEye() : condition(0), phase(0), rushCount(0), spawnCount(0), stopWatch(0.0f)
+BigEye::BigEye() : condition(0), phase(0), rushCount(0), spawnCount(0), stopWatch(0.0f), angle(0.0f)
 {
 }
 
@@ -21,8 +22,8 @@ void BigEye::init()
 
 	speed = 500.0f;
 	maxSpeed = 100.0f;
-	hp = 300;
-	maxHp = 300;
+	hp = 100;
+	maxHp = 100;
 	dead = false;
 	onGround = false;
 	rightSideWall = false;
@@ -56,9 +57,15 @@ void BigEye::init()
 void BigEye::update()
 {
 	if (hp <= 0)
+	{
+		music->playNew("NPC_Killed_1.wav");
 		dead = true;
+	}
 	if (phase != 2 && hp <= maxHp / 2)
+	{
+		aniCtrl->changeAnimation("status", "phase2");
 		phase = 2;
+	}
 
 	if (condition == 0)
 	{
@@ -67,6 +74,9 @@ void BigEye::update()
 
 		if ((destination - worldPos).magnitude() >= 10.0f)
 			moveVec = (destination - worldPos) * 2.0f;
+
+		angle = Vector2::angle(player->position() - worldPos) - 90.0f;
+		angle *= -1;
 
 		stopWatch -= Time->deltaTime();
 
@@ -86,11 +96,15 @@ void BigEye::update()
 				{
 					rushCount = 3;
 					moveVec = (player->position() - worldPos) * 1.5f;
+					angle = Vector2::angle(player->position() - worldPos) - 90.0f;
+					angle *= -1;
 				}
 				else
 				{
 					rushCount = 6;
 					moveVec = (player->position() - worldPos) * 3.0f;
+					angle = Vector2::angle(player->position() - worldPos) - 90.0f;
+					angle *= -1;
 				}
 			}
 		}
@@ -139,19 +153,23 @@ void BigEye::update()
 			{
 
 				if (phase == 1)
+				{
 					moveVec = (player->position() - worldPos) * 1.5f;
+					angle = Vector2::angle(player->position() - worldPos) - 90.0f;
+					angle *= -1;
+				}
 				else
+				{
 					moveVec = (player->position() - worldPos) * 0.7f;
+					angle = Vector2::angle(player->position() - worldPos) - 90.0f;
+					angle *= -1;
+				}
 			}
 		}
 	}
 
 
 	worldPos += moveVec * Time->deltaTime();
-
-
-
-
 }
 
 void BigEye::release()
@@ -170,9 +188,11 @@ void BigEye::CollisionWithEntity(Entity* _col)
 
 void BigEye::CollisionWithItem(Item* _col)
 {
+	hp -= ((Tool*)_col)->damage();
+	music->playNew("NPC_Hit_1.wav");
 }
 
 void BigEye::render(HDC _hdc)
 {
-	aniCtrl->render(_hdc);
+	aniCtrl->linkDirectToAni("status")->render(_hdc, angle);
 }

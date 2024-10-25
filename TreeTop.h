@@ -1,21 +1,21 @@
 #pragma once
-#include "Block.h"
+#include "Furniture.h"
 
-
-class Wood : public Block
+class TreeTop : public Furniture
 {
 public:
-	Wood();
-	virtual ~Wood();
+	TreeTop();
+	virtual ~TreeTop();
 
 
-	// Block을(를) 통해 상속됨
 	Item* clone() const override;
 	void dragDrop() override;
 	void use() override;
-	void init(Vector2Int _gridPos) override;
+	void init(Vector2Int _position) override;
+	void useInField() override;
 	Item* destroyed(Vector2Int _gridPos) override;
 private:
+
 
 
 };

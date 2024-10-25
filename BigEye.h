@@ -20,4 +20,5 @@ private:
 	int spawnCount;
 
 	float stopWatch;
+	float angle;
 };

@@ -146,116 +146,6 @@ void GridMap::update()
 		}
 	}
 
-	/*
-	bool first = false, last = false;
-	while (!first || !last)
-	{
-		if (!first)
-		{
-			Vector2 screenPos = cam->calculateScreenPosition(Vector2Int::toVec2(visibleNodeList.front().front()->position() * nodeSize));
-			if (screenPos.y > cam->getWindowSize().y + 50.0f)
-			{
-				visibleNodeList.pop_front();
-			}
-			else if (screenPos.y < cam->getWindowSize().y + 20.0f)
-			{
-				Vector2Int gridPos = visibleNodeList.front().front()->position();
-				Vector2Int gridEndPos = visibleNodeList.front().back()->position();
-				gridPos.y--;
-				gridEndPos.y--;
-				if (gridPos.y == -1 && gridEndPos.y == -1)
-				{
-					first = true;
-					continue;
-				}
-				visibleNodeList.push_front(findNodes(gridPos, gridEndPos));
-
-			}
-			else first = true;
-
-		}
-		if (!last)
-		{
-			Vector2 screenPos = cam->calculateScreenPosition(Vector2Int::toVec2(visibleNodeList.back().front()->position() * nodeSize));
-			if (screenPos.y < -50.0f)
-			{
-				visibleNodeList.pop_back();
-
-			}
-			else if (screenPos.y > -20.0f)
-			{
-				Vector2Int gridPos = visibleNodeList.back().front()->position();
-				Vector2Int gridEndPos = visibleNodeList.back().back()->position();
-				gridPos.y++;
-				gridEndPos.y++;
-				if (gridPos.y == height && gridEndPos.y == height)
-				{
-					last = true;
-					continue;
-				}
-				visibleNodeList.push_back(findNodes(gridPos, gridEndPos));
-
-			}
-			else last = true;
-		}
-	}
-
-
-
-	for (auto& nodeY : visibleNodeList)
-	{
-		first = false;
-		last = false;
-		while (!first || !last)
-		{
-			if (!first)
-			{
-				Vector2 screenPos = cam->calculateScreenPosition(Vector2Int::toVec2(nodeY.front()->position() * nodeSize));
-				if (screenPos.x < -50.0f)
-				{
-					nodeY.pop_front();
-
-				}
-				else if (screenPos.x > -20.0f)
-				{
-					Vector2Int gridPos = nodeY.front()->position();
-					gridPos.x--;
-					if (gridPos.x == -1)
-					{
-						first = true;
-						continue;
-					}
-					nodeY.push_front(findNode(gridPos));
-
-				}
-				else first = true;
-
-			}
-			if (!last)
-			{
-
-
-				Vector2 screenPos = cam->calculateScreenPosition(Vector2Int::toVec2(nodeY.back()->position() * nodeSize));
-				if (screenPos.x > cam->getWindowSize().x + 50.0f)
-				{
-					nodeY.pop_back();
-				}
-				else if (screenPos.x < cam->getWindowSize().x + 20.0f)
-				{
-					Vector2Int gridPos = nodeY.back()->position();
-					gridPos.x++;
-					if (gridPos.y == width)
-					{
-						last = true;
-						continue;
-					}
-					nodeY.push_back(findNode(gridPos));
-
-				}
-				else last = true;
-			}
-		}
-	}*/
 }
 
 void GridMap::render(HDC _hdc)
@@ -281,8 +171,6 @@ void GridMap::render(HDC _hdc)
 			Vector2Int imgPos = node->wall()->imgPos() * size + node->wall()->imgPos() * 2;
 			ImageHandler::renderWithoutBack(node->backImg(), _hdc, drawPos, node->wall()->size(), imgPos);
 		}
-
-
 	}
 
 	for (auto& nodeY : visibleNodeList)
@@ -316,6 +204,7 @@ void GridMap::render(HDC _hdc)
 				{
 					Vector2Int drawPos = Vector2::toVec2Int(cam->calculateScreenPosition(Vector2Int::toVec2(selectedNode->position() * nodeSize)));
 					drawPos.y -= node->furniture()->size().y;
+					drawPos.x += (16 - node->furniture()->size().x) / 2;
 
 					Vector2Int imageStartPos = Vector2Int{ 
 						node->furniture()->imageGridPosition().x * (node->furniture()->size().x + 2) * node->furniture()->imageGridSize().x ,

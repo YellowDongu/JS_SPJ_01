@@ -8,7 +8,7 @@
 #include "RenderManager.h"
 #include "ItemManager.h"
 
-Tree::Tree() : height(0), liveTime(0.0f)
+Tree::Tree() : height(0), liveTime(0.0f), treeTop(nullptr)
 {
 }
 
@@ -76,25 +76,26 @@ void Tree::update()
 	if (liveTime < 3.0f) return;
 	liveTime = -1.0f;
 	placedImgSize = { 20, 20 };
-	srand(Time->deltaTime());
+	srand((unsigned int)Time->deltaTime());
 	height = 10 + rand() % 5;
 	
 	getImgSet("tree");
 
-	Node* baseNode = gridMap->findNode(cam->calculateWorldPosition(Vector2{ (float)Input->getMousePos().x, (float)Input->getMousePos().y }));
-
-	nodes = gridMap->findNodes(baseNode->position(), baseNode->position() + Vector2Int{ 0, height });
+	nodes = gridMap->findNodes(placedPos, placedPos + Vector2Int{ 0, height });
 	int i = 0;
 	for (auto& node : nodes)
 	{
 		posInfo.push_back({0,i});
-		srand(GetTickCount64() * i);
+		srand((unsigned int)((int)GetTickCount64() * i));
 		imgPosInfo.push_back({0,rand() % 5});
 		node->linkFurniture(this);
 		i++;
 	}
-
-
+	Node* topNode = gridMap->findNode(placedPos + Vector2Int{ 0, height + 1 });
+	treeTop = new TreeTop();
+	treeTop->init(topNode->position());
+	topNode->linkFurniture(treeTop);
+	topNode->linkFrontBitmap(treeTop->linkTileImg());
 	music->playNew("Dig_0.wav");
 }
 
@@ -142,7 +143,15 @@ Item* Tree::destroyed(Vector2Int _gridPos)
 		itemMgr->appendList(wood);
 	}
 
-	Node* node = gridMap->findNode(placedPos);
+	if (treeTop)
+	{
+		Node* node = gridMap->findNode(treeTop->gridPosition());
+		node->unlinkFurniture();
+		node->unlinkFrontBitmap();
+		delete treeTop;
+		treeTop = nullptr;
+	}
+
 
 	return wood;
 }

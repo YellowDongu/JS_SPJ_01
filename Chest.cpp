@@ -60,10 +60,9 @@ void Chest::init(Vector2Int _position)
 
 	itemImg = rendering->findImage("Item_furniture", "chest", "shadow0rotation0")[0];
 	posInfo = { {0,0}, {1,0}, {0,-1}, {1,-1} };
+	imgPosInfo = { {0,0}, {1,0} , {0,1}, {1,1} };
 	itemImgSize.x = 16;
 	itemImgSize.y = 16;
-	imgPosInfo = { {0,0}, {1,0} , {0,1}, {1,1} };
-	//imgPosInfo = { {0,4}, {1,4} , {0,5}, {1,5} };
 	placedImgSize = { 16, 16 };
 	placedPos = _position;
 	code = 6;
@@ -80,6 +79,11 @@ void Chest::init(Vector2Int _position)
 
 Item* Chest::destroyed(Vector2Int _gridPos)
 {
+	for (auto slot : *chestInven->linkInven())
+	{
+		if (slot->item()) return nullptr;
+	}
+
 	ULONGLONG currentTime = GetTickCount64();
 	if (currentTime - lastTime >= 5000)
 	{
@@ -111,7 +115,7 @@ Item* Chest::destroyed(Vector2Int _gridPos)
 
 void Chest::useInField()
 {
-	float distance = Vector2::distance(entityMgr->linkPlayer()->position(), Vector2Int::toVec2(pos * 16 + Vector2Int{ 8,8 }));
+	float distance = Vector2::distance(entityMgr->linkPlayer()->position(), Vector2Int::toVec2(placedPos * 16 + Vector2Int{ 8,8 }));
 	if (distance > 100.0f) return;
 
 	UIMgr->getInven()->chestSelected(this->chestInven);

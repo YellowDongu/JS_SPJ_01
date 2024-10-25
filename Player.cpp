@@ -7,7 +7,8 @@
 #include "CameraManager.h"
 
 
-Player::Player() : currentState("Stand"), inven(nullptr), usingItem(nullptr), helmet(nullptr), plate(nullptr), leggings(nullptr)
+Player::Player() : currentState("Stand"), inven(nullptr), usingItem(nullptr), helmet(nullptr), plate(nullptr), leggings(nullptr),
+defense(0), healSpeed(10.0f), maxMp(20.0f), mp(20.0f)
 {
 }
 
@@ -33,10 +34,25 @@ void Player::init()
 
 	inven = new PlayerInventory();
 	inven->init();
+
+	healSpeed = 0.0001f;
 }
 
 void Player::update()
 {
+
+	if (hp >= maxHp)
+	{
+		healSpeed = 0.0001f;
+		hp = maxHp;
+	}
+	else
+	{
+		healSpeed += Time->deltaTime() * (healSpeed / 2) + 0.00001f;
+		hp += healSpeed * Time->deltaTime();
+		//hp += healSpeed;
+	}
+
 	keyInput();
 	aniCtrl->update();
 	aniCtrl->syncTrigger("01.armR");
@@ -63,12 +79,11 @@ void Player::update()
 		(*helmet->linkAniList())[0]->setLeft(aniCtrl->reversed("01.armR"));
 	}
 
-
-
 	updateAni();
 
 	if (moveVec == Vector2::zero()) return;
 	worldPos += moveVec * Time->deltaTime();
+
 }
 
 void Player::release()
@@ -219,7 +234,7 @@ void Player::imgInit()
 		},
 		"standR" , & worldPos, {40, 54}, {0,0});
 	aniCtrl->addAnimation("armFR", newAni);
-	aniCtrl->changeAnimationContianer("05.armF", "armFR");
+	aniCtrl->changeAnimationContianer("08.armF", "armFR");
 
 	newAni = new animationContainer();
 	newAni->setRawImg(rendering->findImage("Entity_Player", "torsoR", 0, 0)[0]);
@@ -285,7 +300,7 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("02.torso", "standR");
 		aniCtrl->changeAnimation("03.clothes", "standR");
 		aniCtrl->changeAnimation("04.leg", "standR");
-		aniCtrl->changeAnimation("05.armF", "standR");
+		aniCtrl->changeAnimation("08.armF", "standR");
 		aniCtrl->changeAnimation("07.eye", "standR");
 		if (leggings)
 		{
@@ -327,7 +342,7 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("02.torso", "jumpR");
 		aniCtrl->changeAnimation("03.clothes", "jumpR");
 		aniCtrl->changeAnimation("04.leg", "jumpR");
-		aniCtrl->changeAnimation("05.armF", "jumpR");
+		aniCtrl->changeAnimation("08.armF", "jumpR");
 		aniCtrl->changeAnimation("07.eye", "jumpR");
 		if (leggings)
 		{
@@ -398,7 +413,7 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("02.torso", "walkR");
 		aniCtrl->changeAnimation("03.clothes", "walkR");
 		aniCtrl->changeAnimation("04.leg", "walkR");
-		aniCtrl->changeAnimation("05.armF", "walkR");
+		aniCtrl->changeAnimation("08.armF", "walkR");
 		aniCtrl->changeAnimation("07.eye", "walkR");
 		if (leggings)
 		{
@@ -470,7 +485,7 @@ void Player::updateAni()
 		aniCtrl->changeAnimation("02.torso", "walkR");
 		aniCtrl->changeAnimation("03.clothes", "walkR");
 		aniCtrl->changeAnimation("04.leg", "walkR");
-		aniCtrl->changeAnimation("05.armF", "walkR");
+		aniCtrl->changeAnimation("08.armF", "walkR");
 		aniCtrl->changeAnimation("07.eye", "walkR");
 		if (leggings)
 		{
@@ -541,9 +556,9 @@ void Player::useItem()
 		case UsingState::Swing:
 			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "swingR");
-			aniCtrl->changeAnimation("05.armF", "swingR");
+			aniCtrl->changeAnimation("08.armF", "swingR");
 			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 			if (plate)
 			{
 				for (auto& ani : *plate->linkAniList())
@@ -563,9 +578,9 @@ void Player::useItem()
 		case UsingState::Use:
 			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "useTopR");
-			aniCtrl->changeAnimation("05.armF", "useTopR");
+			aniCtrl->changeAnimation("08.armF", "useTopR");
 			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 			if (plate)
 			{
 				for (auto& ani : *plate->linkAniList())
@@ -587,9 +602,9 @@ void Player::useItem()
 			{
 				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useTopR");
-				aniCtrl->changeAnimation("05.armF", "useTopR");
+				aniCtrl->changeAnimation("08.armF", "useTopR");
 				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 				if (plate)
 				{
 					for (auto& ani : *plate->linkAniList())
@@ -610,9 +625,9 @@ void Player::useItem()
 			{
 				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useMiddleR");
-				aniCtrl->changeAnimation("05.armF", "useMiddleR");
+				aniCtrl->changeAnimation("08.armF", "useMiddleR");
 				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 				if (plate)
 				{
 					for (auto& ani : *plate->linkAniList())
@@ -633,9 +648,9 @@ void Player::useItem()
 			{
 				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useBottomR");
-				aniCtrl->changeAnimation("05.armF", "useBottomR");
+				aniCtrl->changeAnimation("08.armF", "useBottomR");
 				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 				if (plate)
 				{
 					for (auto& ani : *plate->linkAniList())
@@ -686,9 +701,9 @@ void Player::useItem()
 		case UsingState::Swing:
 			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "swingR");
-			aniCtrl->changeAnimation("05.armF", "swingR");
+			aniCtrl->changeAnimation("08.armF", "swingR");
 			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 			if (plate)
 			{
 				for (auto& ani : *plate->linkAniList())
@@ -704,9 +719,9 @@ void Player::useItem()
 		case UsingState::Use:
 			aniCtrl->reverseImg(left);
 			aniCtrl->changeAnimation("01.armR", "useTopR");
-			aniCtrl->changeAnimation("05.armF", "useTopR");
+			aniCtrl->changeAnimation("08.armF", "useTopR");
 			aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-			aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+			aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 			if (plate)
 			{
 				for (auto& ani : *plate->linkAniList())
@@ -724,9 +739,9 @@ void Player::useItem()
 			{
 				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useTopR");
-				aniCtrl->changeAnimation("05.armF", "useTopR");
+				aniCtrl->changeAnimation("08.armF", "useTopR");
 				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 				if (plate)
 				{
 					for (auto& ani : *plate->linkAniList())
@@ -743,9 +758,9 @@ void Player::useItem()
 			{
 				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useMiddleR");
-				aniCtrl->changeAnimation("05.armF", "useMiddleR");
+				aniCtrl->changeAnimation("08.armF", "useMiddleR");
 				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 				if (plate)
 				{
 					for (auto& ani : *plate->linkAniList())
@@ -762,9 +777,9 @@ void Player::useItem()
 			{
 				aniCtrl->reverseImg(left);
 				aniCtrl->changeAnimation("01.armR", "useBottomR");
-				aniCtrl->changeAnimation("05.armF", "useBottomR");
+				aniCtrl->changeAnimation("08.armF", "useBottomR");
 				aniCtrl->changeAnimationSpeed("01.armR", 3.0f);
-				aniCtrl->changeAnimationSpeed("05.armF", 3.0f);
+				aniCtrl->changeAnimationSpeed("08.armF", 3.0f);
 				if (plate)
 				{
 					for (auto& ani : *plate->linkAniList())

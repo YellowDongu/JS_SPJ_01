@@ -37,7 +37,7 @@ void CollisionHandler::collision(Entity* obj, Entity* sbj)
 	}
 }
 
-void CollisionHandler::collision(Entity* obj, Tool* item)
+bool CollisionHandler::collision(Entity* obj, Tool* item)
 {
 	Vector2 objMin = obj->position() - obj->size() / 2;
 	Vector2 objMax = obj->position() + obj->size() / 2;
@@ -51,11 +51,9 @@ void CollisionHandler::collision(Entity* obj, Tool* item)
 	{
 		item->apeendhittedList(obj);
 		obj->CollisionWithItem(item);
+		return true;
 	}
-
-
-
-
+	return false;
 }
 
 void CollisionHandler::collision(Entity* obj)
@@ -200,10 +198,15 @@ bool CollisionHandler::collision(Item* item)
 		return true;
 	}
 
-	//return false;
+	return false;
+}
 
+void CollisionHandler::blockCollision(Item* item)
+{
 	Node* baseNode = gridMap->findNode(item->position());
-	Node* bottomNode = gridMap->findNode(baseNode->position() + Vector2Int{0,-1});
+	if (!baseNode) return;
+	Node* bottomNode = gridMap->findNode(baseNode->position() + Vector2Int{ 0,-1 });
+	Vector2 temp = Vector2::zero();
 
 	if (item->isOnGround())
 	{
@@ -211,7 +214,7 @@ bool CollisionHandler::collision(Item* item)
 	}
 	else
 	{
-		if (bottomNode->block() && boxCollision(item->position() - Vector2Int::toVec2(item->size() / 2), item->position() + Vector2Int::toVec2(item->size() / 2),
+		if (bottomNode && bottomNode->block() && boxCollision(item->position() - Vector2Int::toVec2(item->size() / 2), item->position() + Vector2Int::toVec2(item->size() / 2),
 			bottomNode->position() * 16, bottomNode->position() * 16 + Vector2{ 16.0f, 16.0f }, temp))
 		{
 			temp.x = 0.0f;
@@ -226,8 +229,6 @@ bool CollisionHandler::collision(Item* item)
 			item->setOnGround(true);
 		}
 	}
-
-	return false;
 }
 
 bool CollisionHandler::boxCollision(Vector2 objMin, Vector2 objMax, Vector2 sbjMin, Vector2 sbjMax, Vector2& result)

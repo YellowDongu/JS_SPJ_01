@@ -127,6 +127,7 @@ void Zombie::tracePlayer()
 
 	if (x > 0)
 	{
+		aniCtrl->reverseImg(true);
 		if (moveVec.x >= maxSpeed)
 		{
 			moveVec.x = maxSpeed;
@@ -136,9 +137,7 @@ void Zombie::tracePlayer()
 	}
 	else
 	{
-		if(!aniCtrl->reversed("status"))
-			aniCtrl->reverseImg(true);
-		//aniCtrl->reverseImg(false);
+		aniCtrl->reverseImg(false);
 		if (moveVec.x <= -maxSpeed)
 		{
 			moveVec.x = -maxSpeed;

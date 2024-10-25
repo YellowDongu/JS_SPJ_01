@@ -18,7 +18,7 @@
 #include "Furnace.h"
 #include "Stone.h"
 #include "Anvil.h"
-
+#include "Arrow.h"
 
 
 
@@ -44,6 +44,15 @@ void Recipe::init()
 		recipes.push_back(newRecipe);
 		recipeCategory[0].first.push_back(newRecipe);
 		recipeCategory[0].second = true;
+	}
+	{
+		Arrow* newItem = new Arrow();
+		newItem->init();
+		*newItem->linkItemCount() = 4;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{3, 1}} };
+		recipes.push_back(newRecipe);
+		recipeCategory[4].first.push_back(newRecipe);
+		recipeCategory[4].second = false;
 	}
 	{
 		Chest* newItem = new Chest();

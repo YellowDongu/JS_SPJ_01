@@ -244,6 +244,7 @@ Block* Node::destroyBlock()
 	if (!blockSlot) { return nullptr; }
 	Block* block = (Block*)blockSlot->destroyed(pos);
 	if (block == nullptr) return nullptr;
+	if (block != blockSlot) delete blockSlot;
 	blockSlot = nullptr;
 	frontBitmap = nullptr;
 	return block;

@@ -33,6 +33,7 @@ public:
 	Block* destroyBlock();
 	void unlinkBlock() { blockSlot = nullptr; }
 	void unlinkFrontBitmap() { frontBitmap = nullptr; }
+	void linkFrontBitmap(HBITMAP* img) { frontBitmap = img; }
 
 
 	Vector2Int position() const { return pos; }

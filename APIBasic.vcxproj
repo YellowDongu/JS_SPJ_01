@@ -138,6 +138,7 @@
     <ClInclude Include="Armour.h" />
     <ClInclude Include="ArmourSlotUI.h" />
     <ClInclude Include="ArmourUI.h" />
+    <ClInclude Include="Arrow.h" />
     <ClInclude Include="BigEye.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Boss.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="popUpUI.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Recipe.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="InputManager.h" />
@@ -207,6 +209,7 @@
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Tool.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="TreeTop.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Vector2.h" />
@@ -222,6 +225,7 @@
     <ClCompile Include="Armour.cpp" />
     <ClCompile Include="ArmourSlotUI.cpp" />
     <ClCompile Include="ArmourUI.cpp" />
+    <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="BigEye.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Boss.cpp" />
@@ -274,6 +278,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="popUpUI.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Recipe.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -291,6 +296,7 @@
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="TreeTop.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Wall.cpp" />

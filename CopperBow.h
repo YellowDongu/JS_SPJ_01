@@ -14,6 +14,5 @@ public:
 	void use() override;
 	void init() override;
 private:
-	
 
 };

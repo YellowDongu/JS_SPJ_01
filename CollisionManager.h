@@ -12,10 +12,11 @@ public:
 	~CollisionHandler();
 
 	static void collision(Entity* obj, Entity* sbj);
-	static void collision(Entity* obj, Tool* item);
+	static bool collision(Entity* obj, Tool* item);
 	static void collision(Entity* obj);
 	static bool collision(UI* ui);
 	static bool collision(Item* item);
+	static void blockCollision(Item* item);
 
 
 private:

@@ -73,6 +73,44 @@ void PlayerInventory::swapSlot(InventorySlot& obj, InventorySlot& sbj)
 	sbj.swapItem(temp);
 }
 
+Item* PlayerInventory::getItem(int itemCode)
+{
+	std::list<Item*> result;
+
+	for (auto& slot : hotbar)
+	{
+		if (slot->item() && slot->item()->itemCode() == itemCode)
+			return slot->item();
+	}
+
+	for (auto& slot : invenSlot)
+	{
+		if (slot->item() && slot->item()->itemCode() == itemCode)
+			return slot->item();
+	}
+
+	return nullptr;
+}
+
+std::list<Item*> PlayerInventory::getItems(int itemCode)
+{
+	std::list<Item*> result;
+
+	for (auto& slot : hotbar)
+	{
+		if (slot->item() && slot->item()->itemCode() == itemCode)
+			result.push_back(slot->item());
+	}
+
+	for (auto& slot : invenSlot)
+	{
+		if (slot->item() && slot->item()->itemCode() == itemCode)
+			result.push_back(slot->item());
+	}
+
+	return result;
+}
+
 InventorySlot* PlayerInventory::findSlotAtHotBar(int _index)
 {
 	if (_index < 0 || _index > 9) return nullptr;

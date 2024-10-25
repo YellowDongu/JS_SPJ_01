@@ -13,6 +13,8 @@ public:
 	void release();
 	void selectAtHotBar(int _index) { selected = hotbar[_index]; }
 	void swapSlot(InventorySlot& obj, InventorySlot& sbj);
+	Item* getItem(int itemCode);
+	std::list<Item*> getItems(int itemCode);
 	InventorySlot* selectedAtHotBar() { return selected; }
 	InventorySlot* findSlotAtHotBar(int _index);
 	InventorySlot* pickedItem() { return onHand; }

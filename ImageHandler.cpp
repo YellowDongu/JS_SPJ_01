@@ -9,6 +9,14 @@ static HDC hdcRotated = NULL;
 static HBITMAP gRotatedBitmap = NULL;
 static HDC gRotatedDC = NULL;
 
+static HBITMAP blank50 = NULL;
+static HBITMAP blank100 = NULL;
+static HBITMAP blank200 = NULL;
+
+static HBITMAP rotblank50 = NULL;
+static HBITMAP rotblank100 = NULL;
+static HBITMAP rotblank200 = NULL;
+
 static HBRUSH hPinkBrush = CreateSolidBrush(RGB(255, 0, 255));
 static HPEN hPinkPen = CreatePen(PS_SOLID, 2, RGB(255, 0, 255));
 
@@ -257,30 +265,53 @@ void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2I
     if (!tempDC)
         tempDC = CreateCompatibleDC(_hdc);
 
-    // 비트맵 선택
-    HBITMAP hOldBitmap = (HBITMAP)SelectObject(gMemDC, _bitMap);
+    int blank = 0;
 
+    HBITMAP oldimg = (HBITMAP)SelectObject(tempDC, _bitMap);
 
-    /*
+    HBITMAP hOldBitmap;
     // 반전된 비트맵 생성
-    if (bmpRev)
+    if (size.x > 100 || size.y > 100)
     {
-        DeleteObject(bmpRev); // 이전 비트맵 삭제
+        if (blank200 == NULL)
+            blank200 = loadImg(L"Blank200.bmp");
+        blank = 200;
+        // 비트맵 선택
+        hOldBitmap = (HBITMAP)SelectObject(gMemDC, blank200);
     }
-    bmpRev = CreateCompatibleBitmap(_hdc, size.x, size.y);
-    oldBmp = (HBITMAP)SelectObject(tempDC, bmpRev);
-    
-    StretchBlt(tempDC, size.x - 1, 0, -size.x, size.y, gMemDC, imagePos.x, imagePos.y, size.x, size.y, SRCCOPY);
-    TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, tempDC, 0, 0, size.x, size.y, BackColor);
-    // 자원 해제
-    SelectObject(tempDC, oldBmp);
-    SelectObject(gMemDC, hOldBitmap); 
-    */
-    StretchBlt(gMemDC, size.x - 1, 0, -size.x, size.y, gMemDC, imagePos.x, imagePos.y, size.x, size.y, SRCCOPY);
+    else if (size.x > 50 || size.y > 50)
+    {
+        if (blank100 == NULL)
+            blank100 = loadImg(L"Blank100.bmp");
+        blank = 100;
+        // 비트맵 선택
+        hOldBitmap = (HBITMAP)SelectObject(gMemDC, blank100);
+
+    }
+    else
+    {
+        if (blank50 == NULL)
+            blank50 = loadImg(L"Blank50.bmp");
+        blank = 50;
+        // 비트맵 선택
+        hOldBitmap = (HBITMAP)SelectObject(gMemDC, blank50);
+
+    }
+
+    StretchBlt(gMemDC, size.x - 1, 0, -size.x, size.y, tempDC, imagePos.x, imagePos.y, size.x, size.y, SRCCOPY);
     TransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, gMemDC, 0, 0, size.x, size.y, BackColor);
-    // 자원 해제
+
+    HBRUSH oldBrush = (HBRUSH)SelectObject(gMemDC, hPinkBrush);
+    HPEN oldPen = (HPEN)SelectObject(gMemDC, hPinkPen);
+    Rectangle(gMemDC, 0, 0, blank, blank);
+    SelectObject(gMemDC, oldBrush);
+    SelectObject(gMemDC, oldPen);
+
     SelectObject(tempDC, oldBmp);
-    SelectObject(gMemDC, hOldBitmap); 
+    SelectObject(gMemDC, hOldBitmap);
+
+
+
 }
 
 //alpha에 0~255 정수 넣기(값 낮을수록 투명)
@@ -344,8 +375,8 @@ HBITMAP ImageHandler::RotateImage(HBITMAP hBitmap, float angle)
     xform.eM12 = sinTheta;
     xform.eM21 = -sinTheta;
     xform.eM22 = cosTheta;
-    xform.eDx = newWidth / 2;
-    xform.eDy = newHeight / 2;
+    xform.eDx = (float)newWidth / 2;
+    xform.eDy = (float)newHeight / 2;
 
     SetWorldTransform(hdcRotated, &xform);
 
@@ -363,13 +394,207 @@ HBITMAP ImageHandler::RotateImage(HBITMAP hBitmap, float angle)
 
 void ImageHandler::renderRotateWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, Vector2Int pos, float angle, bool reverse)
 {
-    HBITMAP img = RotateImage(hBitmap, angle);
     BITMAP bmp;
-    GetObject(img, sizeof(bmp), &bmp);
-    // 회전된 이미지를 지정된 위치에 렌더링
-    renderWithoutBack(img, _hdc, pos, { (int)bmp.bmWidth, (int)bmp.bmHeight }, { 0, 0 }, reverse);
-    DeleteObject(img);
+    GetObject(hBitmap, sizeof(bmp), &bmp);
 
+    // 회전 각도를 라디안으로 변환
+    float radians = angle * (3.14159f / 180.0f);
+    float cosTheta = cos(radians);
+    float sinTheta = sin(radians);
+
+    // 회전 후 새 이미지 크기 계산
+    int newWidth = (int)(abs(bmp.bmWidth * cosTheta) + abs(bmp.bmHeight * sinTheta));
+    int newHeight = (int)(abs(bmp.bmHeight * cosTheta) + abs(bmp.bmWidth * sinTheta));
+
+    if(!gMemDC)
+        gMemDC = CreateCompatibleDC(NULL);
+    if(!hdcRotated)
+        hdcRotated = CreateCompatibleDC(NULL);
+
+
+
+    int blank = 0;
+
+    HBITMAP oldTemp = (HBITMAP)SelectObject(gMemDC, hBitmap);
+    HBITMAP hOldBitmap;
+    // 반전된 비트맵 생성
+    if (newWidth > 100 || newHeight > 100)
+    {
+        if (blank200 == NULL)
+            blank200 = loadImg(L"Blank200.bmp");
+        blank = 200;
+        // 비트맵 선택
+        hOldBitmap = (HBITMAP)SelectObject(hdcRotated, blank200);
+    }
+    else if (newWidth > 50 || newHeight > 50)
+    {
+        if (blank100 == NULL)
+            blank100 = loadImg(L"Blank100.bmp");
+        blank = 100;
+        // 비트맵 선택
+        hOldBitmap = (HBITMAP)SelectObject(hdcRotated, blank100);
+
+    }
+    else
+    {
+        if (blank50 == NULL)
+            blank50 = loadImg(L"Blank50.bmp");
+        blank = 50;
+        // 비트맵 선택
+        hOldBitmap = (HBITMAP)SelectObject(hdcRotated, blank50);
+
+    }
+
+
+    // 회전 변환 행렬 설정
+    SetGraphicsMode(hdcRotated, GM_ADVANCED);
+    XFORM xform;
+    xform.eM11 = cosTheta;
+    xform.eM12 = sinTheta;
+    xform.eM21 = -sinTheta;
+    xform.eM22 = cosTheta;
+    xform.eDx = (float)newWidth / 2;
+    xform.eDy = (float)newHeight / 2;
+
+    SetWorldTransform(hdcRotated, &xform);
+
+    BitBlt(hdcRotated, -bmp.bmWidth / 2, -bmp.bmHeight / 2, bmp.bmWidth, bmp.bmHeight, gMemDC, 0, 0, SRCCOPY);
+    
+    TransparentBlt(_hdc, pos.x, pos.y, (int)bmp.bmWidth, (int)bmp.bmHeight, hdcRotated, 0, 0, (int)bmp.bmWidth, (int)bmp.bmHeight, BackColor);
+
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdcRotated, hPinkBrush);
+    HPEN oldPen = (HPEN)SelectObject(hdcRotated, hPinkPen);
+    Rectangle(hdcRotated, 0, 0, blank, blank);
+    SelectObject(hdcRotated, oldBrush);
+    SelectObject(hdcRotated, oldPen);
+
+
+    SelectObject(gMemDC, hOldBitmap);
+    SelectObject(gMemDC, oldTemp);
+}
+
+void ImageHandler::renderRotateWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos, float angle, bool reverse)
+{
+    if (hBitmap == nullptr || hBitmap == NULL) { return; }
+
+    // DC가 없으면 생성
+    if (!tempDC)
+        tempDC = CreateCompatibleDC(NULL);
+    if (!gMemDC)
+        gMemDC = CreateCompatibleDC(NULL);
+    if (!hdcRotated)
+        hdcRotated = CreateCompatibleDC(NULL);
+
+    HBITMAP hOldBitmap = (HBITMAP)SelectObject(tempDC, hBitmap);
+    HBITMAP hOldBitmapTwo = NULL;
+    int blank = 0;
+    // 반전된 비트맵 생성
+    if (size.x > 100 || size.y > 100)
+    {
+        if (blank200 == NULL)
+            blank200 = loadImg(L"Blank200.bmp");
+        blank = 200;
+        // 비트맵 선택
+        hOldBitmapTwo = (HBITMAP)SelectObject(gMemDC, blank200);
+    }
+    else if (size.x > 50 || size.y > 50)
+    {
+        if (blank100 == NULL)
+            blank100 = loadImg(L"Blank100.bmp");
+        blank = 100;
+        // 비트맵 선택
+        hOldBitmapTwo = (HBITMAP)SelectObject(gMemDC, blank100);
+
+    }
+    else
+    {
+        if (blank50 == NULL)
+            blank50 = loadImg(L"Blank50.bmp");
+        blank = 50;
+        // 비트맵 선택
+        hOldBitmapTwo = (HBITMAP)SelectObject(gMemDC, blank50);
+
+    }
+
+    BitBlt(gMemDC, 0, 0, size.x, size.y, tempDC, imagePos.x, imagePos.y, SRCCOPY);
+
+
+
+    // 회전 각도를 라디안으로 변환
+    float radians = angle * (3.14159f / 180.0f);
+    float cosTheta = cos(radians);
+    float sinTheta = sin(radians);
+    
+    // 회전 후 새 이미지 크기 계산
+    int newWidth = (int)(abs(size.x * cosTheta) + abs(size.y * sinTheta));
+    int newHeight = (int)(abs(size.y * cosTheta) + abs(size.x * sinTheta));
+
+    
+    HBITMAP hOldBitmapThree = NULL;
+    int blankTwo = 0;
+    if (newWidth > 100 || newHeight > 100)
+    {
+        if (rotblank200 == NULL)
+            rotblank200 = loadImg(L"Blank200.bmp");
+        blankTwo = 200;
+        hOldBitmapThree = (HBITMAP)SelectObject(hdcRotated, rotblank200);
+    }
+    else if (newWidth > 50 || newHeight > 50)
+    {
+        if (rotblank100 == NULL)
+            rotblank100 = loadImg(L"Blank100.bmp");
+        blankTwo = 100;
+        hOldBitmapThree = (HBITMAP)SelectObject(hdcRotated, rotblank100);
+    
+    }
+    else
+    {
+        if (rotblank50 == NULL)
+            rotblank50 = loadImg(L"Blank50.bmp");
+        blankTwo = 50;
+        hOldBitmapThree = (HBITMAP)SelectObject(hdcRotated, rotblank50);
+    }
+
+    // 회전된 사각형의 꼭지점 좌표 계산
+    POINT points[3];
+
+    // 이미지의 중앙 계산
+    float centerX = (float)size.x / 2;
+    float centerY = (float)size.y / 2;
+    float offsetX = (blankTwo - (float)size.x) / 2;
+    float offsetY = (blankTwo - (float)size.y) / 2;
+
+    // 각 꼭지점의 위치를 회전 중심을 기준으로 계산
+    points[0].x = static_cast<LONG>(centerX - ((float)size.x / 2) * cosTheta - ((float)size.y / 2) * sinTheta + offsetX); // 왼쪽 위
+    points[0].y = static_cast<LONG>(centerY - ((float)size.x / 2) * sinTheta + ((float)size.y / 2) * cosTheta + offsetY);
+
+    points[1].x = static_cast<LONG>(centerX + ((float)size.x / 2) * cosTheta - ((float)size.y / 2) * sinTheta + offsetX); // 오른쪽 위
+    points[1].y = static_cast<LONG>(centerY + ((float)size.x / 2) * sinTheta + ((float)size.y / 2) * cosTheta + offsetY);
+
+    points[2].x = static_cast<LONG>(centerX - ((float)size.x / 2) * cosTheta + ((float)size.y / 2) * sinTheta + offsetX); // 왼쪽 아래
+    points[2].y = static_cast<LONG>(centerY - ((float)size.x / 2) * sinTheta - ((float)size.y / 2) * cosTheta + offsetY);
+
+
+    PlgBlt(hdcRotated, points, gMemDC, 0, 0, size.x, size.y, NULL, 0, 0);
+
+    TransparentBlt(_hdc, startPos.x - (int)offsetX, startPos.y - (int)offsetY, blankTwo, blankTwo, hdcRotated, 0, 0, blankTwo, blankTwo, BackColor);
+
+    HBRUSH oldBrush = (HBRUSH)SelectObject(hdcRotated, hPinkBrush);
+    HPEN oldPen = (HPEN)SelectObject(hdcRotated, hPinkPen);
+    Rectangle(hdcRotated, 0, 0, blankTwo, blankTwo);
+    SelectObject(hdcRotated, oldBrush);
+    SelectObject(hdcRotated, oldPen);
+
+    oldBrush = (HBRUSH)SelectObject(gMemDC, hPinkBrush);
+    oldPen = (HPEN)SelectObject(gMemDC, hPinkPen);
+    Rectangle(gMemDC, 0, 0, blank, blank);
+    SelectObject(gMemDC, oldBrush);
+    SelectObject(gMemDC, oldPen);
+
+
+    SelectObject(tempDC, hOldBitmap);
+    SelectObject(gMemDC, hOldBitmapTwo);
+    SelectObject(hdcRotated, hOldBitmapThree);
 }
 
 void ImageHandler::renderRotateWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, Vector2Int pos, Vector2Int center, float angle, bool reverse, Vector2& outPut)

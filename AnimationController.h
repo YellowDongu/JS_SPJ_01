@@ -24,6 +24,7 @@ public:
 
 	void linkState(std::string* state) { currentState = state; }
 	void linkSubState(std::string* state) { currentSubState = state; }
+	animationContainer* linkDirectToAni(std::string parts) { return current[parts]; }
 
 private:
 	std::map<std::string, animationContainer*> current;

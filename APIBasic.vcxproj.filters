@@ -330,6 +330,15 @@
     <ClInclude Include="CopperSword.h">
       <Filter>06.Item\Item_Tool</Filter>
     </ClInclude>
+    <ClInclude Include="TreeTop.h">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIBasic.cpp">
@@ -558,6 +567,15 @@
       <Filter>06.Item\Item_Block</Filter>
     </ClCompile>
     <ClCompile Include="CopperSword.cpp">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeTop.cpp">
+      <Filter>06.Item\Item_Furniture</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
       <Filter>06.Item\Item_Tool</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,6 +5,7 @@
 #include "Dirt.h"
 #include "GridMap.h"
 #include "RenderManager.h"
+
 Grass::Grass()
 {
 }
@@ -28,14 +29,14 @@ void Grass::use()
 
 void Grass::init(Vector2Int _gridPos)
 {
-	getImgSet("dirt");
+	getImgSet("grass");
 
 	if (_gridPos.x != -1 && _gridPos.y != -1)
 	{
 		gridMap->updateNearNode(gridMap->findNode(_gridPos), 1);
 	}
 
-	itemImg = rendering->findImage("Item_block", "grass", "shadow0rotation0")[0];
+	itemImg = rendering->findImage("Item_block", "dirt", "shadow0rotation0")[0];
 	pos = _gridPos;
 	code = 1;
 	itemName = L"Dirt";

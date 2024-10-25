@@ -42,7 +42,6 @@ void Anvil::use()
 		if (node->block() || node->furniture()) return;
 	}
 
-
 	Anvil* newItem = new Anvil();
 	newItem->init(baseNode->position());
 	baseNode->furniture(newItem);

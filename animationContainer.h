@@ -9,6 +9,7 @@ public:
 	void init(std::map<std::string, std::pair<bool, std::vector<Vector2Int>>> _posValue, std::string defultState, Vector2* _masterPos, Vector2Int _imgSizeValue, Vector2Int _imgOffsetValue);
 	void update();
 	void render(HDC _hdc);
+	void render(HDC _hdc, float angle);
 
 	void changeImg(std::string state);
 	void resetAnimation();
@@ -28,6 +29,9 @@ public:
 	const std::string& getCurrentState() const { return currentState; }
 	const std::string& getNormalState() const { return currentState; }
 	bool isNormalState() const { return currentState == currentState; }
+
+	HBITMAP* getRawImg() { return &rawImg; }
+
 private:
 	float speed;
 	float time;

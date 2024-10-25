@@ -2,6 +2,10 @@
 #include "CopperBow.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
+#include "Arrow.h"
+#include "EntityManager.h"
+#include "InputManager.h"
+#include "CameraManager.h"
 
 CopperBow::CopperBow()
 {
@@ -22,6 +26,15 @@ void CopperBow::dragDrop()
 
 void CopperBow::use()
 {
+	Item* item = entityMgr->linkPlayer()->linkInven()->getItem(16);
+	if (!item) return;
+	
+	item->addItemCount(-1);
+	Arrow* shootingArrow = new Arrow();
+	Vector2 dir = (cam->calculateWorldPosition(Vector2{ (float)Input->getMousePos().x, (float)Input->getMousePos().y }) - entityMgr->linkPlayer()->position()).normalize() * 500.0f;
+	shootingArrow->shoot(entityMgr->linkPlayer()->position(), dir, dmg);
+
+
 	music->playNew("Item_5.wav");
 }
 
@@ -37,5 +50,5 @@ void CopperBow::init()
 	//itemImgCenter = { 0, 16 };
 	itemUsingState = UsingState::Directinal;
 	category = 0;
-	dmg = 40;
+	dmg = 20;
 }

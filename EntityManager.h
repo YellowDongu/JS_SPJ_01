@@ -20,6 +20,7 @@ public:
 
 	Player* linkPlayer() { return player; }
 	std::list<Entity*>* linkList() { return &entityList; }
+	std::list<Boss*>* linkBossList() { return &bossList; }
 
 private:
 	float angle = 0.0f;

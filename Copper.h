@@ -5,7 +5,7 @@ class Copper : public Block
 {
 public:
 	Copper();
-	~Copper();
+	virtual ~Copper();
 
 	Item* clone() const override;
 	void dragDrop() override;
