@@ -67,6 +67,7 @@ void copperPickAxe::init()
 	itemImgCenter = { 3, 30 };
 	itemUsingState = UsingState::Swing;
 	category = 1;
+	dmg = 20;
 }
 
 Item* copperPickAxe::clone() const

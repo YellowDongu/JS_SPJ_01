@@ -6,6 +6,7 @@
 #include "GridMap.h"
 #include "EntityManager.h"
 #include "RenderManager.h"
+#include "ItemManager.h"
 
 Tree::Tree() : height(0), liveTime(0.0f)
 {
@@ -57,7 +58,7 @@ void Tree::init(Vector2Int _position)
 	code = 15;	
 	itemName = L"Acorn";
 	itemUsingState = UsingState::Swing;
-	maxCount = 1;
+	maxCount = 999;
 	bottomPos = 0;
 	imgGridSize = { 1,1 };
 	imgGridPos = { 0,0 };
@@ -82,12 +83,10 @@ void Tree::update()
 
 	Node* baseNode = gridMap->findNode(cam->calculateWorldPosition(Vector2{ (float)Input->getMousePos().x, (float)Input->getMousePos().y }));
 
-	std::list<Node*> nodes = gridMap->findNodes(baseNode->position(), baseNode->position() + Vector2Int{ 0, height });
+	nodes = gridMap->findNodes(baseNode->position(), baseNode->position() + Vector2Int{ 0, height });
 	int i = 0;
 	for (auto& node : nodes)
 	{
-		if (node->block() || node->furniture()) continue;
-
 		posInfo.push_back({0,i});
 		srand(GetTickCount64() * i);
 		imgPosInfo.push_back({0,rand() % 5});
@@ -129,13 +128,18 @@ Item* Tree::destroyed(Vector2Int _gridPos)
 	if (harden > 0) return nullptr;
 	Wood* wood = new Wood();
 	wood->init({-1, -1});
-	wood->addItemCount(20);
-	for (auto pos : posInfo)
+	wood->addItemCount(6);
+	for (auto& node : nodes)
 	{
-		if (pos == Vector2Int::zero()) continue;
-		Node* node = gridMap->findNode(placedPos + pos);
-		node->linkFurniture(nullptr);
+		if (node->position() == placedPos) continue;
+		node->unlinkFurniture();
 		node->unlinkFrontBitmap();
+
+		Wood* wood = new Wood();
+		wood->init({ -1, -1 });
+		wood->addItemCount(6);
+		wood->position(Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8, 8 }));
+		itemMgr->appendList(wood);
 	}
 
 	Node* node = gridMap->findNode(placedPos);

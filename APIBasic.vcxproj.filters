@@ -327,6 +327,9 @@
     <ClInclude Include="Grass.h">
       <Filter>06.Item\Item_Block</Filter>
     </ClInclude>
+    <ClInclude Include="CopperSword.h">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIBasic.cpp">
@@ -553,6 +556,9 @@
     </ClCompile>
     <ClCompile Include="Grass.cpp">
       <Filter>06.Item\Item_Block</Filter>
+    </ClCompile>
+    <ClCompile Include="CopperSword.cpp">
+      <Filter>06.Item\Item_Tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -208,12 +208,13 @@ Furniture* Node::destroyFurniture()
 	//Furniture* furniture = furnitureSlot;
 	Item* item = furnitureSlot->destroyed(pos);
 	if (!item) return nullptr;
+
 	if (item != furnitureSlot)
 	{
-		frontBitmap = nullptr;
 		Craft->eraseFurniture(furnitureSlot);
 		delete furnitureSlot;
 		furnitureSlot = nullptr;
+		frontBitmap = nullptr;
 		return (Furniture*)item;
 	}
 

@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "CameraManager.h"
 
-animationContainer::animationContainer() : speed(0.0f), time(0.0f), maxTime(0.0f), sequence(0), width(0), height(0), imgPos(nullptr), once(false), left(false),
+animationContainer::animationContainer() : speed(0.0f), time(0.0f), maxTime(0.0f), sequence(0), width(0), height(0), imgPos(nullptr), once(false), left(false), reverseBlock(false),
 blank(Vector2Int::zero()), imgOffset(Vector2Int::zero()), imgSize(Vector2Int::zero()), masterPos(NULL), rawImg(NULL)
 {
 }

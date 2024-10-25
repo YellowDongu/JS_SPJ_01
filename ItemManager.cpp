@@ -61,18 +61,22 @@ void ItemManager::update()
 			}
 
 		}
-
-		if (CollisionHandler::collision(itemPair.second))
-		{
-			iter = itemList.erase(iter);
-			continue;
-		}
-
 		Vector2 pos = player->position() - itemPair.second->position();
 		if (pos.magnitude() <= 50.0f)
 		{
-			itemPair.second->translate(pos.normalize() * 50.0f * Time->deltaTime());
+			itemPair.second->translate(pos.normalize() * 100.0f * Time->deltaTime());
+			if (CollisionHandler::collision(itemPair.second))
+			{
+				iter = itemList.erase(iter);
+				continue;
+			}
 		}
+		else
+		{
+			if (!itemPair.second->isOnGround()) itemPair.second->translate(Vector2{ 0.0f,-1.0f } * (300.0f * Time->deltaTime()));
+			CollisionHandler::collision(itemPair.second);
+		}
+
 		iter++;
 	}
 }

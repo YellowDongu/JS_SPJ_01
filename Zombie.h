@@ -20,7 +20,7 @@ public:
 	void imgInit();
 private:
 	Player* player;
-
+	std::string currentState;
 
 
 };

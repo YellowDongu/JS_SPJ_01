@@ -35,6 +35,7 @@
 #include "CopperLeggings.h"
 #include "Stone.h"
 #include "Tree.h"
+#include "CopperSword.h"
 
 
 TestScene::TestScene() : player(nullptr)
@@ -54,80 +55,31 @@ void TestScene::init()
 	cam->update();
 	cam->setBorder(Vector2::zero(), Vector2{ 800 * 16, 600 * 16 });
 
-	std::list<Node*> nodes = gridMap->findNodes(Vector2Int{ 0,0 }, Vector2Int{1959,1 });
+	std::list<Node*> nodes = gridMap->findNodes(Vector2Int{ 0,0 }, Vector2Int{ 800,30 });
 	for (auto& node : nodes)
 	{
 		if (!node) continue;
-		Dirt* dirt = new Dirt();
-		dirt->init(node->position());
-		node->block(dirt);
-
-		DirtWall* dirtWall = new DirtWall();
-		dirtWall->init(node->position());
-		node->wall(dirtWall);
+		Stone* block = new Stone();
+		block->init(node->position());
+		node->block(block);
 	}
 	nodes.clear();
 
-	Vector2Int startPos = gridMap->findNode(Vector2{ 712.0f, 360.0f } / 2)->position();
-	nodes = gridMap->findNodes(startPos, startPos + Vector2Int{100, 0});
+	nodes = gridMap->findNodes(Vector2Int{ 0,31 }, Vector2Int{ 800,40 });
 	for (auto& node : nodes)
 	{
 		if (!node) continue;
-		Dirt* dirt = new Dirt();
-		dirt->init(node->position());
-		node->block(dirt);
+		Dirt* block = new Dirt();
+		block->init(node->position());
+		node->block(block);
 	}
 	nodes.clear();
 	
-	nodes = gridMap->findNodes(startPos + Vector2Int{ 0, -1 }, startPos + Vector2Int{ 100, -1 });
-	for (auto& node : nodes)
-	{
-		if (!node) continue;
-		Dirt* dirt = new Dirt();
-		dirt->init(node->position());
-		node->block(dirt);
-	}
-
-	nodes.clear();
-	nodes = gridMap->findNodes(startPos + Vector2Int{ 0, -2 }, startPos + Vector2Int{ 100, -2 });
-	for (auto& node : nodes)
-	{
-		if (!node) continue;
-		Dirt* dirt = new Dirt();
-		dirt->init(node->position());
-		node->block(dirt);
-	}
-	nodes.clear();
-	
-	nodes = gridMap->findNodes(startPos + Vector2Int{ 10, 0 }, startPos + Vector2Int{ 10, 5 });
-	for (auto& node : nodes)
-	{
-		if (!node) continue;
-		if (node->block()) continue;
-		Dirt* dirt = new Dirt();
-		dirt->init(node->position());
-		node->block(dirt);
-	}
-	nodes.clear();
-
-	nodes = gridMap->findNodes(startPos + Vector2Int{ 0, 5 }, startPos + Vector2Int{ 4, 5 });
-	for (auto& node : nodes)
-	{
-		if (!node) continue;
-		Dirt* dirt = new Dirt();
-		dirt->init(node->position());
-		node->block(dirt);
-	}
-	 
-	Node* node = gridMap->findNode(startPos + Vector2Int{ 0, 1 });
-	Dirt* dirt = new Dirt();
-	dirt->init(node->position());
-	node->block(dirt);
 
 	gridMap->updateAllBlock();
 
 
-	entityMgr->createPlayer(Vector2{430.0f, 230.0f});
+	entityMgr->createPlayer(Vector2{900.0f, 900.0f});
 	player = entityMgr->linkPlayer();
 	
 	rendering->linkplayer(player);
@@ -178,6 +130,13 @@ void TestScene::init()
 	dirtTest->init({-1, -1});
 	dirtTest->addItemCount(5);
 	player->linkInven()->pickUp(dirtTest, 1);
+	/*
+	Tree* tree = new Tree();
+	Node* node = gridMap->findNode(Vector2Int{ 50, 12 });
+	tree->init(node->position());
+	tree->setGrowTime(65535.0f);
+	node->furniture(tree);
+	*/
 
 	Tree* tree = new Tree();
 	tree->init({ -1, -1 });
@@ -198,6 +157,10 @@ void TestScene::init()
 	chestTest->init({ -1, -1 });
 	chestTest->addItemCount(15);
 	player->linkInven()->pickUp(chestTest, 1);
+
+	CopperSword* swordTest = new CopperSword();
+	swordTest->init();
+	player->linkInven()->pickUp(swordTest, 1);
 
 	CopperBow* bowTest = new CopperBow();
 	bowTest->init();

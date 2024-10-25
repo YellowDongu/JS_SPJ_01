@@ -13,11 +13,12 @@ public:
 	void apeendhittedList(Entity* newEntity) { hitted.push_back(newEntity); }
 	void clearHittedList() { hitted.clear(); }
 	
-private:
+	const int& damage() const { return dmg; }
+protected:
 	bool use;
 
 	float efficiency;
-	float damage;
+	int dmg;
 	float speed;
 
 	std::list<Entity*> hitted;

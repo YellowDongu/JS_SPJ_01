@@ -4,6 +4,7 @@
 #include "TimeManager.h"
 #include "RenderManager.h"
 #include "SoundManager.h"
+#include "Tool.h"
 
 Zombie::Zombie() : player(nullptr)
 {
@@ -38,6 +39,8 @@ void Zombie::init()
 
 void Zombie::update()
 {
+	if (!aniCtrl->reversed("status"))
+		int itemp = 0;
 	if (hp <= 0)
 	{
 		dead = true;
@@ -57,23 +60,21 @@ void Zombie::update()
 	worldPos += moveVec * Time->deltaTime();
 
 	aniCtrl->update();
-	if (moveVec.y != 0)
+	if (currentState != "jumpR" && moveVec.y != 0)
 	{
-		if (aniCtrl->checkCurrentState("status") != "jumpR")
-			aniCtrl->changeAnimation("status", "jumpR");
+		aniCtrl->changeAnimation("status", "jumpR");
+		currentState = "jumpR";
 	}
-	else if (moveVec.y == 0 && moveVec.x != 0)
+	else if (currentState != "walkR" && moveVec.y == 0 && moveVec.x != 0)
 	{
-		if (aniCtrl->checkCurrentState("status") != "walkR")
-			aniCtrl->changeAnimation("status", "walkR");
+		aniCtrl->changeAnimation("status", "walkR");
+		currentState = "walkR";
 	}
-	else
-	{
-		if (aniCtrl->checkCurrentState("status") != "standR")
-			aniCtrl->changeAnimation("status", "standR");
-	}
-
-
+	//else if (currentState != "standR" && moveVec.y == 0 && moveVec.x == 0)
+	//{
+	//	aniCtrl->changeAnimation("status", "standR");
+	//	currentState = "standR";
+	//}
 }
 
 void Zombie::release()
@@ -126,7 +127,6 @@ void Zombie::tracePlayer()
 
 	if (x > 0)
 	{
-		aniCtrl->reverseImg(true);
 		if (moveVec.x >= maxSpeed)
 		{
 			moveVec.x = maxSpeed;
@@ -136,7 +136,9 @@ void Zombie::tracePlayer()
 	}
 	else
 	{
-		aniCtrl->reverseImg(true);
+		if(!aniCtrl->reversed("status"))
+			aniCtrl->reverseImg(true);
+		//aniCtrl->reverseImg(false);
 		if (moveVec.x <= -maxSpeed)
 		{
 			moveVec.x = -maxSpeed;
@@ -163,6 +165,7 @@ void Zombie::imgInit()
 		"standR", &worldPos, { 38, 46 }, { 0,0 });
 	aniCtrl->addAnimation("Standard", newAni);
 	aniCtrl->changeAnimationContianer("status", "Standard");
+	currentState = "standR";
 }
 
 void Zombie::CollisionWithItem(Item* _col)
@@ -179,5 +182,5 @@ void Zombie::CollisionWithItem(Item* _col)
 		moveVec.y = 500.0f;
 	}
 	music->playNew("NPC_Hit_1.wav");
-	hp -= 20;
+	hp -= ((Tool*)_col)->damage();
 }

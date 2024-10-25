@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "Tool.h"
 
-Tool::Tool()
+Tool::Tool() : dmg(0)
 {
 }
 

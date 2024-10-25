@@ -17,6 +17,7 @@ public:
 	static bool collision(UI* ui);
 	static bool collision(Item* item);
 
+
 private:
 	static bool boxCollision(Vector2 objLT, Vector2 objRB, Vector2 sbjLT, Vector2 SbjRB, Vector2& result);
 };

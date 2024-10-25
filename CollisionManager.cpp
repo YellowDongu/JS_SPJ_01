@@ -200,6 +200,33 @@ bool CollisionHandler::collision(Item* item)
 		return true;
 	}
 
+	//return false;
+
+	Node* baseNode = gridMap->findNode(item->position());
+	Node* bottomNode = gridMap->findNode(baseNode->position() + Vector2Int{0,-1});
+
+	if (item->isOnGround())
+	{
+		item->setOnGround(bottomNode->block() && !baseNode->block());
+	}
+	else
+	{
+		if (bottomNode->block() && boxCollision(item->position() - Vector2Int::toVec2(item->size() / 2), item->position() + Vector2Int::toVec2(item->size() / 2),
+			bottomNode->position() * 16, bottomNode->position() * 16 + Vector2{ 16.0f, 16.0f }, temp))
+		{
+			temp.x = 0.0f;
+			item->position(item->position() + temp);
+			item->setOnGround(true);
+		}
+		if (baseNode->block() && boxCollision(item->position() - Vector2Int::toVec2(item->size() / 2), item->position() + Vector2Int::toVec2(item->size() / 2),
+			baseNode->position() * 16, baseNode->position() * 16 + Vector2{ 16.0f, 16.0f }, temp))
+		{
+			temp.x = 0.0f;
+			item->position(item->position() + temp);
+			item->setOnGround(true);
+		}
+	}
+
 	return false;
 }
 
@@ -229,4 +256,3 @@ bool CollisionHandler::boxCollision(Vector2 objMin, Vector2 objMax, Vector2 sbjM
 	result = Vector2{ collisionX, collisionY };
 	return (collisionX != 0.0f) && (collisionY != 0.0f);
 }
-

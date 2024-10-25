@@ -150,6 +150,7 @@
     <ClInclude Include="CopperHelmet.h" />
     <ClInclude Include="CopperLeggings.h" />
     <ClInclude Include="CopperPlate.h" />
+    <ClInclude Include="CopperSword.h" />
     <ClInclude Include="CraftingTable.h" />
     <ClInclude Include="CraftSlotUI.h" />
     <ClInclude Include="CraftUI.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="CopperHelmet.cpp" />
     <ClCompile Include="CopperLeggings.cpp" />
     <ClCompile Include="CopperPlate.cpp" />
+    <ClCompile Include="CopperSword.cpp" />
     <ClCompile Include="CraftingTable.cpp" />
     <ClCompile Include="CraftSlotUI.cpp" />
     <ClCompile Include="CraftUI.cpp" />

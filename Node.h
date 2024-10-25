@@ -24,6 +24,7 @@ public:
 	void wall(Wall* newItem);
 	void furniture(Furniture* newItem);
 	void linkFurniture(Furniture* newItem) { furnitureSlot = newItem; }
+	void unlinkFurniture() { furnitureSlot = nullptr; }
 	void block(Block* newBlock);
 
 
@@ -45,10 +46,6 @@ public:
 private:
 	int light;
 	int worldLight;
-
-	float durable;
-	float maxDurable;
-	float recoverTime;
 
 	Wall* wallSlot;
 	Furniture* furnitureSlot;

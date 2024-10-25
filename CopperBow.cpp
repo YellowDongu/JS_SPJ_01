@@ -37,4 +37,5 @@ void CopperBow::init()
 	//itemImgCenter = { 0, 16 };
 	itemUsingState = UsingState::Directinal;
 	category = 0;
+	dmg = 40;
 }

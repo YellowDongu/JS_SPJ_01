@@ -227,7 +227,7 @@ void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, int x, i
 }
 void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos)
 {
-    if (_bitMap == NULL) { return; }
+    if (_bitMap == nullptr || _bitMap == NULL) { return; }
 
     // DC가 없으면 생성
     if (!gMemDC)

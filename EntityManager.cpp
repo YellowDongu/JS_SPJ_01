@@ -169,6 +169,7 @@ void EntityManager::render(HDC _hdc)
 		Item*& item = player->currentUsingItem();
 		if (item)
 		{
+
 			if (!player->animation()->checkTriggered("01.armR"))
 			{
 				item->leftTop(Vector2::zero());
@@ -235,7 +236,7 @@ void EntityManager::render(HDC _hdc)
 				if (item->itemCategory() == 1)
 				{
 					item->leftTop(cam->calculateWorldPosition(size));
-					item->rightBottom(Vector2Int::toVec2(item->leftTop() + Vector2Int{ item->itemSize().x, -item->itemSize().y }) * 1.2f);
+					item->rightBottom(Vector2Int::toVec2(item->leftTop() + Vector2Int{ item->itemSize().x, -item->itemSize().y } * 1.2f));
 				}
 				else
 				{
