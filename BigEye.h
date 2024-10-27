@@ -1,11 +1,12 @@
 #pragma once
 #include "Boss.h"
+#include "SmallEye.h"
 
 class BigEye :public Boss
 {
 public:
 	BigEye();
-	~BigEye();
+	virtual ~BigEye();
 
 	void init() override;
 	void update() override;
@@ -21,4 +22,6 @@ private:
 
 	float stopWatch;
 	float angle;
+
+	std::vector<SmallEye*> servents;
 };

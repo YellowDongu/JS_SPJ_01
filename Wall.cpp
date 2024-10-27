@@ -4,7 +4,7 @@
 #include "RenderManager.h"
 #include "ImageHandler.h"
 
-Wall::Wall()
+Wall::Wall() : harden(0.0f)
 {
     category = 0;
 }

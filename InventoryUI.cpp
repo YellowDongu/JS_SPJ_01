@@ -306,7 +306,7 @@ void InventoryUI::chestSelected(Inventory* inven)
 { 
 	chestInven = inven;
 
-	for (int i = 0; i < chestSlot.size(); i++)
+	for (unsigned int i = 0; i < chestSlot.size(); i++)
 	{
 		chestSlot[i]->linkChestSlot((*chestInven->linkInven())[i]);
 	}

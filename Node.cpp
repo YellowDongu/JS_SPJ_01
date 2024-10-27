@@ -194,10 +194,11 @@ void Node::block(Block* newBlock)
 Wall* Node::destroyWall()
 {
 	if (!wallSlot) { return nullptr; }
-	Wall* wall = wallSlot;
+	Wall* wall = (Wall*)wallSlot->destroyed(pos);
+	if (!wall) return nullptr;
+	if (wall != wallSlot) delete wallSlot;
 	wallSlot = nullptr;
-	frontBitmap = nullptr;
-	music->playNew("Dig_0.wav");
+	backBitmap = nullptr;
 	return wall;
 }
 

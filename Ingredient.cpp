@@ -17,5 +17,4 @@ void Ingredient::getImgSet(std::string name)
     count = 1;
     maxCount = 9999;
     onGround = false;
-    code = 8;
 }

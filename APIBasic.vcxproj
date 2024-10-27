@@ -140,6 +140,7 @@
     <ClInclude Include="ArmourUI.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="BigEye.h" />
+    <ClInclude Include="BigEyeSummoner.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="CameraManager.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Copper.h" />
     <ClInclude Include="CopperBar.h" />
     <ClInclude Include="CopperBow.h" />
+    <ClInclude Include="CopperHammer.h" />
     <ClInclude Include="CopperHelmet.h" />
     <ClInclude Include="CopperLeggings.h" />
     <ClInclude Include="CopperPlate.h" />
@@ -197,9 +199,11 @@
     <ClInclude Include="Main.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="SmallEye.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StartButton.h" />
     <ClInclude Include="Stone.h" />
+    <ClInclude Include="StoneWall.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TileNode.h" />
     <ClInclude Include="Resource.h" />
@@ -215,6 +219,7 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Wood.h" />
+    <ClInclude Include="WoodWall.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +232,7 @@
     <ClCompile Include="ArmourUI.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="BigEye.cpp" />
+    <ClCompile Include="BigEyeSummoner.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="CameraManager.cpp" />
@@ -235,6 +241,7 @@
     <ClCompile Include="Copper.cpp" />
     <ClCompile Include="CopperBar.cpp" />
     <ClCompile Include="CopperBow.cpp" />
+    <ClCompile Include="CopperHammer.cpp" />
     <ClCompile Include="CopperHelmet.cpp" />
     <ClCompile Include="CopperLeggings.cpp" />
     <ClCompile Include="CopperPlate.cpp" />
@@ -287,9 +294,11 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SmallEye.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StartButton.cpp" />
     <ClCompile Include="Stone.cpp" />
+    <ClCompile Include="StoneWall.cpp" />
     <ClCompile Include="temp.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TileNode.cpp" />
@@ -301,6 +310,7 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Wood.cpp" />
+    <ClCompile Include="WoodWall.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>

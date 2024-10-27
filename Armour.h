@@ -10,6 +10,9 @@ public:
 
 	virtual void init() abstract;
 	virtual void render(HDC _hdc) abstract;
+
+	const int& defense() const { return armour; }
+
 	std::vector<animationContainer*>* linkAniList() { return &aniContainer; }
 
 protected:

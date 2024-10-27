@@ -101,57 +101,72 @@ void Tree::update()
 
 Item* Tree::destroyed(Vector2Int _gridPos)
 {
-	ULONGLONG currentTime = GetTickCount64();
-	if (currentTime - lastTime >= 5000)
+	if (liveTime == -1.0f)
 	{
-		lastTime = currentTime;
-		harden = 1.0f;
-	}
-	else lastTime = currentTime;
-	harden -= Time->deltaTime() * 10.0f;
+		ULONGLONG currentTime = GetTickCount64();
+		if (currentTime - lastTime >= 5000)
+		{
+			lastTime = currentTime;
+			harden = 1.0f;
+		}
+		else lastTime = currentTime;
+		harden -= Time->deltaTime() * 10.0f;
 
-	srand((unsigned int)currentTime);
-	int rndInt = rand() % 3;
-	switch (rndInt)
-	{
-	case 0:
-		music->playNew("Dig_0.wav");
-		break;
-	case 1:
-		music->playNew("Dig_1.wav");
-		break;
-	case 2:
-		music->playNew("Dig_2.wav");
-		break;
-	default:
-		break;
-	}
-	if (harden > 0) return nullptr;
-	Wood* wood = new Wood();
-	wood->init({-1, -1});
-	wood->addItemCount(6);
-	for (auto& node : nodes)
-	{
-		if (node->position() == placedPos) continue;
-		node->unlinkFurniture();
-		node->unlinkFrontBitmap();
-
+		srand((unsigned int)currentTime);
+		int rndInt = rand() % 3;
+		switch (rndInt)
+		{
+		case 0:
+			music->playNew("Dig_0.wav");
+			break;
+		case 1:
+			music->playNew("Dig_1.wav");
+			break;
+		case 2:
+			music->playNew("Dig_2.wav");
+			break;
+		default:
+			break;
+		}
+		if (harden > 0) return nullptr;
 		Wood* wood = new Wood();
 		wood->init({ -1, -1 });
 		wood->addItemCount(6);
-		wood->position(Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8, 8 }));
-		itemMgr->appendList(wood);
-	}
+		for (auto& node : nodes)
+		{
+			if (node->position() == placedPos) continue;
+			node->unlinkFurniture();
+			node->unlinkFrontBitmap();
 
-	if (treeTop)
+			Wood* wood = new Wood();
+			wood->init({ -1, -1 });
+			wood->addItemCount(6);
+			wood->position(Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8, 8 }));
+			itemMgr->appendList(wood);
+		}
+
+		if (treeTop)
+		{
+			Node* node = gridMap->findNode(treeTop->gridPosition());
+			node->unlinkFurniture();
+			node->unlinkFrontBitmap();
+			delete treeTop;
+			treeTop = nullptr;
+
+			Tree* wood = new Tree();
+			wood->init({ -1, -1 });
+			wood->addItemCount(2);
+			wood->position(Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8, 8 }));
+			itemMgr->appendList(wood);
+		}
+
+
+		return wood;
+	}
+	else
 	{
-		Node* node = gridMap->findNode(treeTop->gridPosition());
-		node->unlinkFurniture();
-		node->unlinkFrontBitmap();
-		delete treeTop;
-		treeTop = nullptr;
+		//music->playNew("Dig_0.wav");
+		return nullptr;
 	}
 
-
-	return wood;
 }

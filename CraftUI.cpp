@@ -11,7 +11,8 @@
 #include "EntityManager.h"
 #include "SoundManager.h"
 
-CraftUI::CraftUI() : basePos(Vector2::zero()), upLimit(0.0f), downLimit(0.0f)
+CraftUI::CraftUI() : basePos(Vector2::zero()), moveUp(false), moveDown(false), index(0), minIndex(0), maxIndex(0), selectedIndex(0), maxVisiableSlot(0)
+, moveDist(0.0f), upLimit(0.0f), downLimit(0.0f), scrollSpeed(0.0f), playerInven(nullptr), slotImg(NULL), selectedSlotImg(NULL), smallSlotImg(NULL)
 {
 }
 
@@ -86,16 +87,10 @@ void CraftUI::update()
 
 	if (moveDown)
 	{
-		moveDown = index < selectedIndex;
-		moveUp = index > selectedIndex;
-
 		scrollDown();
 	}
 	else if (moveUp)
 	{
-		moveDown = index < selectedIndex;
-		moveUp = index > selectedIndex;
-
 		scrollUp();
 	}
 	else
@@ -105,7 +100,7 @@ void CraftUI::update()
 			moveDown = index < selectedIndex;
 			moveUp = index > selectedIndex;
 		}
-		else if (!slots[index]->isSelected())
+		else if (!currentSlots[index]->isSelected())
 		{
 			int i = 0;
 			for (auto& slot : currentSlots)
@@ -138,15 +133,41 @@ void CraftUI::render(HDC _hdc)
 		{
 			currentSlots[selectedIndex]->setSelected(false);
 			currentSlots[i]->setSelected(true);
+			selectedIndex = i;
 			slot->changeState(UIState::normal);
 		}
-
-		if (!slot->isActive()) continue;
-		slot->renderSlot(_hdc);
 		i++;
+
+
+		if (slot->isSelected())
+		{
+			for (int i = 0; i < slot->linkRecipe()->needed.size(); i++)
+			{
+				Vector2Int start = Vector2Int{ 100 + 55 * i, 600 };
+				Vector2Int slotSize = Vector2Int{ 35, 35 };
+				ImageHandler::renderWithoutBack(smallSlotImg, _hdc, start.x, start.y);
+
+				Vector2Int middle = start + slotSize / 2;
+
+				BITMAP bitmap;
+				GetObject(slot->linkRecipe()->IngredientImg[i], sizeof(BITMAP), &bitmap);
+				int imgWidth = bitmap.bmWidth;
+				int imgHeight = bitmap.bmHeight;
+
+				ImageHandler::renderWithoutBack(slot->linkRecipe()->IngredientImg[i], _hdc, middle.x - imgWidth / 2, middle.y - imgHeight / 2);
+				if (slot->linkRecipe()->needed[i].second != 1)
+				{
+					ImageHandler::textResize(20, _hdc);
+					ImageHandler::DrawOutlinedText(_hdc, std::to_wstring(slot->linkRecipe()->needed[i].second).c_str(), start.x + (int)(slotSize.y * 0.25f), start.y + (int)(slotSize.y * 0.55f));
+				}
+			}
+		}
+
+
+		if (slot->isActive())
+			slot->renderSlot(_hdc);
 	}
 
-	ImageHandler::renderWithoutBack(smallSlotImg, _hdc, 100, 600);
 	ImageHandler::textResize(20, _hdc);
 	ImageHandler::DrawOutlinedText(_hdc, L"Crafting", 100, 640);
 
@@ -161,28 +182,46 @@ void CraftUI::release()
 
 void CraftUI::scrollDown()
 {
+	int i = 0;
 	for (auto& slot : currentSlots)
 	{
 		slot->position().y += Time->deltaTime() * scrollSpeed;
+
+		if (slot->isSelected())
+		{
+			if (slot->position().y > basePos.y + 5.0f)
+			{
+				moveDown = false;
+				moveUp = true;
+				return;
+			}
+		}
+
+
 
 		if (slot->position().y > basePos.y - 5.0f && slot->position().y < basePos.y + 5.0f)
 		{
 			float diff = basePos.y - slot->position().y;
 			if (slot->isSelected())
 			{
+				index = selectedIndex;
+
+
+				int calIndex = 0;
 				for (auto& slotOther : currentSlots)
 				{
-					slotOther->position().y += diff;
+					slotOther->position({ 35.0f, 600.0f - (55.0f * (calIndex - selectedIndex)) });
+					calIndex++;
 				}
+
+				moveUp = false;
 				moveDown = false;
-				if (slot != currentSlots[index])
-					index++;
 				return;
 			}
 			else
 			{
 				if (slot != currentSlots[index])
-					index++;
+					index = i;
 			}
 
 		}
@@ -190,6 +229,8 @@ void CraftUI::scrollDown()
 		if (slot->position().y > upLimit) slot->setActive(false);
 		else if (slot->position().y < downLimit) slot->setActive(false);
 		else slot->setActive(true);
+
+		i++;
 	}
 
 
@@ -197,34 +238,51 @@ void CraftUI::scrollDown()
 
 void CraftUI::scrollUp()
 {
+	int i = 0;
 	for (auto& slot : currentSlots)
 	{
 		slot->position().y -= Time->deltaTime() * scrollSpeed;
+
+		if (slot->isSelected())
+		{
+			if (slot->position().y < basePos.y - 5.0f)
+			{
+				moveDown = true;
+				moveUp = false;
+			}
+		}
 
 		if (slot->position().y > basePos.y - 5.0f && slot->position().y < basePos.y + 5.0f)
 		{
 			float diff = basePos.y - slot->position().y;
 			if (slot->isSelected())
 			{
+				index = selectedIndex;
+
+				int calIndex = 0;
 				for (auto& slotOther : currentSlots)
 				{
-					slotOther->position().y += diff;
+					slotOther->position({ 35.0f, 600.0f - (55.0f * (calIndex - selectedIndex)) });
+					calIndex++;
 				}
 				moveUp = false;
-				if (slot != currentSlots[index])
-					index--;
+				moveDown = false;
+
+
 				return;
 			}
 			else
 			{
 				if (slot != currentSlots[index])
-					index--;
+					index = i;
 			}
 
 		}
 		if (slot->position().y > upLimit) slot->setActive(false);
 		else if (slot->position().y < downLimit) slot->setActive(false);
 		else slot->setActive(true);
+
+		i++;
 	}
 }
 
@@ -236,20 +294,18 @@ void CraftUI::resetSlot()
 	for (auto& slot : slots)
 	{
 		slot->setActive(false);
-		if (slot->isSelected())
-		{
-			slot->setSelected(false);
-		}
+		slot->setSelected(false);
 		if (slot->getRecipe()->craftable)
 		{
-			slot->position({ 35.0f, 600.0f - (65.0f * i) });
-
 			currentSlots.push_back(slot);
+			slot->position({ 35.0f, 600.0f - (55.0f * i) });
+
+			if (slot->position().y > upLimit && active) slot->setActive(false);
+			else if (slot->position().y < downLimit && active) slot->setActive(false);
+			else slot->setActive(true);
+
 			i++;
 		}
-		if (slot->position().y > upLimit && active) slot->setActive(false);
-		else if (slot->position().y < downLimit && active) slot->setActive(false);
-		else slot->setActive(true);
 	}
 
 	selectedIndex = 0;

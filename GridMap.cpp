@@ -24,7 +24,6 @@ void GridMap::init(int _width, int _height)
 			nodeList.push_back(newNode);
 		}
 	}
-	test = rendering->findImage("test_test", "raw", "shadow0rotation0")[0];
 }
 
 void GridMap::update()
@@ -226,66 +225,6 @@ void GridMap::render(HDC _hdc)
 			}
 		}
 	}
-	/*
-	Vector2 surplus = Vector2{ 64.0f, 64.0f };
-	Vector2 startPos = (cam->getCamCenterPos() - (cam->getWindowSize() / 2)) - surplus;
-	Vector2 endPos = (cam->getCamCenterPos() + (cam->getWindowSize() / 2)) + surplus;
-	
-	std::list<Node*> displayingNode = findNodes(startPos, endPos);
-	
-	if (displayingNode.empty()) return;
-
-	for (auto& node : displayingNode)
-	{
-		if (!node->wall()) continue;
-
-		Vector2Int drawPos = Vector2::toVec2Int(cam->calculateScreenPosition(Vector2Int::toVec2(node->position() * nodeSize)));
-		int size = node->wall()->size().y;
-		drawPos.y -= (size - 9);
-		drawPos.x -= 9;
-		Vector2Int imgPos = node->wall()->imgPos() * size + node->wall()->imgPos() * 2;
-		ImageHandler::renderWithoutBack(node->backImg(), _hdc, drawPos, node->wall()->size(), imgPos);
-	}
-
-	for (auto& node : displayingNode)
-	{
-		if (node->block())
-		{
-			Vector2Int drawPos = Vector2::toVec2Int(cam->calculateScreenPosition(Vector2Int::toVec2(node->position() * nodeSize)));
-			int size = node->block()->size().y;
-			drawPos.y -= size;
-			Vector2Int imgPos = node->block()->imgPos() * size + node->block()->imgPos() * 2;
-			ImageHandler::renderWithoutBack(node->frontImg(), _hdc, drawPos, node->block()->size(), imgPos);
-		}
-		if (node->furniture())
-		{
-			if (node->position() != node->furniture()->gridPosition()) continue;
-
-			std::list<Node*> nodes;
-			for (auto& pos : node->furniture()->placedInfo())
-			{
-				if (pos.x == 0 && pos.y == 0)
-				{
-					nodes.push_back(node);
-					continue;
-				}
-				nodes.push_back(gridMap->findNode(node->position() + pos));
-			}
-			int i = 0;
-			for (auto& selectedNode : nodes)
-			{
-				Vector2Int drawPos = Vector2::toVec2Int(cam->calculateScreenPosition(Vector2Int::toVec2(selectedNode->position() * nodeSize)));
-				drawPos.y -= node->furniture()->size().y;
-				Vector2Int imageStartPos = Vector2Int{ node->furniture()->imagePosInfo()[i].x * node->furniture()->size().x,
-					node->furniture()->imagePosInfo()[i].y * node->furniture()->size().y };
-				imageStartPos += node->furniture()->imagePosInfo()[i] * 2;
-
-				ImageHandler::renderWithoutBack(node->frontImg(), _hdc, drawPos, node->furniture()->size(), imageStartPos);
-				i++;
-			}
-		}
-	}
-	*/
 }
 
 void GridMap::release()
@@ -416,7 +355,7 @@ std::list<Node*> GridMap::findNodes(Vector2Int _start, Vector2Int _end)
 	return result;
 }
 
-Vector2Int GridMap::getGridPos(Vector2 worldPos)
+Vector2Int GridMap::getGridPos(const Vector2& worldPos)
 {
-	return Vector2::toVec2Int(worldPos) / nodeSize;
+	return Vector2::toVec2Int(worldPos / nodeSize);
 }

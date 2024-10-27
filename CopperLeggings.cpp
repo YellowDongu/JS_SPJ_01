@@ -55,6 +55,7 @@ void CopperLeggings::init()
 	onGround = false;
 	code = 22;
 	itemUsingState = UsingState::Swing;
+	itemName = L"CopperLeggings";
 }
 
 void CopperLeggings::render(HDC _hdc)

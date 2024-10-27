@@ -19,7 +19,7 @@ public:
 private:
 	std::list<UI*> uiList;
 	std::list<UI*> popUpUIList;
-	InventoryUI* inven;
+	InventoryUI* inven = nullptr;
 
 };
 #define UIMgr GET_SINGLETON(UIManager)

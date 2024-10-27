@@ -170,4 +170,12 @@ void ItemManager::release()
 		delete itemPair.second;
 	}
 	itemList.clear();
+
+	for (auto& item : projectileList)
+	{
+		if (!item) continue;
+		delete item;
+	}
+	projectileList.clear();
+
 }

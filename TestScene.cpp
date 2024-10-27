@@ -5,15 +5,12 @@
 #include "RenderManager.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
-#include "LightManager.h"
 #include "ItemManager.h"
+#include "EntityManager.h"
 
 #include "GridMap.h"
 
-#include "EntityManager.h"
 #include "Player.h"
-#include "Zombie.h"
-#include "BigEye.h"
 
 #include "UIManager.h"
 #include "DebugUI.h"
@@ -26,18 +23,15 @@
 #include "DirtWall.h"
 #include "Wood.h"
 #include "Copper.h"
-#include "Chest.h"
 #include "Dirt.h"
 #include "copperPickAxe.h"
 #include "CopperBow.h"
-#include "CopperHelmet.h"
-#include "CopperPlate.h"
-#include "CopperLeggings.h"
 #include "Stone.h"
 #include "Tree.h"
 #include "CopperSword.h"
 #include "Grass.h"
-
+#include "BigEyeSummoner.h"
+#include "Arrow.h"
 
 TestScene::TestScene() : player(nullptr)
 {
@@ -95,20 +89,10 @@ void TestScene::init()
 
 	entityMgr->createPlayer(Vector2{900.0f, 900.0f});
 	player = entityMgr->linkPlayer();
+	player->spawnPoint({ 900.0f, 900.0f });
 	
 	rendering->linkplayer(player);
 	rendering->linkEntityList(entityMgr->linkList());
-	
-	Zombie* testMob = new Zombie();
-	testMob->init();
-	testMob->position({ 700.0f, 400.0f });
-	testMob->linkPlayer(player);
-	entityMgr->addEntity(testMob);
-
-	BigEye* testBoss = new BigEye();
-	testBoss->init();
-	testBoss->position({ 900.0f, 500.0f });
-	entityMgr->addBossEntity(testBoss);
 	
 	InventoryUI* invenUI = new InventoryUI();
 	invenUI->init(rendering->linkplayer()->linkInven());
@@ -125,7 +109,6 @@ void TestScene::init()
 	CraftUI* craftUI = new CraftUI();
 	craftUI->init();
 	UIMgr->appendUI(craftUI);
-
 	itemMgr->init(player);
 
 	ArmourUI* armourUI = new ArmourUI();
@@ -136,14 +119,9 @@ void TestScene::init()
 	testUI->leftTop({ 0.0f,0.0f });
 	testUI->rightBottom({ 0.0f,0.0f });
 
-	copperPickAxe* toolTest = new copperPickAxe();
+	CopperPickAxe* toolTest = new CopperPickAxe();
 	toolTest->init();
 	player->linkInven()->pickUp(toolTest, 1);
-
-	Dirt* dirtTest = new Dirt();
-	dirtTest->init({-1, -1});
-	dirtTest->addItemCount(5);
-	player->linkInven()->pickUp(dirtTest, 1);
 
 	Tree* tree = new Tree();
 	tree->init({ -1, -1 });
@@ -160,37 +138,24 @@ void TestScene::init()
 	copperTest->addItemCount(999);
 	player->linkInven()->pickUp(copperTest, 1);
 
-	Chest* chestTest = new Chest();
-	chestTest->init({ -1, -1 });
-	chestTest->addItemCount(15);
-	player->linkInven()->pickUp(chestTest, 1);
-
-	CopperSword* swordTest = new CopperSword();
-	swordTest->init();
-	player->linkInven()->pickUp(swordTest, 1);
-
 	CopperBow* bowTest = new CopperBow();
 	bowTest->init();
 	player->linkInven()->pickUp(bowTest, 1);
 
-	CopperHelmet* helmetTes = new CopperHelmet();
-	helmetTes->init();
-	player->linkInven()->pickUp(helmetTes, 1);
+	BigEyeSummoner* itemTest = new BigEyeSummoner();
+	itemTest->init();
+	itemTest->addItemCount(12);
+	player->linkInven()->pickUp(itemTest, 1);
 
-	CopperPlate* plateTest = new CopperPlate();
-	plateTest->init();
-	player->linkInven()->pickUp(plateTest, 1);
-	
-	CopperLeggings* leggingsTest = new CopperLeggings();
-	leggingsTest->init();
-	player->linkInven()->pickUp(leggingsTest, 1);
-	
-	Stone* furnaceTest = new Stone;
-	furnaceTest->init({-1, -1});
-	furnaceTest->addItemCount(900);
-	player->linkInven()->pickUp(furnaceTest, 1);
+	Stone* stoneTest = new Stone();
+	stoneTest->init({-1, -1});
+	stoneTest->addItemCount(322);
+	player->linkInven()->pickUp(stoneTest, 1);
 
-
+	Arrow* arrowTest = new Arrow();
+	arrowTest->init();
+	arrowTest->addItemCount(300);
+	player->linkInven()->pickUp(arrowTest, 1);
 
 	cam->Position(player->position());
 	gridMap->getVisiableNodes();
@@ -213,11 +178,6 @@ void TestScene::render(HDC _hdc)
 int TestScene::update()
 {
 	entityMgr->update();
-	CollisionHandler::collision(entityMgr->linkPlayer());
-	for (auto& entity : *entityMgr->linkList())
-	{
-		CollisionHandler::collision(entity);
-	}
 
 	itemMgr->update();
 	cam->Position(player->position());

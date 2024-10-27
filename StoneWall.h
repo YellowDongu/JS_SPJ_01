@@ -1,11 +1,12 @@
 #pragma once
 #include "Wall.h"
 
-class DirtWall : public Wall
+class StoneWall : public Wall
 {
 public:
-	DirtWall();
-	virtual ~DirtWall();
+	StoneWall();
+	virtual ~StoneWall();
+
 
 
 	Item* clone() const override;
@@ -13,7 +14,5 @@ public:
 	void use() override;
 	void init(Vector2Int _gridPos) override;
 	Wall* destroyed(Vector2Int _gridPos) override;
-
 private:
-
 };

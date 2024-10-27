@@ -56,6 +56,7 @@ void CopperHelmet::init()
 	onGround = false;
 	code = 20;
 	itemUsingState = UsingState::Swing;
+	itemName = L"CopperHelmet";
 }
 
 void CopperHelmet::render(HDC _hdc)

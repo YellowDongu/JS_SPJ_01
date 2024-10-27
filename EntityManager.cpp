@@ -7,6 +7,8 @@
 #include "GridMap.h"
 #include "Tool.h"
 #include "Zombie.h"
+#include "BigEye.h"
+#include "SoundManager.h"
 
 void EntityManager::update()
 {
@@ -34,6 +36,7 @@ void EntityManager::update()
 				ani->update();
 			}
 		}
+		CollisionHandler::collision(player);
 	}
 
 	if (!entityList.empty())
@@ -47,6 +50,8 @@ void EntityManager::update()
 				continue;
 			}
 
+			(*iter)->update();
+			CollisionHandler::collision((*iter));
 
 			Item* item = player->currentUsingItem();
 			if (item && item->leftTop() != Vector2::zero())
@@ -66,7 +71,7 @@ void EntityManager::update()
 				if(iterOther == tool->hittedList()->end())
 					CollisionHandler::collision((*iter), (Tool*)(item));
 			}
-			(*iter)->update();
+			CollisionHandler::collision(player, *iter);
 
 			iter++;
 		}
@@ -76,9 +81,24 @@ void EntityManager::update()
 	{
 		for (auto iter = bossList.begin(); iter != bossList.end();)
 		{
+			if ((*iter)->isDead())
+			{
+				delete* iter;
+				iter = bossList.erase(iter);
+				if (bossList.empty())
+				{
+					music->playBGM("Music-Overworld_Day.mp3");
+				}
+
+				continue;
+			}
+
+			(*iter)->update();
+
 			Item* item = player->currentUsingItem();
 			if (item && item->leftTop() != Vector2::zero())
 			{
+
 				Tool* tool = static_cast<Tool*>(item);
 
 				auto iterOther = tool->hittedList()->begin();
@@ -94,27 +114,34 @@ void EntityManager::update()
 				if (iterOther == tool->hittedList()->end())
 					CollisionHandler::collision((*iter), (Tool*)(item));
 			}
-			(*iter)->update();
-			if ((*iter)->isDead())
-			{
-				delete* iter;
-				iter = bossList.erase(iter);
-			}
-			else iter++;
+
+			CollisionHandler::collision(player, *iter);
+			iter++;
 		}
 	}
 	else
 	{
-		randomSpawnEnemy();
+		//randomSpawnEnemy();
 	}
 
-
-
-	if (!extraList.empty() && extraList.front()->isDead())
+	if (!extraList.empty())
 	{
-		delete extraList.front();
-		extraList.pop_front();
+		for (auto iter = extraList.begin(); iter != extraList.end(); )
+		{
+			if ((*iter)->isDead())
+			{
+				delete* iter;
+				iter = extraList.erase(iter);
+				continue;
+			}
+
+			(*iter)->update();
+			CollisionHandler::collision((*iter));
+
+			iter++;
+		}
 	}
+
 }
 
 void EntityManager::render(HDC _hdc)
@@ -129,10 +156,17 @@ void EntityManager::render(HDC _hdc)
 		for (auto entity : bossList)
 			entity->render(_hdc);
 	}
+	if (!extraList.empty())
+	{
+		for (auto entity : extraList)
+			entity->render(_hdc);
+	}
 
 
 	if (player)
 	{
+		if (player->isDead()) return;
+
 		player->animation()->render(_hdc);
 		if (player->leggingsSlot())
 		{
@@ -185,47 +219,100 @@ void EntityManager::render(HDC _hdc)
 				Vector2 size = Vector2::zero();
 				bool reversed = player->animation()->reversed("01.armR");
 
-				int sequence = player->animation()->checkSequence("01.armR");
-
 				if (player->animation()->checkCurrentState("01.armR") == "useTopR")
 				{
-					sequence = 0;
+					if (reversed)
+					{
+						handPos = { -2,7 };
+						angle = -45.0f;
+					}
+					else
+					{
+						handPos = { 2,7 };
+						angle = 45.0f;
+					}
 				}
-
-				if (player->animation()->checkCurrentState("01.armR") == "useMiddleR")
+				else if (player->animation()->checkCurrentState("01.armR") == "useMiddleR")
 				{
-					sequence = 1;
+					if (reversed)
+					{
+						handPos = { -6,-9 };
+						angle = -90.0f;
+					}
+					else
+					{
+						handPos = { 6,-9 };
+						angle = 90.0f;
+					}
 				}
-				if (player->animation()->checkCurrentState("01.armR") == "useBottomR")
+				else if (player->animation()->checkCurrentState("01.armR") == "useBottomR")
 				{
-					sequence = 2;
+					if (reversed)
+					{
+						handPos = { -5,-14 };
+						angle = -135.0f;
+					}
+					else
+					{
+						handPos = { 5,-14 };
+						angle = 135.0f;
+					}
 				}
-
-
-				switch (sequence)
+				else
 				{
-				case 0:
-					if (reversed) handPos = { 12 ,7 };
-					else handPos = { -12 ,7 };
-					angle = -60.0f;
-					break;
-				case 1:
-					if (reversed) handPos = { -5,7 };
-					else handPos = { -5,7 };
-					angle = 0.0f;
-					break;
-				case 2:
-					if (reversed) handPos = { -6,-9 };
-					else handPos = { 6,-9 };
-					angle = 60.0f;
-					break;
-				case 3:
-					if (reversed) handPos = { -5,-14 };
-					else handPos = { 5,-14 };
-					angle = 90.0f;
-					break;
-				default:
-					break;
+					switch (player->animation()->checkSequence("01.armR"))
+					{
+					case 0:
+						if (reversed)
+						{
+							handPos = { 12 ,7 };
+							angle = 0.0f;
+						}
+						else
+						{
+							handPos = { -7 ,7 };
+							angle = -60.0f;
+						}
+						break;
+					case 1:
+						if (reversed)
+						{
+							handPos = { -2,7 };
+							angle = -60.0f;
+						}
+						else
+						{
+							handPos = { 2,7 };
+							angle = 0.0f;
+						}
+						break;
+					case 2:
+						if (reversed)
+						{
+							handPos = { -6,-9 };
+							angle = -120.0f;
+						}
+						else
+						{
+							handPos = { 6,-9 };
+							angle = 45.0f;
+						}
+						break;
+					case 3:
+						if (reversed)
+						{
+							handPos = { -5,-14 };
+							angle = -180.0f;
+						}
+						else
+						{
+							handPos = { 5,-14 };
+							angle = 90.0f;
+						}
+						break;
+					default:
+						break;
+					}
 				}
 
 				item->leftTop(player->position() + handPos);
@@ -236,7 +323,7 @@ void EntityManager::render(HDC _hdc)
 				if (item->itemCategory() == 1)
 				{
 					item->leftTop(cam->calculateWorldPosition(size));
-					item->rightBottom(Vector2Int::toVec2(item->leftTop() + Vector2Int{ item->itemSize().x, -item->itemSize().y } * 1.2f));
+					item->rightBottom(item->leftTop() + Vector2{ (float)item->itemSize().x, (float)-item->itemSize().y } * 1.2f);
 				}
 				else
 				{
@@ -275,6 +362,15 @@ void EntityManager::release()
 		}
 		bossList.clear();
 	}
+	if (!extraList.empty())
+	{
+		for (auto& entity : extraList)
+		{
+			entity->release();
+			delete entity;
+		}
+		extraList.clear();
+	}
 }
 
 void EntityManager::createPlayer(Vector2 _pos)
@@ -287,7 +383,7 @@ void EntityManager::createPlayer(Vector2 _pos)
 
 void EntityManager::createPlayer(Vector2Int _pos)
 {
-	createPlayer(Vector2Int::toVec2(_pos) * 16 + Vector2{ 16.0f , 16.0f });
+	createPlayer(Vector2Int::toVec2(_pos) * 16.0f + Vector2{ 16.0f , 16.0f });
 }
 
 void EntityManager::randomSpawnEnemy()
@@ -372,4 +468,13 @@ void EntityManager::randomSpawnEnemy()
 
 		}
 	}
+}
+
+void EntityManager::summonBoss_BigEye()
+{
+	BigEye* boss = new BigEye();
+	boss->init();
+	boss->position(player->position() + Vector2{0.0f, 700.0f});
+	entityMgr->addBossEntity(boss);
+	music->playNew("Roar_0.wav");
 }

@@ -1,16 +1,19 @@
 #pragma once
-#include "Tool.h"
+#include "Ingredient.h"
 
-class CopperPickAxe : public Tool
+class BigEyeSummoner : public Ingredient
 {
 public:
-	CopperPickAxe();
-	virtual ~CopperPickAxe();
+	BigEyeSummoner();
+	virtual ~BigEyeSummoner();
+
 
 	Item* clone() const override;
 	void dragDrop() override;
 	void use() override;
 	void init() override;
+
+
 private:
 
 

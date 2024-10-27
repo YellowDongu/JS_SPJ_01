@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
-#include "Boss.h"
+#include "BigEye.h"
+#include "Gore.h"
 
 class EntityManager
 {
@@ -14,9 +15,14 @@ public:
 	void createPlayer(Vector2 _pos);
 	void createPlayer(Vector2Int _pos);
 	void addEntity(Entity* _entity) { entityList.push_back(_entity); }
-	void addExtraEntity(Entity* _entity) { extraList.push_back(_entity); }
+	void addExtraEntity(Gore* _entity) { extraList.push_back(_entity); }
 	void addBossEntity(Boss* _entity) { bossList.push_back(_entity); }
 	void randomSpawnEnemy();
+
+	void summonBoss_BigEye();
+
+
+
 
 	Player* linkPlayer() { return player; }
 	std::list<Entity*>* linkList() { return &entityList; }
@@ -27,7 +33,7 @@ private:
 	float time = 0.0f;
 	Player* player = nullptr;
 	std::list<Entity*> entityList;
-	std::list<Entity*> extraList;
+	std::list<Gore*> extraList;
 	std::list<Boss*> bossList;
 };
 #define entityMgr GET_SINGLETON(EntityManager)

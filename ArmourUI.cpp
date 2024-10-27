@@ -4,7 +4,7 @@
 #include "EntityManager.h"
 #include "UIManager.h"
 
-ArmourUI::ArmourUI() : helmet(nullptr), plate(nullptr), leggings(nullptr), player(nullptr)
+ArmourUI::ArmourUI() : helmet(nullptr), plate(nullptr), leggings(nullptr), player(nullptr), APSlot(NULL)
 {
 }
 
@@ -25,14 +25,10 @@ void ArmourUI::init()
 	leggings->init();
 	UIMgr->appendUI(leggings);
 
-
-
-
-
 	active = false;
 
 	player = entityMgr->linkPlayer();
-
+	APSlot = (rendering->findImage("UI", "inventory", "armour_point")).front();
 }
 
 void ArmourUI::update()
@@ -112,42 +108,38 @@ void ArmourUI::render(HDC _hdc)
 {
 	if (!active) return;
 
+	int point = 0;
 	if (player->helmetSlot())
 	{
 		helmet->render(_hdc, *player->helmetSlot()->linkItemImg());
+		point += player->helmetSlot()->defense();
 	}
 	else helmet->render(_hdc, NULL);
 	if (player->plateSlot())
 	{
 		plate->render(_hdc, *player->plateSlot()->linkItemImg());
+		point += player->plateSlot()->defense();
 	}
 	else plate->render(_hdc, NULL);
 	if (player->leggingsSlot())
 	{
 		leggings->render(_hdc, *player->leggingsSlot()->linkItemImg());
+		point += player->leggingsSlot()->defense();
 	}
 	else leggings->render(_hdc, NULL);
+
+	ImageHandler::renderWithoutBack(APSlot, _hdc, (int)leggings->leftTop().x - 45, (int)leggings->leftTop().y + 12);
+	ImageHandler::textResize(20, _hdc);
+	if (point < 10)
+		ImageHandler::DrawOutlinedText(_hdc, std::to_wstring(point).c_str(), (int)leggings->leftTop().x - 30, (int)leggings->leftTop().y + 22);
+	else
+		ImageHandler::DrawOutlinedText(_hdc, std::to_wstring(point).c_str(), (int)leggings->leftTop().x - 35, (int)leggings->leftTop().y + 22);
+
+
+
 }
 
 void ArmourUI::release()
 {
-	/*
-	if (plate)
-	{
-		delete plate;
-		plate = nullptr;
-	}
-	if (helmet)
-	{
-		delete helmet;
-		helmet = nullptr;
-	}
-	if (leggings)
-	{
-		delete leggings;
-		leggings = nullptr;
-	}
-	*/
-
 }
 

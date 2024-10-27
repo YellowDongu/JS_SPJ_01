@@ -91,6 +91,9 @@
     <Filter Include="04. UI\Debug">
       <UniqueIdentifier>{e7b71fcb-40a5-4657-9229-98752b3782d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Entity\Boss\EyeOfCthulhu">
+      <UniqueIdentifier>{6421236e-5160-423d-becb-76d0fe90b6c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -318,9 +321,6 @@
     <ClInclude Include="Anvil.h">
       <Filter>06.Item\Item_Furniture</Filter>
     </ClInclude>
-    <ClInclude Include="BigEye.h">
-      <Filter>05. Entity\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="Tree.h">
       <Filter>06.Item\Item_Furniture</Filter>
     </ClInclude>
@@ -338,6 +338,24 @@
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="BigEyeSummoner.h">
+      <Filter>06.Item\Item_other</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodWall.h">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="CopperHammer.h">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="StoneWall.h">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="BigEye.h">
+      <Filter>05. Entity\Boss\EyeOfCthulhu</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallEye.h">
+      <Filter>05. Entity\Boss\EyeOfCthulhu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -557,9 +575,6 @@
     <ClCompile Include="Anvil.cpp">
       <Filter>06.Item\Item_Furniture</Filter>
     </ClCompile>
-    <ClCompile Include="BigEye.cpp">
-      <Filter>05. Entity\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="Tree.cpp">
       <Filter>06.Item\Item_Furniture</Filter>
     </ClCompile>
@@ -577,6 +592,24 @@
     </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>06.Item\Item_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="BigEyeSummoner.cpp">
+      <Filter>06.Item\Item_other</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodWall.cpp">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="CopperHammer.cpp">
+      <Filter>06.Item\Item_Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="StoneWall.cpp">
+      <Filter>06.Item\Item_Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="BigEye.cpp">
+      <Filter>05. Entity\Boss\EyeOfCthulhu</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallEye.cpp">
+      <Filter>05. Entity\Boss\EyeOfCthulhu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,29 +1,30 @@
 #include "framework.h"
-#include "DirtWall.h"
+#include "StoneWall.h"
 #include "RenderManager.h"
-#include "ImageHandler.h"
 #include "GridMap.h"
 #include "SoundManager.h"
 #include "TimeManager.h"
 
-DirtWall::DirtWall()
+
+
+StoneWall::StoneWall()
 {
 }
 
-DirtWall::~DirtWall()
+StoneWall::~StoneWall()
 {
 }
 
-Item* DirtWall::clone() const
+Item* StoneWall::clone() const
 {
-	return new DirtWall(*this);
+	return new StoneWall(*this);
 }
 
-void DirtWall::dragDrop()
+void StoneWall::dragDrop()
 {
 }
 
-void DirtWall::use()
+void StoneWall::use()
 {
 	Node* node = gridMap->findNode(cam->calculateWorldPosition(Vector2{ (float)Input->getMousePos().x, (float)Input->getMousePos().y }));
 	if (!node || node->wall()) return;
@@ -31,32 +32,32 @@ void DirtWall::use()
 	float distance = Vector2::distance(entityMgr->linkPlayer()->position(), Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8,8 }));
 	if (distance > 100.0f) return;
 
-	DirtWall* newDirt = new DirtWall();
-	newDirt->init(node->position());
-	node->wall(newDirt);
+	StoneWall* wall = new StoneWall();
+	wall->init(node->position());
+	node->wall(wall);
 	gridMap->updateNearNode(node, 3);
 
 	music->playNew("Dig_0.wav");
 	count -= 1;
 }
 
-void DirtWall::init(Vector2Int _gridPos)
+void StoneWall::init(Vector2Int _gridPos)
 {
-	getImgSet("dirt");
+	getImgSet("stone");
 
 	if (_gridPos.x != -1 && _gridPos.y != -1)
 	{
 		gridMap->updateNearNode(gridMap->findNode(_gridPos), 1);
 	}
 
-	itemImg = rendering->findImage("Item_block", "dirtWall", "shadow0rotation0")[0];
+	itemImg = rendering->findImage("Item_block", "stoneWall", "shadow0rotation0")[0];
 	pos = _gridPos;
-	code = 2;
+	code = 19;
 	itemUsingState = UsingState::Swing;
-	itemName = L"Dirt Wall";
+	itemName = L"Stone Wall";
 }
 
-Wall* DirtWall::destroyed(Vector2Int _gridPos)
+Wall* StoneWall::destroyed(Vector2Int _gridPos)
 {
 	ULONGLONG currentTime = GetTickCount64();
 	if (currentTime - lastTime >= 5000)

@@ -47,22 +47,27 @@ public:
 	Plate* plateOff();
 	Leggings* leggingsOff();
 
-private:
-	//std::map<std::string, animationContainer*> animations;
-	std::string currentState;
-	std::string currentSubState;
-	PlayerInventory* inven;
+	const Vector2& spawnPoint() const { return spawnPos; }
+	void spawnPoint(const Vector2& _pos) { spawnPos = _pos; }
 
+private:
 	int mp;
 	int maxMp;
 	int defense;
 
 	float healSpeed;
+	float hitRecover;
+	float spawnTimer;
 
 	Item* usingItem;
-
 	Helmet* helmet;
 	Plate* plate;
 	Leggings* leggings;
+	PlayerInventory* inven;
 
+
+	Vector2 spawnPos;
+
+	std::string currentState;
+	std::string currentSubState;
 };

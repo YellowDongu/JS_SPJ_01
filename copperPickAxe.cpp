@@ -10,25 +10,24 @@
 #include "SoundManager.h"
 #include "EntityManager.h"
 
-copperPickAxe::copperPickAxe()
+CopperPickAxe::CopperPickAxe()
 {
 }
 
-copperPickAxe::~copperPickAxe()
+CopperPickAxe::~CopperPickAxe()
 {
 }
 
-void copperPickAxe::dragDrop()
+void CopperPickAxe::dragDrop()
 {
 }
 
-void copperPickAxe::use()
+void CopperPickAxe::use()
 {
 	Vector2 mousePos = cam->calculateWorldPosition(Vector2{ (float)Input->getMousePos().x, (float)Input->getMousePos().y });
 	Node* node = gridMap->findNode(mousePos);
 	music->playNew("Item_1.wav");
 
-	//if()
 
 	if (node)
 	{
@@ -55,7 +54,7 @@ void copperPickAxe::use()
 
 }
 
-void copperPickAxe::init()
+void CopperPickAxe::init()
 {
 	maxCount = 1;
 	count = 1;
@@ -68,9 +67,10 @@ void copperPickAxe::init()
 	itemUsingState = UsingState::Swing;
 	category = 1;
 	dmg = 20;
+	itemName = L"CopperPickAxe";
 }
 
-Item* copperPickAxe::clone() const
+Item* CopperPickAxe::clone() const
 {
-	return new copperPickAxe(*this);
+	return new CopperPickAxe(*this);
 }

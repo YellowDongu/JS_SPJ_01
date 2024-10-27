@@ -10,20 +10,14 @@ struct RecipeInfo
 	bool craftable = false;
 
 	std::vector<std::pair<int, int>> needed;
+	std::vector<HBITMAP> IngredientImg;
 
 	~RecipeInfo()
 	{
 		release();
 	}
 
-	void release()
-	{
-		if (resItem)
-		{
-			delete resItem;
-			resItem = nullptr;
-		}
-	}
+	void release();
 };
 
 

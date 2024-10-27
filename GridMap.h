@@ -25,7 +25,7 @@ public:
 	std::vector<Node*>* linkNodeList() { return &nodeList; }
 	void setSize(int value) { nodeSize = value; }
 	int tileSize() const { return nodeSize; }
-	Vector2Int getGridPos(Vector2 worldPos);
+	Vector2Int getGridPos(const Vector2& worldPos);
 
 private:
 	int width = 0;

@@ -5,6 +5,7 @@
 #include "SoundManager.h"
 #include "RenderManager.h"
 #include "Tool.h"
+#include "CollisionManager.h"
 
 BigEye::BigEye() : condition(0), phase(0), rushCount(0), spawnCount(0), stopWatch(0.0f), angle(0.0f)
 {
@@ -17,17 +18,18 @@ BigEye::~BigEye()
 
 void BigEye::init()
 {
-	phase = 1;
-	player = entityMgr->linkPlayer();
+	music->playBGM("Music-Boss_1.mp3");
 
-	speed = 500.0f;
-	maxSpeed = 100.0f;
-	hp = 100;
-	maxHp = 100;
+	player = entityMgr->linkPlayer();
 	dead = false;
 	onGround = false;
 	rightSideWall = false;
 	LeftSideWall = false;
+	dmg = 40;
+	hp = 100;
+	maxHp = 100;
+	speed = 500.0f;
+	maxSpeed = 100.0f;
 
 	stopWatch = 3.0f;
 	condition = 0;
@@ -59,13 +61,70 @@ void BigEye::update()
 	if (hp <= 0)
 	{
 		music->playNew("NPC_Killed_1.wav");
+		music->playNew("NPC_Killed_5.wav");
+		Gore* deadBody = new Gore();
+		deadBody->initGore("BigEye1", worldPos);
+		deadBody = new Gore();
+		deadBody->initGore("BigEye2", worldPos + Vector2{ 20, 20 });
+		deadBody = new Gore();
+		deadBody->initGore("BigEye3", worldPos + Vector2{-20, -20});
 		dead = true;
+		for (auto& servent : servents)
+		{
+			music->playNew("NPC_Killed_1.wav");
+			Gore* deadBody = new Gore();
+			deadBody->initGore("smallEyeFront", servent->position());
+			deadBody = new Gore();
+			deadBody->initGore("smallEyeBack", servent->position());
+			delete servent;
+		}
+		servents.clear();
 	}
 	if (phase != 2 && hp <= maxHp / 2)
 	{
 		aniCtrl->changeAnimation("status", "phase2");
 		phase = 2;
 	}
+
+	if (!servents.empty())
+	{
+		for (auto iter = servents.begin(); iter != servents.end();)
+		{
+			if ((*iter)->isDead())
+			{
+				delete* iter;
+				iter = servents.erase(iter);
+				continue;
+			}
+
+			(*iter)->update();
+
+			Item* item = player->currentUsingItem();
+			if (item && item->leftTop() != Vector2::zero())
+			{
+				Tool* tool = static_cast<Tool*>(item);
+
+				auto iterOther = tool->hittedList()->begin();
+				if (tool->hittedList()->empty())
+					iterOther = tool->hittedList()->end();
+				for (; iterOther != tool->hittedList()->end(); )
+				{
+					if (*iter == *iterOther)
+						break;
+					iterOther++;
+				}
+
+				if (iterOther == tool->hittedList()->end())
+					CollisionHandler::collision((*iter), (Tool*)(item));
+			}
+
+			CollisionHandler::collision(player, *iter);
+			iter++;
+		}
+	}
+
+
+
 
 	if (condition == 0)
 	{
@@ -106,6 +165,13 @@ void BigEye::update()
 					angle = Vector2::angle(player->position() - worldPos) - 90.0f;
 					angle *= -1;
 				}
+			}
+			else
+			{
+				SmallEye* servent = new SmallEye();
+				servent->init();
+				servent->position(worldPos);
+				servents.push_back(servent);
 			}
 		}
 
@@ -180,6 +246,14 @@ void BigEye::release()
 		delete aniCtrl;
 		aniCtrl = nullptr;
 	}
+	if (!servents.empty())
+	{
+		for (auto& servent : servents)
+		{
+			delete servent;
+		}
+		servents.clear();
+	}
 }
 
 void BigEye::CollisionWithEntity(Entity* _col)
@@ -194,5 +268,12 @@ void BigEye::CollisionWithItem(Item* _col)
 
 void BigEye::render(HDC _hdc)
 {
+	if (!servents.empty())
+	{
+		for (auto& servent : servents)
+		{
+			servent->render(_hdc);
+		}
+	}
 	aniCtrl->linkDirectToAni("status")->render(_hdc, angle);
 }

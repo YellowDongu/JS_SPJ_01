@@ -2,6 +2,7 @@
 #include "UI.h"
 #include "CraftSlotUI.h"
 
+
 class PlayerInventory;
 class CraftUI : public UI
 {

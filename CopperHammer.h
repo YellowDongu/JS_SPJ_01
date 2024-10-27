@@ -1,17 +1,19 @@
 #pragma once
 #include "Tool.h"
 
-class CopperPickAxe : public Tool
+class CopperHammer : public Tool
 {
 public:
-	CopperPickAxe();
-	virtual ~CopperPickAxe();
+	CopperHammer();
+	virtual ~CopperHammer();
+
 
 	Item* clone() const override;
 	void dragDrop() override;
 	void use() override;
 	void init() override;
 private:
+
 
 
 };

@@ -365,13 +365,7 @@ void RenderManager::processEntityWithState(std::vector<std::string>& imageName, 
         }
         if (imageName[2] == "zombie")
         {
-            Vector2Int size = Vector2Int{ 38,46 };
             imageContainer[imageName[0] + "_" + imageName[1]][imageName[2]]["R_shadow0rotation0"].push_back(raw);
-            for (int i = 0; i < 3; i++)
-            {
-                HBITMAP processed = ImageHandler::cropImage(raw, Vector2Int{ 0,size.y * i + i * 2 }, size);
-                imageContainer[imageName[0] + "_" + imageName[1]][imageName[2]]["R_shadow0rotation0"].push_back(processed);
-            }
         }
         if (imageName[2] == "demonEye")
         {

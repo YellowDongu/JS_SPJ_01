@@ -8,8 +8,8 @@ public:
 	void Init();
 	void update();
 
-	UINT32 GetFPS() { return fps; }
-	float deltaTime() { return deltaT; }
+	const UINT32& GetFPS() const { return fps; }
+	const float& deltaTime() const { return deltaT; }
 private:
 	UINT64 frequency = 0;
 	UINT64 prevCount = 0;

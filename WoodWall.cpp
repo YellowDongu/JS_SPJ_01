@@ -1,29 +1,28 @@
 #include "framework.h"
-#include "DirtWall.h"
-#include "RenderManager.h"
-#include "ImageHandler.h"
-#include "GridMap.h"
+#include "WoodWall.h"
 #include "SoundManager.h"
 #include "TimeManager.h"
+#include "GridMap.h"
+#include "RenderManager.h"
 
-DirtWall::DirtWall()
+WoodWall::WoodWall()
 {
 }
 
-DirtWall::~DirtWall()
+WoodWall::~WoodWall()
 {
 }
 
-Item* DirtWall::clone() const
+Item* WoodWall::clone() const
 {
-	return new DirtWall(*this);
+	return new WoodWall(*this);
 }
 
-void DirtWall::dragDrop()
+void WoodWall::dragDrop()
 {
 }
 
-void DirtWall::use()
+void WoodWall::use()
 {
 	Node* node = gridMap->findNode(cam->calculateWorldPosition(Vector2{ (float)Input->getMousePos().x, (float)Input->getMousePos().y }));
 	if (!node || node->wall()) return;
@@ -31,32 +30,32 @@ void DirtWall::use()
 	float distance = Vector2::distance(entityMgr->linkPlayer()->position(), Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8,8 }));
 	if (distance > 100.0f) return;
 
-	DirtWall* newDirt = new DirtWall();
-	newDirt->init(node->position());
-	node->wall(newDirt);
+	WoodWall* wall = new WoodWall();
+	wall->init(node->position());
+	node->wall(wall);
 	gridMap->updateNearNode(node, 3);
 
 	music->playNew("Dig_0.wav");
 	count -= 1;
 }
 
-void DirtWall::init(Vector2Int _gridPos)
+void WoodWall::init(Vector2Int _gridPos)
 {
-	getImgSet("dirt");
+	getImgSet("wood");
 
 	if (_gridPos.x != -1 && _gridPos.y != -1)
 	{
 		gridMap->updateNearNode(gridMap->findNode(_gridPos), 1);
 	}
 
-	itemImg = rendering->findImage("Item_block", "dirtWall", "shadow0rotation0")[0];
+	itemImg = rendering->findImage("Item_block", "woodWall", "shadow0rotation0")[0];
 	pos = _gridPos;
-	code = 2;
+	code = 18;
 	itemUsingState = UsingState::Swing;
-	itemName = L"Dirt Wall";
+	itemName = L"Wood Wall";
 }
 
-Wall* DirtWall::destroyed(Vector2Int _gridPos)
+Wall* WoodWall::destroyed(Vector2Int _gridPos)
 {
 	ULONGLONG currentTime = GetTickCount64();
 	if (currentTime - lastTime >= 5000)

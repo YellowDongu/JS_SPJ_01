@@ -20,6 +20,8 @@ private:
 	ArmourSlotUI* plate;
 	ArmourSlotUI* leggings;
 
+	HBITMAP APSlot;
+
 	Player* player;
 
 };

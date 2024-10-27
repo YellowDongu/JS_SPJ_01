@@ -27,5 +27,6 @@ void CopperBar::init()
 	getImgSet("copperBar");
 	itemImgSize.x = 16;
 	itemImgSize.y = 16;
-
+	code = 8;
+	itemName = L"CopperBar";
 }

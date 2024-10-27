@@ -47,8 +47,9 @@ void CopperBow::init()
 	itemImgSize.y = 32;
 	onGround = false;
 	code = 11;
-	//itemImgCenter = { 0, 16 };
+	itemImgCenter = { 8, 16 };
 	itemUsingState = UsingState::Directinal;
 	category = 0;
 	dmg = 20;
+	itemName = L"CopperBow";
 }

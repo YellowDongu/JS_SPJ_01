@@ -7,19 +7,17 @@ public:
 	Entity();
 	virtual ~Entity();
 
-	Vector2 position() const { return worldPos; }
-	Vector2* linkPosition() { return &worldPos; }
-	//Vector2* position() { return &worldPos; }
-	Vector2 size() const { return sizeInfo; }
-	Vector2 moveVector() const { return moveVec; }
-	//Vector2* moveVector() { return &moveVec; }
-	AnimationController* animation() { return aniCtrl; }
+	const int damage() const { return dmg; }
+	const Vector2& position() const { return worldPos; }
+	const Vector2& size() const { return sizeInfo; }
+	const Vector2& moveVector() const { return moveVec; }
 
 	void position(Vector2 _value) { worldPos = _value; }
 	void translate(Vector2 _value) { moveVec += _value; }
 
-	bool isOnGround() const { return onGround; }
-	bool isDead() const { return dead; }
+	const bool& isOnGround() const { return onGround; }
+	const bool& isDead() const { return dead; }
+
 	void setOnGround(bool _value) { onGround = _value; }
 	void setDead(bool _value) { dead = _value; }
 	void setRWall(bool _value) { rightSideWall = _value; }
@@ -27,6 +25,8 @@ public:
 
 	int* linkHealth() { return &hp; }
 	int* linkMaxHealth() { return &maxHp; }
+	Vector2* linkPosition() { return &worldPos; }
+	AnimationController* animation() { return aniCtrl; }
 
 	void move() { worldPos += moveVec; }
 
@@ -40,21 +40,23 @@ public:
 
 
 protected:
-	Vector2 worldPos;
-	Vector2 sizeInfo;
-	Vector2 moveVec;
-
+	bool dead;
 	bool onGround;
 	bool rightSideWall;
 	bool LeftSideWall;
-	bool dead;
 
-	int light;
 	int hp;
 	int maxHp;
+	int light;
+	int dmg;
+
 	float speed;
 	float maxSpeed;
+	
 	AnimationController* aniCtrl;
 
+	Vector2 worldPos;
+	Vector2 sizeInfo;
+	Vector2 moveVec;
 	
 };

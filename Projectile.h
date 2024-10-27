@@ -9,7 +9,7 @@ public:
 
 	virtual void update() abstract;
 	virtual void render(HDC hdc) abstract;
-	virtual void shoot(Vector2 startPos, Vector2 shootVec, float damage) abstract;
+	virtual void shoot(Vector2 startPos, Vector2 shootVec, int damage) abstract;
 
 	void setAngle(float _value) { angle = _value; }
 	void setDead(bool _value) { dead = _value; }

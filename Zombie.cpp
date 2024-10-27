@@ -5,6 +5,7 @@
 #include "RenderManager.h"
 #include "SoundManager.h"
 #include "Tool.h"
+#include "Gore.h"
 
 Zombie::Zombie() : player(nullptr)
 {
@@ -28,11 +29,12 @@ void Zombie::init()
 	sizeInfo = Vector2{ 32.0f, 42.0f };
 	speed = 500.0f;
 	maxSpeed = 100.0f;
+	dmg = 20;
+	hp = 100;
+	maxHp = 100;
 	onGround = true;
 	rightSideWall = false;
 	LeftSideWall = false;
-	hp = 100;
-	maxHp = 100;
 	dead = false;
 	imgInit();
 }
@@ -46,6 +48,14 @@ void Zombie::update()
 		dead = true;
 		music->playNew("NPC_Killed_1.wav");
 		music->playNew("NPC_Killed_2.wav");
+
+		Gore* deadBody = new Gore();
+		deadBody->initGore("zombieHead", worldPos);
+		deadBody = new Gore();
+		deadBody->initGore("zombieLeg", worldPos);
+		deadBody = new Gore();
+		deadBody->initGore("zombieArm", worldPos);
+
 	}
 
 
@@ -70,11 +80,11 @@ void Zombie::update()
 		aniCtrl->changeAnimation("status", "walkR");
 		currentState = "walkR";
 	}
-	//else if (currentState != "standR" && moveVec.y == 0 && moveVec.x == 0)
-	//{
-	//	aniCtrl->changeAnimation("status", "standR");
-	//	currentState = "standR";
-	//}
+	else if (currentState != "standR" && moveVec.y == 0 && moveVec.x == 0)
+	{
+		aniCtrl->changeAnimation("status", "standR");
+		currentState = "standR";
+	}
 }
 
 void Zombie::release()
@@ -169,16 +179,15 @@ void Zombie::imgInit()
 
 void Zombie::CollisionWithItem(Item* _col)
 {
-
 	if (moveVec.x > 0)
 	{
-		moveVec.x = -500.0f;
-		moveVec.y = 500.0f;
+		moveVec.x = -250.0f;
+		moveVec.y = 250.0f;
 	}
 	else
 	{
-		moveVec.x = 500.0f;
-		moveVec.y = 500.0f;
+		moveVec.x = 250.0f;
+		moveVec.y = 250.0f;
 	}
 	music->playNew("NPC_Hit_1.wav");
 	hp -= ((Tool*)_col)->damage();

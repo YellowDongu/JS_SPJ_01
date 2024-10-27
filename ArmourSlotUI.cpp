@@ -3,7 +3,7 @@
 #include "RenderManager.h"
 #include "ImageHandler.h"
 
-ArmourSlotUI::ArmourSlotUI()
+ArmourSlotUI::ArmourSlotUI() : imageSet(nullptr)
 {
 }
 

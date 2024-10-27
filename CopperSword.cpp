@@ -36,4 +36,5 @@ void CopperSword::init()
 	itemUsingState = UsingState::Swing;
 	category = 1;
 	dmg = 40;
+	itemName = L"CopperSword";
 }

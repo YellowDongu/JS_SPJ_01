@@ -2,6 +2,8 @@
 #include "Recipe.h"
 #include "PlayerInventory.h"
 #include "EntityManager.h"
+#include "RenderManager.h"
+#include "UIManager.h"
 
 #include "DirtWall.h"
 #include "CraftingTable.h"
@@ -19,7 +21,10 @@
 #include "Stone.h"
 #include "Anvil.h"
 #include "Arrow.h"
-
+#include "CopperHammer.h"
+#include "CopperSword.h"
+#include "WoodWall.h"
+#include "StoneWall.h"
 
 
 void Recipe::init()
@@ -28,19 +33,11 @@ void Recipe::init()
 	inven = entityMgr->linkPlayer()->linkInven();
 
 	{
-		DirtWall* newItem = new DirtWall();
-		newItem->init({ -1,-1 });
-		*newItem->linkItemCount() = 4;
-		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{1, 1}} };
-		recipes.push_back(newRecipe);
-		recipeCategory[0].first.push_back(newRecipe);
-		recipeCategory[0].second = true;
-	}
-	{
 		CraftingTable* newItem = new CraftingTable();
 		newItem->init({ -1,-1 });
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{3, 10}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "wood", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[0].first.push_back(newRecipe);
 		recipeCategory[0].second = true;
@@ -50,6 +47,7 @@ void Recipe::init()
 		newItem->init();
 		*newItem->linkItemCount() = 4;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{3, 1}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "wood", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[4].first.push_back(newRecipe);
 		recipeCategory[4].second = false;
@@ -59,6 +57,17 @@ void Recipe::init()
 		newItem->init({ -1,-1 });
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{3, 10}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "wood", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[4].first.push_back(newRecipe);
+		recipeCategory[4].second = false;
+	}
+	{
+		Furnace* newItem = new Furnace();
+		newItem->init({ -1, -1 });
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{5, 4}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "stone", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[4].first.push_back(newRecipe);
 		recipeCategory[4].second = false;
@@ -68,24 +77,17 @@ void Recipe::init()
 		newItem->init();
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{5, 4}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "copper", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[7].first.push_back(newRecipe);
 		recipeCategory[7].second = false;
-	}
-	{
-		Furnace* newItem = new Furnace();
-		newItem->init({-1, -1});
-		*newItem->linkItemCount() = 1;
-		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{5, 4}} };
-		recipes.push_back(newRecipe);
-		recipeCategory[4].first.push_back(newRecipe);
-		recipeCategory[4].second = false;
 	}
 	{
 		CopperHelmet* newItem = new CopperHelmet();
 		newItem->init();
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[7].first.push_back(newRecipe);
 		recipeCategory[7].second = false;
@@ -95,6 +97,7 @@ void Recipe::init()
 		newItem->init();
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[7].first.push_back(newRecipe);
 		recipeCategory[7].second = false;
@@ -104,15 +107,37 @@ void Recipe::init()
 		newItem->init();
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[7].first.push_back(newRecipe);
 		recipeCategory[7].second = false;
 	}
 	{
-		copperPickAxe* newItem = new copperPickAxe();
+		CopperPickAxe* newItem = new CopperPickAxe();
 		newItem->init();
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
+	}
+	{
+		CopperHammer* newItem = new CopperHammer();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[7].first.push_back(newRecipe);
+		recipeCategory[7].second = false;
+	}
+	{
+		CopperSword* newItem = new CopperSword();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[7].first.push_back(newRecipe);
 		recipeCategory[7].second = false;
@@ -122,12 +147,41 @@ void Recipe::init()
 		newItem->init();
 		*newItem->linkItemCount() = 1;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), false, {{8, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[7].first.push_back(newRecipe);
 		recipeCategory[7].second = false;
 	}
-
-
+	{
+		DirtWall* newItem = new DirtWall();
+		newItem->init({ -1,-1 });
+		*newItem->linkItemCount() = 4;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{1, 4}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "dirt", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[0].first.push_back(newRecipe);
+		recipeCategory[0].second = true;
+	}
+	{
+		WoodWall* newItem = new WoodWall();
+		newItem->init({ -1,-1 });
+		*newItem->linkItemCount() = 4;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{3, 4}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "wood", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[0].first.push_back(newRecipe);
+		recipeCategory[0].second = true;
+	}
+	{
+		StoneWall* newItem = new StoneWall();
+		newItem->init({ -1,-1 });
+		*newItem->linkItemCount() = 4;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{9, 4}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "stone", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[0].first.push_back(newRecipe);
+		recipeCategory[0].second = true;
+	}
 }
 
 void Recipe::update()
@@ -217,6 +271,8 @@ Item* Recipe::craft(RecipeInfo* recipeInfo)
 		}
 
 	}
+
+	UIMgr->createPopUpText(entityMgr->linkPlayer()->position() + Vector2{ 20.0f,0.0f }, recipeInfo->resItem->name());
 	return recipeInfo->resItem->clone();
 }
 
@@ -261,5 +317,14 @@ void Recipe::eraseFurniture(Furniture* target)
 			return;
 		}
 		else iter++;
+	}
+}
+
+void RecipeInfo::release()
+{
+	if (resItem)
+	{
+		delete resItem;
+		resItem = nullptr;
 	}
 }

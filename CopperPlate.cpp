@@ -108,6 +108,7 @@ void CopperPlate::init()
 	onGround = false;
 	code = 21;
 	itemUsingState = UsingState::Swing;
+	itemName = L"CopperPlate";
 }
 
 void CopperPlate::render(HDC _hdc)

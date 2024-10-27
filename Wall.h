@@ -13,6 +13,6 @@ public:
 	void getImgSet(std::string name);
 	void changeBlockImg(std::string state, int shadow);
 	Vector2Int imageFinder(std::string state);
-private:
-
+protected:
+	float harden;
 };

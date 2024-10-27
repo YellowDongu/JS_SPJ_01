@@ -44,9 +44,10 @@ void Arrow::init()
 	itemImgCenter = { 0, 0 };
 	itemUsingState = UsingState::End;
 	category = 2;
+	itemName = L"Arrow";
 }
 
-void Arrow::shoot(Vector2 _startPos, Vector2 _shootVec, float _damage)
+void Arrow::shoot(Vector2 _startPos, Vector2 _shootVec, int _damage)
 {
 	init();
 	dmg += _damage;

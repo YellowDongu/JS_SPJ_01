@@ -19,8 +19,8 @@ public:
 	void imageGridSize(Vector2Int& _value) { imgGridSize = _value; }
 	void imageGridPosition(Vector2Int& _value) { imgGridPos = _value; }
 
-	const int& disassemble() const { return disAssemble; }
-	const bool& bottomPosition() const { return bottomPos; }
+	const bool& disassemble() const { return disAssemble; }
+	const int& bottomPosition() const { return bottomPos; }
 	const Vector2Int& imageGridSize() const { return imgGridSize; }
 	const Vector2Int& imageGridPosition() const { return imgGridPos; }
 	const Vector2Int& gridPosition() const { return placedPos; }

@@ -5,10 +5,12 @@
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "CameraManager.h"
+#include "SoundManager.h"
+#include "Gore.h"
 
-
-Player::Player() : currentState("Stand"), inven(nullptr), usingItem(nullptr), helmet(nullptr), plate(nullptr), leggings(nullptr),
-defense(0), healSpeed(10.0f), maxMp(20.0f), mp(20.0f)
+Player::Player() : spawnPos(Vector2::zero()), currentState("Stand"),
+inven(nullptr), usingItem(nullptr), helmet(nullptr), plate(nullptr), leggings(nullptr),
+defense(0), maxMp(20), mp(20), healSpeed(10.0f), hitRecover(0.0f), spawnTimer(0.0f)
 {
 }
 
@@ -40,16 +42,44 @@ void Player::init()
 
 void Player::update()
 {
-
+	if (dead)
+	{
+		spawnTimer -= Time->deltaTime();
+		if (spawnTimer <= 0.0f)
+		{
+			spawnTimer = 0.0f;
+			worldPos = spawnPos;
+			dead = false;
+			healSpeed = 0.0001f;
+			hp = maxHp;
+		}
+		return;
+	}
+	if (hitRecover > 0.0f) hitRecover -= Time->deltaTime();
 	if (hp >= maxHp)
 	{
 		healSpeed = 0.0001f;
 		hp = maxHp;
 	}
+	else if (hp <= 0)
+	{
+		music->playNew("NPC_Killed_1.wav");
+		dead = true;
+		spawnTimer = 3.0f;
+		Gore* deadBody = new Gore();
+		deadBody->initGore("playerHead", worldPos);
+		deadBody = new Gore();
+		deadBody->initGore("playerTorso", worldPos);
+		deadBody = new Gore();
+		deadBody->initGore("playerArm", worldPos);
+		deadBody = new Gore();
+		deadBody->initGore("playerLeg", worldPos);
+		return;
+	}
 	else
 	{
 		healSpeed += Time->deltaTime() * (healSpeed / 2) + 0.00001f;
-		hp += healSpeed * Time->deltaTime();
+		hp += (int)(healSpeed * Time->deltaTime());
 		//hp += healSpeed;
 	}
 
@@ -118,6 +148,52 @@ void Player::release()
 
 void Player::CollisionWithEntity(Entity* _col)
 {
+	if (hitRecover > 0.0f) return;
+	if (moveVec.x > 0)
+	{
+		moveVec.x = -250.0f;
+		moveVec.y = 250.0f;
+	}
+	else
+	{
+		moveVec.x = 250.0f;
+		moveVec.y = 250.0f;
+	}
+	music->playNew("NPC_Hit_1.wav");
+
+	int incomeDamage = _col->damage();
+	int defense = 0;
+	if (helmet)
+	{
+		defense += helmet->defense();
+	}
+	if (plate)
+	{
+		defense += plate->defense();
+	}
+	if (leggings)
+	{
+		defense += leggings->defense();
+	}
+	hp -= (incomeDamage - defense);
+	hitRecover = 2.0f;
+	srand((unsigned int)Time->deltaTime() * defense * incomeDamage);
+	int rndInt = rand() % 3;
+	switch (rndInt)
+	{
+	case 0:
+		music->playNew("Player_Hit_0.wav");
+		break;
+	case 1:
+		music->playNew("Player_Hit_1.wav");
+		break;
+	case 2:
+		music->playNew("Player_Hit_2.wav");
+		break;
+	default:
+		break;
+	}
+	
 }
 
 void Player::keyInput()
@@ -147,7 +223,7 @@ void Player::keyInput()
 	{
 		if (moveVec != Vector2::zero())
 			moveVec -= Vector2{ moveVec.normalize().x, 0.0f } * 1000.0f * Time->deltaTime();
-		if (abs(moveVec.x) <= 10.0f) moveVec.x = 0;
+		if (abs(moveVec.x) <= 20.0f) moveVec.x = 0;
 
 	}
 
@@ -250,17 +326,9 @@ void Player::imgInit()
 	aniCtrl->changeAnimationContianer("02.torso", "torsoR");
 
 	newAni = new animationContainer();
-	//newAni->setRawImg(rendering->findImage("Entity_Player", "clothesR", 0, 0)[0]);
 	newAni->setRawImg(rendering->findImage("Entity_Player", "RawclothesR", 0, 0)[0]);
 	newAni->setBlank({ 2,2 });
 	newAni->init(
-		/*
-		{
-		{ "standR",{ false, {{ 0,0 }} }},
-		{ "jumpR", { false, {{ 1,0 }} }},
-		{ "walkR", { false, {{ 0,0 }} }}
-		},
-		*/
 		{
 		{ "standR",{ false, {{0,1}}} }, //10
 		{ "jumpR", { false, {{0,5}}} },
@@ -845,4 +913,6 @@ Leggings* Player::leggingsOff()
 
 void Player::CollisionWithItem(Item* _col)
 {
+
+
 }
