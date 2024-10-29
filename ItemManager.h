@@ -12,6 +12,7 @@ public:
 	void update();
 	void appendList(Item* _item);
 	void appendProjectileList(Projectile* _item);
+	std::list<Projectile*>* linkProjectileList() { return &projectileList; }
 	void render(HDC _hdc);
 	void release();
 

@@ -67,13 +67,13 @@ void Player::update()
 		dead = true;
 		spawnTimer = 3.0f;
 		Gore* deadBody = new Gore();
-		deadBody->initGore("playerHead", worldPos);
+		deadBody->initGore("playerHead", worldPos + Vector2{0.0f, 15.0f});
 		deadBody = new Gore();
-		deadBody->initGore("playerTorso", worldPos);
+		deadBody->initGore("playerTorso", worldPos + Vector2{ 0.0f, 10.0f });
 		deadBody = new Gore();
-		deadBody->initGore("playerArm", worldPos);
+		deadBody->initGore("playerArm", worldPos + Vector2{ 0.0f, 5.0f });
 		deadBody = new Gore();
-		deadBody->initGore("playerLeg", worldPos);
+		deadBody->initGore("playerLeg", worldPos + Vector2{ 0.0f, 0.0f });
 		return;
 	}
 	else
@@ -149,15 +149,18 @@ void Player::release()
 void Player::CollisionWithEntity(Entity* _col)
 {
 	if (hitRecover > 0.0f) return;
+	healSpeed = 0.0001f;
 	if (moveVec.x > 0)
 	{
 		moveVec.x = -250.0f;
 		moveVec.y = 250.0f;
+		onGround = false;
 	}
 	else
 	{
 		moveVec.x = 250.0f;
 		moveVec.y = 250.0f;
+		onGround = false;
 	}
 	music->playNew("NPC_Hit_1.wav");
 
@@ -216,6 +219,12 @@ void Player::keyInput()
 		{
 			moveVec.y -= 1000.0f * Time->deltaTime();
 		}
+
+		if (!dead && worldPos.y <= -100.0f)
+		{
+			hp = -1;
+			healSpeed = 0.0001f;
+		}
 	}
 
 
@@ -227,25 +236,12 @@ void Player::keyInput()
 
 	}
 
-	//vertical();
 	if (abs(moveVec.x) > maxSpeed / 3)
 		moveVec.x /= abs(moveVec.x) / (maxSpeed / 3);
 	if (abs(moveVec.y) > maxSpeed)
 		moveVec.y /= abs(moveVec.y) / maxSpeed;
 
 
-}
-
-void Player::vertical()
-{
-	if (onGround)
-	{
-		if (Input->getButtonDown(KeyType::Space))
-		{
-			moveVec.y = 200.0f;
-			onGround = false;
-		}
-	}
 }
 
 void Player::imgInit()

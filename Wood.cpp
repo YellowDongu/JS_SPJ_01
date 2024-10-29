@@ -33,7 +33,7 @@ void Wood::use()
 	Wood* newItem = new Wood();
 	newItem->init(node->position());
 	node->block(newItem);
-	gridMap->updateNearNode(node, 3);
+	gridMap->updateNearNode(node, 2);
 	music->playNew("Dig_0.wav");
 	count -= 1;
 }

@@ -19,6 +19,8 @@
 #include "MPBarUI.h"
 #include "CraftUI.h"
 #include "ArmourUI.h"
+#include "Cursor.h"
+#include "DeathUI.h"
 
 #include "DirtWall.h"
 #include "Wood.h"
@@ -32,6 +34,9 @@
 #include "Grass.h"
 #include "BigEyeSummoner.h"
 #include "Arrow.h"
+
+#include "Trophy.h"
+
 
 TestScene::TestScene() : player(nullptr)
 {
@@ -50,6 +55,7 @@ void TestScene::init()
 	cam->update();
 	cam->setBorder(Vector2::zero(), Vector2{ 800 * 16, 600 * 16 });
 
+
 	std::list<Node*> nodes = gridMap->findNodes(Vector2Int{ 0,0 }, Vector2Int{ 800,30 });
 	for (auto& node : nodes)
 	{
@@ -61,18 +67,7 @@ void TestScene::init()
 	}
 	nodes.clear();
 
-	nodes = gridMap->findNodes(Vector2Int{ 0,31 }, Vector2Int{ 800,39 });
-	for (auto& node : nodes)
-	{
-		if (!node) continue;
-		if (node->block() || node->furniture()) continue;
-		Dirt* block = new Dirt();
-		block->init(node->position());
-		node->block(block);
-	}
-	nodes.clear();
-
-	nodes = gridMap->findNodes(Vector2Int{ 0,40 }, Vector2Int{ 800,40 });
+	nodes = gridMap->findNodes(Vector2Int{ 0,31 }, Vector2Int{ 800,35 });
 	for (auto& node : nodes)
 	{
 		if (!node) continue;
@@ -84,40 +79,221 @@ void TestScene::init()
 	nodes.clear();
 
 
+
+	nodes = gridMap->findNodes(Vector2Int{ 100,32 }, Vector2Int{ 110,35 });
+	for (auto& node : nodes)
+	{
+		if (!node->block()) continue;
+		Block* block = node->block();
+		node->unlinkBlock();
+		delete block;
+		Copper* newBlock = new Copper();
+		newBlock->init(node->position());
+		node->block(newBlock);
+	}
+	nodes.clear();
+
+
+
+	int randInt = 0;
+	randInt = getRandomNumber(2, 6);
+
+	nodes = gridMap->findNodes(Vector2Int{ 0,36 }, Vector2Int{ 100,36 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+
+		if (randInt <= 0)
+		{
+			Node* upperNode = gridMap->findNode
+			(node->position() + Vector2Int{0,1});
+			Tree* newTree = new Tree();
+			newTree->init({ -1, -1 });
+			newTree->setGrowTime(3.0f);
+			newTree->gridPosition(upperNode->position());
+			upperNode->furniture(newTree);
+			srand(node->position().x);
+			randInt = getRandomNumber(2, 6);
+		}
+		else randInt--;
+
+	}
+	nodes.clear();
+
+	nodes = gridMap->findNodes(Vector2Int{ 100,36 }, Vector2Int{ 243,37 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+
+		if (randInt <= 0 && (node->position().x < 126 || node->position().x > 174) && node->position().y == 37)
+		{
+			Node* upperNode = gridMap->findNode(node->position() + Vector2Int{ 0,1 });
+			Tree* newTree = new Tree();
+			newTree->init({ -1, -1 });
+			newTree->setGrowTime(3.0f);
+			newTree->gridPosition(upperNode->position());
+			upperNode->furniture(newTree);
+			randInt = getRandomNumber(2, 6);
+		}
+		else randInt--;
+	}
+	nodes.clear();
+
+
+	nodes = gridMap->findNodes(Vector2Int{ 126,38 }, Vector2Int{ 174,38 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+
+
+		if (randInt <= 0)
+		{
+			Node* upperNode = gridMap->findNode(node->position() + Vector2Int{ 0,1 });
+			Tree* newTree = new Tree();
+			newTree->init({ -1, -1 });
+			newTree->setGrowTime(3.0f);
+			newTree->gridPosition(upperNode->position());
+			upperNode->furniture(newTree);
+			randInt = getRandomNumber(2, 6);
+		}
+		else randInt--;
+	}
+	nodes.clear();
+
+
+
+	nodes = gridMap->findNodes(Vector2Int{ 244,36 }, Vector2Int{ 350,36 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+
+
+
+	}
+	nodes.clear();
+
+
+
+
+	nodes = gridMap->findNodes(Vector2Int{ 246,37 }, Vector2Int{ 350,37 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+	}
+	nodes.clear();
+
+	nodes = gridMap->findNodes(Vector2Int{ 248,38 }, Vector2Int{ 350,38 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+
+		if (randInt <= 0 && (node->position().x < 312 || node->position().x > 332))
+		{
+			Node* upperNode = gridMap->findNode(node->position() + Vector2Int{ 0,1 });
+			Tree* newTree = new Tree();
+			newTree->init({ -1, -1 });
+			newTree->setGrowTime(3.0f);
+			newTree->gridPosition(upperNode->position());
+			upperNode->furniture(newTree);
+			randInt = getRandomNumber(2, 6);
+		}
+		else randInt--;
+	}
+	nodes.clear();
+
+	nodes = gridMap->findNodes(Vector2Int{ 312,39 }, Vector2Int{ 332,39 });
+	for (auto& node : nodes)
+	{
+		if (!node) continue;
+		if (node->block() || node->furniture()) continue;
+		Grass* block = new Grass();
+		block->init(node->position());
+		node->block(block);
+
+		if (randInt <= 0)
+		{
+			Node* upperNode = gridMap->findNode(node->position() + Vector2Int{ 0,1 });
+			Tree* newTree = new Tree();
+			newTree->init({ -1, -1 });
+			newTree->setGrowTime(3.0f);
+			newTree->gridPosition(upperNode->position());
+			upperNode->furniture(newTree);
+			randInt = getRandomNumber(2, 6);
+		}
+		else randInt--;
+	}
+	nodes.clear();
+
+
+
+
+
 	gridMap->updateAllBlock();
 
-
-	entityMgr->createPlayer(Vector2{900.0f, 900.0f});
+	entityMgr->createPlayer(Vector2{ 900.0f, 650.0f });
 	player = entityMgr->linkPlayer();
-	player->spawnPoint({ 900.0f, 900.0f });
+	player->spawnPoint({ 900.0f, 650.0f });
 	
 	rendering->linkplayer(player);
 	rendering->linkEntityList(entityMgr->linkList());
-	
-	InventoryUI* invenUI = new InventoryUI();
-	invenUI->init(rendering->linkplayer()->linkInven());
-	UIMgr->appendInven(invenUI);
-	UIMgr->appendUI(invenUI);
-	
+
+	CraftUI* craftUI = new CraftUI();
+	craftUI->init();
+	UIMgr->appendUI(craftUI);
+	itemMgr->init(player);
+
 	HPBarUI* hpBar = new HPBarUI();
 	hpBar->init(player);
 	UIMgr->appendUI(hpBar);
 	MPBarUI* mpBar = new MPBarUI();
 	mpBar->init(player);
 	UIMgr->appendUI(mpBar);
-	
-	CraftUI* craftUI = new CraftUI();
-	craftUI->init();
-	UIMgr->appendUI(craftUI);
-	itemMgr->init(player);
 
 	ArmourUI* armourUI = new ArmourUI();
 	armourUI->init();
 	UIMgr->appendUI(armourUI);
 
-	DebugUI* testUI = (DebugUI*)UIMgr->appendUI(new DebugUI());
-	testUI->leftTop({ 0.0f,0.0f });
-	testUI->rightBottom({ 0.0f,0.0f });
+	InventoryUI* invenUI = new InventoryUI();
+	invenUI->init(rendering->linkplayer()->linkInven());
+	UIMgr->appendInven(invenUI);
+	UIMgr->appendUI(invenUI);
+
+	Cursor* newCursor = new Cursor();
+	newCursor->init();
+	UIMgr->appendUI(newCursor);
+	UIMgr->linkCursor(newCursor);
+
+	DeathUI* deathUI = new DeathUI();
+	deathUI->init();
+	UIMgr->appendUI(deathUI);
+
+	//DebugUI* testUI = (DebugUI*)UIMgr->appendUI(new DebugUI());
+	//testUI->leftTop({ 0.0f,0.0f });
+	//testUI->rightBottom({ 0.0f,0.0f });
 
 	CopperPickAxe* toolTest = new CopperPickAxe();
 	toolTest->init();
@@ -157,13 +333,16 @@ void TestScene::init()
 	arrowTest->addItemCount(300);
 	player->linkInven()->pickUp(arrowTest, 1);
 
+
+	//Trophy* endTest = new Trophy();
+	//endTest->init();
+	//player->linkInven()->pickUp(endTest, 1);
+
+
 	cam->Position(player->position());
 	gridMap->getVisiableNodes();
 
 	music->playBGM("Music-Overworld_Day.mp3");
-	//sun->init();
-	//sun->linkGridMap(map);
-	//sun->manuallyUpdateWorldLight();
 }
 
 void TestScene::render(HDC _hdc)

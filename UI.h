@@ -11,7 +11,7 @@ enum UIState
 class UI
 {
 public:
-	UI() :lt(Vector2::zero()), rb(Vector2::zero()), currentState(UIState::normal), active(true) {}
+	UI() :lt(Vector2::zero()), rb(Vector2::zero()), currentState(UIState::normal), active(true), toolTip(L"NULL") {}
 	virtual ~UI() {}
 
 	virtual void update() abstract;
@@ -29,8 +29,10 @@ public:
 	const bool& isActive() const { return active; }
 	void setActive(bool _value) { active = _value; }
 
+	std::wstring getToolTip() { return toolTip; }
 protected:
 	Vector2 lt, rb;
 	bool active;
 	UIState currentState;
+	std::wstring toolTip;
 };

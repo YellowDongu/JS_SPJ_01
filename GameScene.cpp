@@ -18,6 +18,7 @@ void GameScene::init()
 
 void GameScene::render(HDC _hdc)
 {
+
 }
 
 int GameScene::update()

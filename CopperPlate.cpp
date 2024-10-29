@@ -109,6 +109,7 @@ void CopperPlate::init()
 	code = 21;
 	itemUsingState = UsingState::Swing;
 	itemName = L"CopperPlate";
+	armour = 20;
 }
 
 void CopperPlate::render(HDC _hdc)

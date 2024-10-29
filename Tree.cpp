@@ -77,7 +77,7 @@ void Tree::update()
 	liveTime = -1.0f;
 	placedImgSize = { 20, 20 };
 	srand((unsigned int)Time->deltaTime());
-	height = 10 + rand() % 5;
+	height = getRandomNumber(8, 15);
 	
 	getImgSet("tree");
 
@@ -87,7 +87,7 @@ void Tree::update()
 	{
 		posInfo.push_back({0,i});
 		srand((unsigned int)((int)GetTickCount64() * i));
-		imgPosInfo.push_back({0,rand() % 5});
+		imgPosInfo.push_back({0, getRandomNumber(0, 5) });
 		node->linkFurniture(this);
 		i++;
 	}
@@ -113,7 +113,7 @@ Item* Tree::destroyed(Vector2Int _gridPos)
 		harden -= Time->deltaTime() * 10.0f;
 
 		srand((unsigned int)currentTime);
-		int rndInt = rand() % 3;
+		int rndInt = getRandomNumber(0, 3);
 		switch (rndInt)
 		{
 		case 0:
@@ -155,7 +155,7 @@ Item* Tree::destroyed(Vector2Int _gridPos)
 
 			Tree* wood = new Tree();
 			wood->init({ -1, -1 });
-			wood->addItemCount(2);
+			wood->addItemCount(1);
 			wood->position(Vector2Int::toVec2(node->position() * 16 + Vector2Int{ 8, 8 }));
 			itemMgr->appendList(wood);
 		}

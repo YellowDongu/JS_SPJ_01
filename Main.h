@@ -4,7 +4,7 @@
 class MainGame
 {
 public:
-	MainGame() : hWnd(NULL), hdc(NULL), mainFont(NULL) {}
+	MainGame() : hWnd(NULL), hdc(NULL) {}
 	~MainGame() { release(); }
 
 	void update();
@@ -12,11 +12,10 @@ public:
 	void render(HDC _hdc);
 	void release();
 	void init(HWND _hWnd);
+	void loadGame();
 
 
 private:
 	HWND hWnd;
 	HDC hdc;
-	HFONT mainFont;
-
 };

@@ -6,39 +6,40 @@
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
-
+#include "ImageHandler.h"
 
 void MainGame::init(HWND _hWnd)
 {
 	hWnd = _hWnd;
-	hdc = GetDC(hWnd);
-	AddFontResourceEx(L".\\Assets\\Font\\ANDYB.TTF", FR_PRIVATE, NULL);
-	mainFont = CreateFont(
-		20,               // Height
-		0,                // Width (0 means default width)
-		0,                // Escapement
-		0,                // Orientation
-		FW_BOLD,        // Weight (normal)
-		FALSE,            // Italic
-		FALSE,            // Underline
-		FALSE,            // StrikeOut
-		DEFAULT_CHARSET,  // Charset
-		OUT_DEFAULT_PRECIS, // Output precision
-		CLIP_DEFAULT_PRECIS, // Clipping precision
-		DEFAULT_QUALITY,  // Quality
-		DEFAULT_PITCH | FF_SWISS,  // Pitch and Family
-		L"Andy"          // Font face
-	);
 
+
+
+
+	AddFontResourceEx(L".\\Assets\\Font\\ANDYB.TTF", FR_PRIVATE, NULL);
+
+	loadGame();
+}
+
+void MainGame::loadGame()
+{
+	hdc = GetDC(hWnd);
+
+	HBITMAP back = ImageHandler::loadImg(L".\\Assets\\SplashScreen\\mainMenuSplash.bmp");
+	HBITMAP front = ImageHandler::loadImg(L".\\Assets\\SplashScreen\\BackGround_mainMenu_splashLogo.bmp");
+	ImageHandler::renderWithoutBack(back, hdc, 0, 0);
+	ImageHandler::renderWithoutBack(front, hdc, 0, 0);
+
+
+
+	rendering->init();
 
 	Input->Init(hWnd);
 	cam->init(Vector2::zero(), hWnd);
 	sceneMgr->init();
 	Time->Init();
 	music->init();
-
-	music->playBGM("Music-Journey's_Beginning_(intro).mp3", false);
-
+	music->playBGM("Music-Title_Screen.mp3");
+	//music->playBGM("Music-Journey's_Beginning_(intro).mp3", false);
 }
 
 void MainGame::update()

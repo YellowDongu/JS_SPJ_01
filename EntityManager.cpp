@@ -121,7 +121,7 @@ void EntityManager::update()
 	}
 	else
 	{
-		//randomSpawnEnemy();
+		randomSpawnEnemy();
 	}
 
 	if (!extraList.empty())
@@ -224,12 +224,12 @@ void EntityManager::render(HDC _hdc)
 					if (reversed)
 					{
 						handPos = { -2,7 };
-						angle = -45.0f;
+						angle = -90.0f;
 					}
 					else
 					{
 						handPos = { 2,7 };
-						angle = 45.0f;
+						angle = -90.0f;
 					}
 				}
 				else if (player->animation()->checkCurrentState("01.armR") == "useMiddleR")
@@ -392,8 +392,9 @@ void EntityManager::randomSpawnEnemy()
 
 	if (time <= 30.0f) return;
 
-	srand((unsigned int)GetTickCount64());
-	int random = rand() % 2;
+	//srand((unsigned int)GetTickCount64());
+	//int random = rand() % 2;
+	int random = getRandomNumber(1,2);
 	if (random == 1)
 	{
 		Vector2 min = cam->calculateWorldPosition({ -100.0f, cam->getWindowSize().y + 100.0f });

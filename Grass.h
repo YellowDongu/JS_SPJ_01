@@ -13,7 +13,7 @@ public:
 	void use() override;
 	void init(Vector2Int _gridPos) override;
 	Item* destroyed(Vector2Int _gridPos) override;
-
+	void changeBlockImg(std::string state, int shadow) override;
 private:
 
 

@@ -15,9 +15,9 @@ public:
 	void getImgSet(std::string name);
 
 	void bottomPosition(int& _value) { bottomPos = _value; }
-	void gridPosition(Vector2Int& _value) { placedPos = _value; }
-	void imageGridSize(Vector2Int& _value) { imgGridSize = _value; }
-	void imageGridPosition(Vector2Int& _value) { imgGridPos = _value; }
+	void gridPosition(const Vector2Int& _value) { placedPos = _value; }
+	void imageGridSize(const Vector2Int& _value) { imgGridSize = _value; }
+	void imageGridPosition(const Vector2Int& _value) { imgGridPos = _value; }
 
 	const bool& disassemble() const { return disAssemble; }
 	const int& bottomPosition() const { return bottomPos; }

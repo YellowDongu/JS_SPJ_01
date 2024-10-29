@@ -20,7 +20,10 @@ Chest::~Chest()
 
 Item* Chest::clone() const
 {
-	return new Chest(*this);
+	Chest* chest = new Chest(*this);
+	chest->chestInven = new Inventory();
+	chest->chestInven->chestInit();
+	return chest;
 }
 
 void Chest::dragDrop()
@@ -71,7 +74,7 @@ void Chest::init(Vector2Int _position)
 	maxCount = 16;
 	bottomPos = -1;
 	imgGridSize = { 2,2 };
-	imgGridPos = { 0,2 };
+	imgGridPos = { 0,0 };
 
 	chestInven = new Inventory();
 	chestInven->chestInit();

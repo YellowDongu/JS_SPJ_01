@@ -4,6 +4,7 @@
 #include "CollisionManager.h"
 #include "UIManager.h"
 #include "popUpUI.h"
+#include "Cursor.h"
 
 void UIManager::clear()
 {
@@ -29,6 +30,8 @@ void UIManager::release()
 		}
 		popUpUIList.clear();
 	}
+	inven = nullptr;
+	cursor = nullptr;
 }
 
 void UIManager::update()
@@ -68,7 +71,19 @@ bool UIManager::checkColl()
 	{
 		if (!ui->isActive()) continue;
 		if (CollisionHandler::collision(ui))
+		{
+			if (cursor)
+			{
+				((Cursor*)cursor)->hovering(ui);
+			}
+
 			return true;
+		}
+	}
+
+	if (cursor)
+	{
+		((Cursor*)cursor)->notHovering();
 	}
 	return false;
 }

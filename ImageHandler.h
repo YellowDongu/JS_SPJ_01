@@ -1,6 +1,7 @@
 #pragma once
 static int currentFontSize = 0;
 static HFONT currentFont = nullptr;
+static HFONT redFont = nullptr;
 
 class ImageHandler
 {
@@ -43,6 +44,7 @@ public:
     static void renderTransparentWithoutBack(const HBITMAP& hBitmap, HDC& _hdc, int x, int y, BYTE alpha);
     // 이미지 렌더 - 이미지를 디지털 줌 후 렌더해줌
     static void zoomRender(const HBITMAP& _hBitmap, HDC _hdc, int x, int y, float magnification);
+    static void zoomRender(const HBITMAP& _hBitmap, HDC _hdc, Vector2Int drawPos, Vector2Int newSize);
 
     static HBITMAP shadowImage(const HBITMAP& _bitMap, int percent);
     static void DrawOutlinedText(HDC hdc, const wchar_t* text, int x, int y);
@@ -73,44 +75,20 @@ public:
 
         // 현재 폰트 크기를 갱신
         currentFontSize = size;
-        /**/
-        /*
-        HFONT hOldFont = (HFONT)GetCurrentObject(_hdc, OBJ_FONT);
-        if (hOldFont)
+    }
+    static void deathTextFont(HDC _hdc)
+    {
+        // 폰트 크기가 이전과 같으면 폰트를 변경할 필요가 없음
+        if (redFont == NULL)
         {
-            LOGFONT logFont;
-            // 기존 폰트 정보 가져오기
-            if (GetObject(hOldFont, sizeof(LOGFONT), &logFont))
-            {
-                // 폰트 크기 변경
-                logFont.lfHeight = size;
-
-                // 새로운 폰트 생성
-                HFONT hNewFont = CreateFontIndirect(&logFont);
-                if (hNewFont)
-                {
-                    // 새 폰트를 DC에 선택하고 이전 폰트 반환
-                    HFONT hPrevFont = (HFONT)SelectObject(_hdc, hNewFont);
-
-                    // 선택된 폰트를 다시 원래 폰트로 복원
-                    //SelectObject(_hdc, hPrevFont);
-                    DeleteObject(hPrevFont);
-                }
-            }
+            redFont = CreateFont(
+                120, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
+                OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                DEFAULT_PITCH | FF_DONTCARE, TEXT("Andy"));
         }
-        */
-        //HFONT newFont = CreateFont(
-        //    size, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
-        //    OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-        //    DEFAULT_PITCH | FF_SWISS, L"Andy");
-        //HFONT oldFont = (HFONT)SelectObject(_hdc, newFont);
-        //oldFont = CreateFont(
-        //    size, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
-        //    OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-        //    DEFAULT_PITCH | FF_DONTCARE, TEXT("Andy"));
-        //SelectObject(_hdc, oldFont);
-        //DeleteObject(newFont);
-        
+
+        // 새로운 폰트를 DC에 선택
+        SelectObject(_hdc, redFont);
     }
 private:
     ImageHandler() {}

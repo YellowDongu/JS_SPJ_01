@@ -15,11 +15,13 @@ public:
 	void createPopUpText(Vector2 pos, std::wstring content);
 	void appendInven(InventoryUI* _inven) { inven = _inven; }
 	InventoryUI* getInven() { return inven; }
+	void linkCursor(UI* ui) { cursor = ui; }
+	UI* linkCursor() { return cursor; }
 
 private:
 	std::list<UI*> uiList;
 	std::list<UI*> popUpUIList;
 	InventoryUI* inven = nullptr;
-
+	UI* cursor = nullptr;
 };
 #define UIMgr GET_SINGLETON(UIManager)

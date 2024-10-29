@@ -13,7 +13,7 @@ public:
 	virtual Item* destroyed(Vector2Int _gridPos) abstract;
 
 	void getImgSet(std::string name);
-	void changeBlockImg(std::string state, int shadow);
+	virtual void changeBlockImg(std::string state, int shadow);
 	Vector2Int imageFinder(std::string state);
 
 protected:

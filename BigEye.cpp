@@ -4,8 +4,10 @@
 #include "TimeManager.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
-#include "Tool.h"
+#include "Projectile.h"
 #include "CollisionManager.h"
+#include "ItemManager.h"
+#include "GoldBar.h"
 
 BigEye::BigEye() : condition(0), phase(0), rushCount(0), spawnCount(0), stopWatch(0.0f), angle(0.0f)
 {
@@ -26,8 +28,8 @@ void BigEye::init()
 	rightSideWall = false;
 	LeftSideWall = false;
 	dmg = 40;
-	hp = 100;
-	maxHp = 100;
+	hp = 1000;
+	maxHp = 1000;
 	speed = 500.0f;
 	maxSpeed = 100.0f;
 
@@ -68,6 +70,12 @@ void BigEye::update()
 		deadBody->initGore("BigEye2", worldPos + Vector2{ 20, 20 });
 		deadBody = new Gore();
 		deadBody->initGore("BigEye3", worldPos + Vector2{-20, -20});
+		GoldBar* goldBar = new GoldBar();
+		goldBar->init();
+		goldBar->addItemCount(5);
+		goldBar->position(worldPos);
+		itemMgr->appendList(goldBar);
+
 		dead = true;
 		for (auto& servent : servents)
 		{
@@ -118,13 +126,18 @@ void BigEye::update()
 					CollisionHandler::collision((*iter), (Tool*)(item));
 			}
 
+			for (auto item : *itemMgr->linkProjectileList())
+			{
+				if (CollisionHandler::collision(*iter, item))
+				{
+					item->setDead(true);
+				}
+			}
+
 			CollisionHandler::collision(player, *iter);
 			iter++;
 		}
 	}
-
-
-
 
 	if (condition == 0)
 	{
@@ -161,8 +174,9 @@ void BigEye::update()
 				else
 				{
 					rushCount = 6;
-					moveVec = (player->position() - worldPos) * 3.0f;
+					moveVec = (player->position() - worldPos) * 2.25f;
 					angle = Vector2::angle(player->position() - worldPos) - 90.0f;
+					music->playNew("Roar_0.wav");
 					angle *= -1;
 				}
 			}
@@ -226,8 +240,9 @@ void BigEye::update()
 				}
 				else
 				{
-					moveVec = (player->position() - worldPos) * 0.7f;
+					moveVec = (player->position() - worldPos) * 2.25f;
 					angle = Vector2::angle(player->position() - worldPos) - 90.0f;
+					music->playNew("Roar_0.wav");
 					angle *= -1;
 				}
 			}

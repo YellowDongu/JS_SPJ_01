@@ -56,6 +56,7 @@ void CopperLeggings::init()
 	code = 22;
 	itemUsingState = UsingState::Swing;
 	itemName = L"CopperLeggings";
+	armour = 15;
 }
 
 void CopperLeggings::render(HDC _hdc)

@@ -33,14 +33,16 @@ void ArmourUI::init()
 
 void ArmourUI::update()
 {
-	if (Input->getButtonDown(KeyType::Escape))
+	if (UIMgr->getInven()->isActive() != active)
 	{
 		active = !active;
-
 		plate->setActive(active);
 		helmet->setActive(active);
 		leggings->setActive(active);
 	}
+
+
+
 	if (!active)
 	{
 		return;

@@ -357,6 +357,21 @@
     <ClInclude Include="SmallEye.h">
       <Filter>05. Entity\Boss\EyeOfCthulhu</Filter>
     </ClInclude>
+    <ClInclude Include="DeathUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>04. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EndUI.h">
+      <Filter>04. UI\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="GoldBar.h">
+      <Filter>06.Item\Item_other</Filter>
+    </ClInclude>
+    <ClInclude Include="Trophy.h">
+      <Filter>06.Item\Item_other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="APIBasic.cpp">
@@ -610,6 +625,21 @@
     </ClCompile>
     <ClCompile Include="SmallEye.cpp">
       <Filter>05. Entity\Boss\EyeOfCthulhu</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>04. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EndUI.cpp">
+      <Filter>04. UI\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="GoldBar.cpp">
+      <Filter>06.Item\Item_other</Filter>
+    </ClCompile>
+    <ClCompile Include="Trophy.cpp">
+      <Filter>06.Item\Item_other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -79,3 +79,35 @@ Item* Grass::destroyed(Vector2Int _gridPos)
 	
 	return newItem;
 }
+
+void Grass::changeBlockImg(std::string state, int shadow)
+{
+	if (state == "1111")
+	{
+		Node* node = gridMap->findNode(Vector2::toVec2Int(pos));
+		node->unlinkBlock();
+
+		Dirt* dirt = new Dirt();
+		dirt->init({ -1, -1 });
+		node->block(dirt);
+		dirt->changeBlockImg(state, shadow);
+		dirt->position(pos);
+
+		delete this;
+		return;
+	}
+
+
+
+	std::string imgInfo;
+
+	if (shadow == 0) imgInfo = "shadow0";
+	else imgInfo = "shadow" + std::to_string(shadow);
+	imgInfo += "rotation0";
+
+	auto resOne = placedImgSet->find(imgInfo);
+	if ((*resOne).second.empty()) return;
+
+	placedImgPos = imageFinder(state);
+	rawPlacedImg = (*resOne).second[0];
+}

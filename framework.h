@@ -22,8 +22,7 @@
 #include <map>
 #include <filesystem>
 #include <sstream>
-//namespace fs = std::filesystem;
-//#include <gdiplus.h>
+#include <random>
 
 
 #pragma comment (lib, "Msimg32.lib")
@@ -58,3 +57,7 @@
 #include "InputManager.h"
 
 #pragma endregion
+
+
+
+int getRandomNumber(int min, int max);

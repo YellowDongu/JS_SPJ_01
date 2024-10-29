@@ -16,8 +16,9 @@ public:
 
 
 private:
-	Scene* currentScene;
-	std::vector<Scene*> scenes;
+	Scene* currentScene = nullptr;
 	std::vector<Scene*>::iterator sceneSequence = scenes.begin();
+
+	std::vector<Scene*> scenes;
 };
 #define sceneMgr  SceneManager::getInstance()

@@ -25,7 +25,9 @@
 #include "CopperSword.h"
 #include "WoodWall.h"
 #include "StoneWall.h"
-
+#include "BigEyeSummoner.h"
+#include "GoldBar.h"
+#include "Trophy.h"
 
 void Recipe::init()
 {
@@ -178,6 +180,27 @@ void Recipe::init()
 		*newItem->linkItemCount() = 4;
 		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{9, 4}} };
 		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "stone", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[0].first.push_back(newRecipe);
+		recipeCategory[0].second = true;
+	}
+	{
+		BigEyeSummoner* newItem = new BigEyeSummoner();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{8, 5}, {3,5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "copperBar", "shadow0rotation0")[0]);
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_block", "wood", "shadow0rotation0")[0]);
+		recipes.push_back(newRecipe);
+		recipeCategory[0].first.push_back(newRecipe);
+		recipeCategory[0].second = true;
+	}
+	{
+		Trophy* newItem = new Trophy();
+		newItem->init();
+		*newItem->linkItemCount() = 1;
+		RecipeInfo* newRecipe = new RecipeInfo{ newItem, newItem->linkItemCount(), true, {{23, 5}} };
+		newRecipe->IngredientImg.push_back(rendering->findImage("Item_ingredient", "goldBar", "shadow0rotation0")[0]);
 		recipes.push_back(newRecipe);
 		recipeCategory[0].first.push_back(newRecipe);
 		recipeCategory[0].second = true;

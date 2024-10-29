@@ -77,12 +77,14 @@ void CraftUI::update()
 		currentSlots[selectedIndex]->setSelected(false);
 		selectedIndex++;
 		currentSlots[selectedIndex]->setSelected(true);
+		music->playNew("Menu_Tick.wav");
 	}
-	if (Input->getButtonDown(KeyType::F) && selectedIndex != 0)
+	if (Input->getButtonDown(KeyType::G) && selectedIndex != 0)
 	{
 		currentSlots[selectedIndex]->setSelected(false);
 		selectedIndex--;
 		currentSlots[selectedIndex]->setSelected(true);
+		music->playNew("Menu_Tick.wav");
 	}
 
 	if (moveDown)
@@ -135,15 +137,16 @@ void CraftUI::render(HDC _hdc)
 			currentSlots[i]->setSelected(true);
 			selectedIndex = i;
 			slot->changeState(UIState::normal);
+			music->playNew("Menu_Tick.wav");
 		}
 		i++;
 
 
 		if (slot->isSelected())
 		{
-			for (int i = 0; i < slot->linkRecipe()->needed.size(); i++)
+			for (int i = 0; i < (int)slot->linkRecipe()->needed.size(); i++)
 			{
-				Vector2Int start = Vector2Int{ 100 + 55 * i, 600 };
+				Vector2Int start = Vector2Int{ 100 + 45 * i, 600 };
 				Vector2Int slotSize = Vector2Int{ 35, 35 };
 				ImageHandler::renderWithoutBack(smallSlotImg, _hdc, start.x, start.y);
 
@@ -205,6 +208,7 @@ void CraftUI::scrollDown()
 			if (slot->isSelected())
 			{
 				index = selectedIndex;
+				music->playNew("Menu_Tick.wav");
 
 
 				int calIndex = 0;
@@ -221,7 +225,10 @@ void CraftUI::scrollDown()
 			else
 			{
 				if (slot != currentSlots[index])
+				{
+					music->playNew("Menu_Tick.wav");
 					index = i;
+				}
 			}
 
 		}
@@ -258,6 +265,7 @@ void CraftUI::scrollUp()
 			if (slot->isSelected())
 			{
 				index = selectedIndex;
+				music->playNew("Menu_Tick.wav");
 
 				int calIndex = 0;
 				for (auto& slotOther : currentSlots)
@@ -274,7 +282,10 @@ void CraftUI::scrollUp()
 			else
 			{
 				if (slot != currentSlots[index])
+				{
 					index = i;
+					music->playNew("Menu_Tick.wav");
+				}
 			}
 
 		}

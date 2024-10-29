@@ -8,6 +8,8 @@
 #include "UIManager.h"
 #include "CameraManager.h"
 #include "SoundManager.h"
+#include "Cursor.h"
+
 
 void MainMenuScene::init()
 {
@@ -21,6 +23,10 @@ void MainMenuScene::init()
 	endBtn->rightBottom({ 670.0f,680.0f });
 	logo = rendering->findImage("UI_Title_logo_shadow0rotation0");
 	logo = rendering->findImage("UI", "Title", "logo")[0];
+
+	Cursor* newCursor = new Cursor();
+	newCursor->init();
+	UIMgr->appendUI(newCursor);
 }
 
 void MainMenuScene::render(HDC _hdc)
@@ -28,8 +34,6 @@ void MainMenuScene::render(HDC _hdc)
 	rendering->render(_hdc);
 	UIMgr->render(_hdc);
 	ImageHandler::renderWithoutBack(logo, _hdc, (int)(cam->getWindowSize().x / 2) - 243, 100);
-
-
 }
 
 int MainMenuScene::update()
@@ -42,8 +46,8 @@ int MainMenuScene::update()
 		return 1;
 	}
 
-	if (!music->checkBGMPlaying())
-		music->playBGM("Music-Journey's_Beginning.mp3");
+	//if (!music->checkBGMPlaying())
+	//	music->playBGM("Music-Title_Screen.mp3");
 	
 	return 0;
 }

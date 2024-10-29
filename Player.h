@@ -22,7 +22,6 @@ public:
 	void CollisionWithEntity(Entity* _col) override;
 
 	void keyInput();
-	void vertical();
 	void imgInit();
 	void updateAni();
 	void useItem();
@@ -31,9 +30,10 @@ public:
 	Item*& currentUsingItem() { return usingItem; }
 	void deleteUsingItem() { usingItem = nullptr; }
 
+	bool* linkDead() { return &dead; }
 	int* linkMana() { return &mp; }
 	int* linkMaxMana() { return &maxMp; }
-
+	float* linkSpawnCount() { return &spawnTimer; }
 
 	Helmet* helmetSlot() { return helmet; }
 	Plate* plateSlot() { return plate; }

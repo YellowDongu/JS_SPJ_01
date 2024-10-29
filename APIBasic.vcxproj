@@ -93,6 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -122,6 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,13 +159,17 @@
     <ClInclude Include="CraftingTable.h" />
     <ClInclude Include="CraftSlotUI.h" />
     <ClInclude Include="CraftUI.h" />
+    <ClInclude Include="Cursor.h" />
+    <ClInclude Include="DeathUI.h" />
     <ClInclude Include="DebugUI.h" />
     <ClInclude Include="DefineArea.h" />
     <ClInclude Include="Dirt.h" />
     <ClInclude Include="DirtWall.h" />
     <ClInclude Include="EndButton.h" />
+    <ClInclude Include="EndUI.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="GoldBar.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Ingredient.h" />
     <ClInclude Include="framework.h" />
@@ -214,6 +220,7 @@
     <ClInclude Include="Tool.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="TreeTop.h" />
+    <ClInclude Include="Trophy.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Vector2.h" />
@@ -249,10 +256,13 @@
     <ClCompile Include="CraftingTable.cpp" />
     <ClCompile Include="CraftSlotUI.cpp" />
     <ClCompile Include="CraftUI.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="DeathUI.cpp" />
     <ClCompile Include="DebugUI.cpp" />
     <ClCompile Include="Dirt.cpp" />
     <ClCompile Include="DirtWall.cpp" />
     <ClCompile Include="EndButton.cpp" />
+    <ClCompile Include="EndUI.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="framework.cpp">
@@ -261,6 +271,7 @@
     <ClCompile Include="Furnace.cpp" />
     <ClCompile Include="Furniture.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GoldBar.cpp" />
     <ClCompile Include="Gore.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="GridMap.cpp" />
@@ -306,6 +317,7 @@
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TreeTop.cpp" />
+    <ClCompile Include="Trophy.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Wall.cpp" />

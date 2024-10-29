@@ -46,31 +46,23 @@ HBITMAP ImageHandler::cropImage(const HBITMAP& origin, int x, int y, int width, 
     HDC hdc = CreateCompatibleDC(NULL);
     HDC hdcMem = CreateCompatibleDC(NULL);
 
-    // 수정 시작
     // 원래 선택된 비트맵을 저장
     HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdc, origin);
-    // 수정 끝
 
     HBITMAP hCroppedBitmap = CreateCompatibleBitmap(hdc, width, height);
 
-    // 수정 시작
     // 새로 생성된 비트맵을 메모리 DC에 선택
     HBITMAP hOldCroppedBitmap = (HBITMAP)SelectObject(hdcMem, hCroppedBitmap);
-    // 수정 끝
 
     BitBlt(hdcMem, 0, 0, width, height, hdc, x, y, SRCCOPY);
 
-    // 수정 시작
     // DC에서 원래 비트맵으로 복원
     SelectObject(hdc, hOldBitmap);
     SelectObject(hdcMem, hOldCroppedBitmap);
-    // 수정 끝
 
-    // 추가 시작
     // GDI 객체 해제
     DeleteObject(hOldBitmap);
     DeleteObject(hOldCroppedBitmap);
-    // 추가 끝
 
     DeleteDC(hdc);
     DeleteDC(hdcMem);
@@ -80,48 +72,26 @@ HBITMAP ImageHandler::cropImage(const HBITMAP& origin, int x, int y, int width, 
 
 HBITMAP ImageHandler::cropImage(const HBITMAP& origin, Vector2Int startPos, Vector2Int imgSize)
 {
-    /*
     HDC hdc = CreateCompatibleDC(NULL);
     HDC hdcMem = CreateCompatibleDC(NULL);
 
-    SelectObject(hdc, origin);
-    HBITMAP hCroppedBitmap = CreateCompatibleBitmap(hdc, imgSize.x, imgSize.y);
-    SelectObject(hdcMem, hCroppedBitmap);
-    BitBlt(hdcMem, 0, 0, imgSize.x, imgSize.y, hdc, startPos.x, startPos.y, SRCCOPY);
-
-    DeleteDC(hdc);
-    DeleteDC(hdcMem);
-
-    return hCroppedBitmap;
-    */
-    HDC hdc = CreateCompatibleDC(NULL);
-    HDC hdcMem = CreateCompatibleDC(NULL);
-
-    // 수정 시작
     // 원래 선택된 비트맵을 저장
     HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdc, origin);
-    // 수정 끝
 
     HBITMAP hCroppedBitmap = CreateCompatibleBitmap(hdc, imgSize.x, imgSize.y);
 
-    // 수정 시작
     // 새로 생성된 비트맵을 메모리 DC에 선택
     HBITMAP hOldCroppedBitmap = (HBITMAP)SelectObject(hdcMem, hCroppedBitmap);
-    // 수정 끝
 
     BitBlt(hdcMem, 0, 0, imgSize.x, imgSize.y, hdc, startPos.x, startPos.y, SRCCOPY);
 
-    // 수정 시작
     // DC에서 원래 비트맵으로 복원
     SelectObject(hdc, hOldBitmap);
     SelectObject(hdcMem, hOldCroppedBitmap);
-    // 수정 끝
 
-    // 추가 시작
     // GDI 객체 해제
     DeleteObject(hOldBitmap);
     DeleteObject(hOldCroppedBitmap);
-    // 추가 끝
 
     DeleteDC(hdc);
     DeleteDC(hdcMem);
@@ -211,29 +181,8 @@ void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, int x, i
 
     // DC에서 원래 비트맵으로 복원
     SelectObject(gMemDC, hOldBitmap);
-
-    /*
-    if (_bitMap == NULL) { return; }
-    BITMAP bitmap;
-    GetObject(_bitMap, sizeof(BITMAP), &bitmap);
-
-    HDC dcMem = CreateCompatibleDC(_hdc);
-    // 수정 시작
-    // 원래 선택된 비트맵을 저장
-    HBITMAP hOldBitmap = (HBITMAP)SelectObject(dcMem, _bitMap);
-    // 수정 끝
-
-    // 배경색이 하얀색이여서 하얀색을 지정하면 깨짐 -> 바탕도 하얀색이여서 ==> 거의 안쓰는 색으로 배치해둠
-    TransparentBlt(_hdc, x, y, bitmap.bmWidth, bitmap.bmHeight, dcMem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, BackColor);
-
-    // 수정 시작
-    // DC에서 원래 비트맵으로 복원
-    SelectObject(dcMem, hOldBitmap);
-    // 수정 끝
-    DeleteDC(dcMem);
-    */
-
 }
+
 void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos)
 {
     if (_bitMap == nullptr || _bitMap == NULL) 
@@ -245,18 +194,13 @@ void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2I
 
     HBITMAP hOldBitmap = (HBITMAP)SelectObject(gtempDC, _bitMap);
 
-    GdiTransparentBlt(_hdc, startPos.x, startPos.y, size.x + 1, size.y + 1, gtempDC, imagePos.x, imagePos.y, size.x, size.y, BackColor);
+    GdiTransparentBlt(_hdc, startPos.x, startPos.y, size.x, size.y, gtempDC, imagePos.x, imagePos.y, size.x, size.y, BackColor);
     // DC에서 원래 비트맵으로 복원
     SelectObject(gtempDC, hOldBitmap);
 }
 
 void ImageHandler::renderWithoutBack(const HBITMAP& _bitMap, HDC& _hdc, Vector2Int startPos, Vector2Int size, Vector2Int imagePos, bool reverse)
 {
-    //if (!reverse)
-    //{
-    //    renderWithoutBack(_bitMap, _hdc, startPos, size, imagePos);
-    //    return;
-    //}
     if (_bitMap == NULL) { return; }
 
     // DC 생성
@@ -765,6 +709,44 @@ void ImageHandler::zoomRender(const HBITMAP& _hBitmap, HDC _hdc, int x, int y, f
     StretchBlt(_hdc, x, y, width, height, hdcSrc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
 
     DeleteDC(hdcSrc);
+}
+
+void ImageHandler::zoomRender(const HBITMAP& _hBitmap, HDC _hdc, Vector2Int drawPos, Vector2Int newSize)
+{
+
+    if(!gMemDC)
+        gMemDC = CreateCompatibleDC(NULL);
+    SelectObject(tempDC, _hBitmap);
+    int blank = 0;
+    HBITMAP oldBmp = NULL;
+    if (newSize.x > 100 || newSize.y > 100)
+    {
+        if (rotblank200 == NULL)
+            rotblank200 = loadImg(L"Blank200.bmp");
+        blank = 200;
+        oldBmp = (HBITMAP)SelectObject(hdcRotated, rotblank200);
+    }
+    else if (newSize.x > 50 || newSize.y > 50)
+    {
+        if (rotblank100 == NULL)
+            rotblank100 = loadImg(L"Blank100.bmp");
+        blank = 100;
+        oldBmp = (HBITMAP)SelectObject(hdcRotated, rotblank100);
+
+    }
+    else
+    {
+        if (rotblank50 == NULL)
+            rotblank50 = loadImg(L"Blank50.bmp");
+        blank = 50;
+        oldBmp = (HBITMAP)SelectObject(hdcRotated, rotblank50);
+    }
+
+    BITMAP bitmap;
+    GetObject(_hBitmap, sizeof(BITMAP), &bitmap);
+
+    StretchBlt(gMemDC, 0, 0, newSize.x, newSize.y, tempDC, 0, 0, bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
+    GdiTransparentBlt(_hdc, drawPos.x, drawPos.y, newSize.x, newSize.y, gMemDC, 0, 0, newSize.x, newSize.y, BackColor);
 }
 
 
