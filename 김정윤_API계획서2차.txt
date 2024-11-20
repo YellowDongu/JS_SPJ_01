@@ -1,0 +1,658 @@
+테라리아
+
+제출용
+
+++일차++
+기본적인 행동 패턴
+어제자 못한거 완성
+오늘자 구현
+만약 다했으면 다음일차꺼 진행
++α는 추가로 필요한 부분이 있으면 진행
+
+
+GUIDE : 여기서는 대분류와 중분류까지만 나오니 소분류는 저 아래 설계 참고
+
+
+ㅡ1일
+새 프로젝트 생성 및 초기화
+설계 계획 완성
+ㅁ프레임워크 - 대부분은 기존에 만들어둔거 이식과 기능추가라 하루 컷 가능
+	#벡터
+	#인풋매니저
+	#메인 카메라
+	#인풋매니저
+	#타임매니저
+	#이미지매니저
+	#씬&씬매니저
+	#사운드매니저
+ㅁ콜리전
+	#콜리전매니저
+
+
+ㅡ2일차
+ㅁ게임의 틀 => 메인메뉴에서 테스트 게임화면으로 넘어가는 환경 조성
+	#메인
+	#씬매니저
+	#씬
+ㅁ크래프팅과 아이템 => 테스트 환경 만들기
+	#공통
+	#블럭(돌,흙,잔디흙)
+ㅁ맵과 타일 => 테스트 환경 만들기
+	#타일맵
+	#타일
+
+
+ㅡ3일차
+ㅁ움직이는 객체
+	#공통
+	#플레이어
+ㅁ콜리전
+	#콜리전매니저(개선이 필요할 시)
+
+
+ㅡ4일차 (1차 중간검사 예정)
+ㅁUI항목
+	#인벤
+	#우측 상단 정보UI
+	#크래프팅 UI
+	#데미지 UI
+ㅁ인벤토리
+	#플레이어용 인벤
+	#상자용 인벤
+
+ㅡ5일차
+생존에 중점을 맞춰서 생존을 방해하는 몹 먼저 생성
+ㅁ움직이는 객체
+	#몹
+ㅁ콜리전
+	#콜리전매니저(개선이 필요할 시)
+
+추가)못했던 작업 시행 & 중간검사에 나왔던 문제점 고치기
+없으면 6일차 미리 시행
+
+ㅡ6일차
+ㅁ인벤토리 => 이걸 먼저
+	#플레이어용 인벤
+	#상자용 인벤
+
+
+ㅁ크래프팅과 아이템
+	#가구
+	#도구 (기초 구리 도구만)
+	#갑옷 (기초 구리 갑옷만)
+	#소비아이템&재료아이템
+	#블럭(이미 구현한 것 외의것(광석은 구리만))
+
+ㅡ7일차
+ㅁ크래프팅과 아이템
+	위에서 못했던거 전부 구현
+ㅁ맵과 타일 
+	#밤낮 구현(제작 시작)(일정 밀리면 안할 예정//2순위)
+
+ㅡ8일차 (2차 중간검사 예정)
+ㅁ맵과 타일
+	#밤낮 구현(제작 완료 or 포기 판단)(일정 밀리면 안할 예정//2순위)
+ㅁ움직이는 객체
+	#몹 (밤낮 구현되면 스폰조건 바꾸기)(일정 밀리면 안할 예정//2순위)
+
+ㅡ9일차
+ㅁ움직이는 객체
+	#보스
+
+추가)못했던 작업 시행 & 중간검사에 나왔던 문제점 고치기
+
+ㅡ10일차
+ㅁ크래프팅과 아이템(일정 밀리면 안할 예정//1순위)
+	#도구 (그 외 추가 도구들)
+	#갑옷 (그 외 추가 도구들)
+	#소비아이템&재료아이템(그 외 추가 도구들)
+	#블럭(구리 이상 테크 광석들)
+ㅡ11일차
+ㅁ맵과 타일
+	#환경
+	전체 맵 제작 시작
+	ㄴ 장르 특성상 맵이 커서 하루하고 반나절 소모할걸로 판단
+
+
+ㅡ12일차(3차 중간검사 예정일)
+ㅁ맵과 타일
+	전체 맵 완성시키기
+ㅁ게임의 틀<추가목표>
+	메인메뉴에서 디버그 맵과 일반 맵을 선택할 수 있게 하기
+
+ㅡ13일차
+밀려버린 기능 구현(1순위)
+버그 수정&못한 부분과 추가목표 도전(2순위)
+ㅁ저장시스템(메인메뉴에서 선택하는거까지)
+ㅁ움직이는 객체
+	#NPC
+
+-14일차(마지막 일차)
+밀려버린 기능 구현(1순위)
+버그 수정&못한 부분과 추가목표 도전(2순위) => 위 참고
+플레이 찍기 + 발표준비
+
+
+
+
+
+
+-설계-
+
+Function Point
+
+ㅁ 대분류
+# 중분류
+중분류 아래는 소분류
+ㅁ프레임워크
+
+#벡터
+ class - Vector2 - 변형
+ class - Vector2Int - 변형
+
+#메인 카메라
+ class - CameraManager - 변형
+
+#인풋매니저
+ class - InputManager - 변형
+ class - PlayerInput - 변형
+
+#타임매니저
+ class - TimeManager - 변형
+
+#이미지매니저
+ class - ImageHandler - 변형
+	!method
+	HBITMAP applyShadow(HBITMAP img, int value)
+ class - RenderManger
+	!var
+	map<string, HBITMAP> images
+	list<Entity*>* entityList
+	list<Node*>* blockList
+	list<Item*>* itemList
+	!method
+	void Render(HDC)
+	void findImg(string Name)
+	void loadImg(string path, string Name)
+	void linkEntityList(list<Entity*>* list)
+	void linkBlockListlist(vector<Node*>* list)
+	void linkItemListlist(vector<Item*>* list)
+
+메모
+ui는 uiManager에서 관리/렌더한다
+여기는 ui ㄴㄴ
+근데 item은 어디서 관리함?
+
+enum legState
+	idleR
+	idleL
+	walkL
+	walkR
+	jumpL
+	jumpR
+
+enum armState
+	idleR
+	idleL
+	walkL
+	walkR
+	jumpL
+	jumpR
+	useL
+	useU
+	useR
+	useD
+	useLU
+	useRU
+	useLD
+	useRD
+	swing
+
+enum torsoState
+	idleR
+	idleL
+	walkL
+	walkR
+
+enum headState
+	idleR
+	idleL
+	walkL
+	walkR
+
+
+ class - AnimationManager
+	!var
+	vector<Animation*> aniState
+
+ class - Animation
+	!var
+	float aniTime
+	float nextTime
+	float
+메모
+변할때만 맵 컨테이너에서 조회해서 변경
+
+
+#사운드매니저
+ class - SoundManager - 이미 있음
+
+ㅁ애니메이션매니저
+
+ㅁ게임의 틀
+#메인
+ class - Main
+	void update()
+	void render()
+	void render(HDC)
+	void init(HWND)
+	void release()
+#씬매니저
+ class - Scene (abstract)
+	!var
+	HBITMAP backgroundImg
+	
+	!Method
+	virtual void update() abstract
+	virtual void render(HDC) abstract
+	virtual void init() abstract
+ class - SceneManager
+	!var
+	Scene* CurrentScene
+	Scene* MainMenu
+	Scene* Game
+	!Method
+	void update()
+	void render(HDC)
+	void init()
+	
+#씬
+ class - MainMenu : Scene
+	!override
+ class - Game : Scene
+	!override
+
+
+ㅁUI항목
+ Class - UIManager
+	!var
+	bool active
+	vector<UI*> UIList
+	!Method
+	SetActive(bool)
+	Clicked() abstract
+	Clicked() abstract
+ Class - UI (abstract)
+	!var
+	vector2 leftTop
+	vector2 rightBottom
+	bool active
+	!Method
+	SetActive(bool)
+ 	isActive()
+	Clicked() abstract
+#인벤
+Class - HotBar : UI
+	!var
+	PlayerInventory* inven
+	!method
+
+
+Class - InventoryUI : UI
+	!var
+	PlayerInventory* inven
+	!method
+	
+Class - ChestUI : UI
+	!var
+	Inventory* inven
+	!method
+
+Class - SlotUI : UI
+	!var
+	bool HotbarSelected
+	InvenSlot* slot
+	HBITMAP slotImg
+	HBITMAP itemImg
+	!method
+
+#우측 상단 정보UI
+Class - HPBar : UI
+	!var
+	int* hp
+	!method
+
+Class - MPBar : UI
+	!var
+	int* mp
+	!method
+
+
+#크래프팅 UI
+Class - Crafting : UI
+	!var
+	int* mp
+	!method
+#장비 UI : UI
+Class - MPBar
+	!var
+	int* mp
+	!method
+
+#데미지 UI
+Class - DmgUIManager : UI
+	!var
+	list<DmgUI*> list;
+	!method
+	void deleteOld()
+	void render(HDC)
+	void update()
+	void create(int dmg, vector2 pos)
+Class - DmgUI : UI
+	!var
+	float aliveTime
+	vector2 pos
+	int dmg
+	!method
+	void init(int dmg)
+	void render(HDC)
+	void update()
+
+#메인메뉴
+Class StartButton : UI
+Class ExitButton : UI
+
+ㅁ맵과 타일
+ 메모
+- 눈에 보일 수 있는 맵
+
+#타일맵
+ class - GridMap
+	!var
+	list<Node*> nodes;
+	!method
+	Node* findNode(int x, int y)
+	Node* findNode(float x, float y)
+	list<Node*> findNodes(Vector2 start, Vector2 end)
+	
+#타일
+ class - Node
+	Furniture* furniture;
+	Wall* wall;
+	Block* block;
+	Method
+	item* mined(); => 가구/블럭(가구랑 블럭은 양립 불가능)
+	item* wallDestroyed();
+	
+#환경
+
+나무
+class - Tree
+
+
+<추가 목표>
+#(최우선) 밤낮 구현 => 낫 필수 다만 가능할걸로 보임
+  ㄴ 밤낮 구현에 따른 픽셀의 RGB 변화 => 변화 후 맵 컨테이너에 저장 => std::string으로 하면 알파벳 순으로 정렬되니깐 쓰기 좋을것
+  ㄴ 그래서 처음 로딩할때 빛에 따른 이미지를 구현
+ImageHandler => HBITMAP applyShadow(HBITMAP img, int value)
+광원매니저
+ Class - LightManger
+	!var
+	vector<Entity*>* entity
+	vector<Node*>* blocks
+	vector<Furniture*>* lights
+	!method
+	update()
+
+-시간에 따른 잔디 자라기(매우 후순위)
+-반블럭(매우 후순위)
+
+ㅁ인벤토리
+ Class - Inventory abstract
+	!var
+	vector<vector<InvenSlot*>> items;
+	bool open
+	!Method
+	Item* getItem(int x, int y)
+
+ Class - InvenSlot
+	!var
+	Item* item
+#플레이어용 인벤
+ Class - PlayerInventory : Inventory
+	!override
+	!var
+	int selected
+	item* inHand
+	!Method
+	void update()
+
+#상자용 인벤
+ Class - ChestInventory : Inventory
+	!override
+	!var
+	!Method
+
+
+ㅁ움직이는 객체
+#공통
+ Class - EntityManager
+	!var
+	list<Entity*> entityList[]
+  	!Method
+	void update()
+
+ Class - Entity (abstract)
+	!var
+	int light get;set;
+	string currentImg get;set;
+	int hp
+	Vector2 pos
+	Vector2 moveVec
+	
+  	!Method
+	virtual void CollisionWithBlock(Entity* _col, Vector2 colAmount) abstract
+	virtual void CollisionWithEntity(Entity* _col) abstract
+	virtual void hit() abstract
+	HBITMAP* linkImg()
+#플레이어
+
+ Class - Player : Entity
+	!override
+	!var
+	PlayerInventory* inven;
+	list<pair<furnitureType needFurniture, Item*>> recipe
+	int mana;
+	!Method
+	void inputReaction()
+
+
+ 메모
+ㄴ1칸짜리는 무시하고 올라갈 수 있게 하기
+- 인벤토리
+- 죽음+돈떨구기
+- 스프라이트 좌우 반전
+ 추가 목표(안할 가능성이 매우 높음)
+- 커스터마이징
+
+
+#몹
+ Class - Enemy : Entity
+	!var
+	!Method
+	tracePlayer()
+
+좀비
+ Class - Zombie : Enemy
+	!var
+	!Method
+작은 크툴루의 눈
+ Class - DemonEye : Enemy
+	!var
+	!Method
+	void 
+슬라임
+ Class - Slime : Enemy
+	!var
+	!Method
+
+
+ 메모
+>> 스폰
+만약 화면 밖 20블럭거리 내
+위로 3칸 비어있고 아래 1칸 차있고
+이게 좌우로도 같으면 스폰
+
+
+#보스
+ 메모
+ Class - Boss : Entity
+	!var
+	!Method
+	tracePlayer()
+
+- 크툴루의 눈
+ Class - BigEye : Boss
+	!var
+	!Method
+
+- 스켈레트론
+ Class - BigBone : Boss
+	!var
+	!Method
+
+<추가목표>
+#NPC
+ 목표
+- 거래시스템
+<\추가목표>
+
+
+ㅁ크래프팅과 아이템
+ 메모
+- 아이템 루팅과 아이템 설치
+- 크래프팅 레시피에 충족하는 아이템 표시
+- 상자&야생 루팅 상자
+- 아이템 사용
+- 아이템을 만들때 처음부터 레시피 포함해서 제작하기
+#공통
+ Class - Item (abstract)
+	!var
+	int light
+	Vector2 pos
+	Vector2 hitAreaStart
+	Vector2 hitAreaEnd
+	HBITMAP placedImg
+	HBITMAP itemImg
+	!method
+	virtual void dragDrop() abstract;
+	virtual void use() abstract;
+
+#가구
+ Class - furniture : Item (abstract)
+	!var
+	vector2 size
+	list<Item*> recipe
+	int light
+	!method
+
+상자
+Class - chest : furniture
+	!override
+	!var
+	!method
+	ChestInventory* inven
+	!Method
+	
+횟불
+class - torch : furniture
+	!override
+	!var
+	!Method
+제작대
+class - craftingTable : furniture
+	!override
+	!var
+	!Method
+
+
+#도구
+ Class - Tool : Item (abstract)
+	!override
+	!var
+	int damage
+	float speed
+	int efficiency
+	list<Entity*> hitted
+	!method
+	bool isHitted(Entity* col)
+
+class - pickAxe : Tool
+class - hammer : Tool
+class - Axe : Tool
+class - IronSword : Tool
+class - Bow : Tool
+class - Arrow : Tool
+메모
+타격판정을 할 때 원형으로 때리는 애들은
+아이템을 콜리전매니저의 itemlist에 등록 후
+자신의 크기 판정을 4방향으로 서남 서북 동남 동북으로 애니 시퀀스대로 바꾼다
+거기에 히트가 들어가면 한번 때렸다고 판정 -> hittedList에 들어가서 중복 때리기 방지
+
+#갑옷
+ Class - Armour : Item (abstract)
+	!var
+	int armour
+	
+
+class - IronPlate : Tool
+class - IronPlate : Tool
+class - hammer : Tool
+class - Axe : Tool
+class - IronSword : Tool
+class - Bow : Tool
+class - Arrow : Tool
+
+#소비아이템&재료아이템
+ Class - UseableItem : Item (abstract)
+
+Class - BigEyeSummoner : UseableItem
+Class - BigSkeletonSummoner : UseableItem
+
+Class - Wood : UseableItem
+
+#블럭
+ Class - Block : Item (abstract)
+	!override
+	!var
+	float harden
+
+class - dirt : Block
+class - grassSoil : Block
+class - stone : Block
+class - iron
+
+#벽면블럭
+ Class - WallBlock : Item (abstract)
+	!override
+	!var
+	float harden
+
+class - dirtWall : Block
+class - stoneWall : Block
+
+ㅁ콜리전
+#콜리전매니저
+ Class - CollisionManager
+	!var
+	list<Node*>* nodes;
+	!method
+	bool collision(Entity* entity, Entity* entity) => 움직이는 개체 콜리전
+	bool collision(Entity* entity) => 블럭 콜리전
+
+<추가목표>
+ㅁ저장시스템
+ 목표
+- 세이브 & 로드
+ㄴ적(몹&보스)은 저장 안함
+<\추가목표>

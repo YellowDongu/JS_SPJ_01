@@ -1,0 +1,37 @@
+1 만들고 싶은 게임
+테라리아
+https://www.youtube.com/watch?v=qSbXhoOj4jA
+https://www.youtube.com/watch?v=qM0k3LFy4hg
+https://www.youtube.com/watch?v=BiZXoylI2s4
+초반 광질&파밍 + 쌍둥이(약화)
+분량 조절의 어려움이 있고 분량 자체도 방대해서 만들 수 있는 게임에 넣진 않음
+낮밤 시스템+광원에 의한 채도/명도 변경에 시간이 걸리고
+보스 여러개(+패턴) 구현과 무기 구현에도 시간이 걸리고
+블럭 설치나 시간, 조건에 의한 스프라이트 변경 구현에도 시간이 걸리고
+이걸 잘 해낼려면 시간이 많이 필요하나 그에 비해 주어진 시간은 너무 짧음
+타협하면 괜찮지만 타협을 하더라도 구현 시간 대비 완성도가 낮아보일 가능성 농후
+
+라이브러리 오브 루이나
+https://www.youtube.com/watch?v=5u85iJ1HTWw&list=PLA8ZMqP-1kd_-ZN7IZQCFXjZ8-bo_IqA9&index=1
+https://www.youtube.com/watch?v=000autlQkdA&list=PLA8ZMqP-1kd_-ZN7IZQCFXjZ8-bo_IqA9&index=26
+https://www.youtube.com/watch?v=0P78dZjtsVk&list=PLA8ZMqP-1kd_-ZN7IZQCFXjZ8-bo_IqA9&index=18
+
+게임 시스템 구현 자체는 어려워보이지 않음
+다만 UI나 이펙트같은 비주얼적인 면에서 구현에 있어 해결해야될 과제가 있고 꽤나 복잡해보여 시간이 좀 걸릴듯
+비주얼적인 면을 어느정도 타협하고 숨기고 바꾸면 난이도가 어느정도 낮아질 수도 있지만 이건 어디까지나 예상치
+
+2. 만들 수 있는 게임
+라이브러리 오브 루이나(위와 동일)
+킹오파98 + TCP서버
+https://www.youtube.com/watch?v=ik14OmllVow
+그래픽 따는게 좀 힘들 수 있음(하나하나 그림판으로 누끼따고있을 수 있음)
+히트판정같은것도 쉽게 구현 가능하고
+서버와 네트워크로 대전도 가능
+PICOPARK + TCP 서버
+https://www.youtube.com/watch?v=E0JuQhy3hHg
+그래픽 간단+애니메이션 간단 + 서버는 구현 가능(이미 만들어져있는걸로도 가능)
+게임 시스템 면에서 도전과제가 몇개 있긴 하지만 시간 내 구현 가능할듯 함
+다만 서버와 네트워크가 메인이 될 수 있다->다만 여기는 클라이언트 학원이다
+Forager
+https://www.youtube.com/watch?v=PuynNvOiqeg
+초반부 구현 정도라면 가능하긴 한데 forager를 정말 초반 컨텐츠만 진행해서 무슨 요소가 있는진 정확히 모름

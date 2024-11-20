@@ -1,0 +1,239 @@
+테라리아
+
+테마 (순서는 구분만을 위한것)
+ㅁ1번째 - 프레임워크
+ 목표 
+- 기본 기반 만들고 개발의 속도를 높이기 위한 편리한 기능 만들기
+
+ㅁ2번째 - 맵과 타일
+ 목표
+- 눈에 보일 수 있는 맵
+- 밤낮 구현 => 낫 필수 다만 가능할걸로 보임
+  ㄴ 밤낮 구현에 따른 픽셀의 RGB 변화 => 변화 후 맵 컨테이너에 저장 => std::string으로 하면 알파벳 순으로 정렬되니깐 쓰기 좋을것
+  ㄴ 그래서 처음 로딩할때 빛에 따른 이미지를 구현
+
+추가 목표
+-시간에 따른 잔디 자라기
+-반블럭
+
+
+ㅁ3번째 - 플레이어 & 스프라이트 회전
+ 목표
+- 콜리전 (다른 움직이는 개체들을 위한거기도 함)
+ㄴ1칸짜리는 무시하고 올라갈 수 있게 하기
+- 인벤토리
+- 죽음+돈떨구기
+- 스프라이트 좌우 반전
+
+ 추가 목표(안할 가능성이 매우 높음)
+- 커스터마이징
+
+ㅁ4번째 - 크래프팅과 아이템
+ 목표
+- 아이템 루팅과 아이템 설치
+- 크래프팅 레시피에 충족하는 아이템 표시
+- 상자&야생 루팅 상자
+- 아이템 사용
+
+ㅁ5번째 - 몹
+- 좀비
+- 슬라임
+- 작은 크툴루의 눈
+
+ㅁ6번째 - 보스
+ 목표
+- 크툴루의 눈
+- 스켈레트론
+
+ㅁ7번째 - NPC
+ 목표
+- 거래시스템
+
+ㅁ8번째 - 저장시스템
+ 목표
+- 세이브 & 로드
+ㄴ적(몹&보스)은 저장 안함
+
+
+수도 코드
+클래스나 메서드 이름은 언제든 변경될 수 있음!
+
+
+벡터
+ class - Vector2
+ class - Vector2Int
+
+메인 카메라
+ class - CameraManager
+
+인풋매니저
+ class - InputManager
+ class - PlayerInput
+
+타임매니저
+ class - TimeManager
+
+이미지매니저
+ class - ImageHandler
+ class - RenderManger
+
+사운드매니저
+ class - SoundManager
+
+
+
+타일맵
+ class - GridMap
+ class - Node
+
+블럭 => 이걸 그냥 아이템에 편입시켜서 사용할까
+ class - Block (abstract)
+ class - (각종 블럭 이름들)
+
+씬&씬매니저
+ class - Scene (abstract)
+ class - SceneManager
+ class - MainMenu : Scene
+ class - InGame : Scene
+
+UI
+ Class - UIManager
+ Class - UI (abstract)
+	Method
+	-SetActive(bool)
+ 	-IsActive()
+	-Clicked() abstract
+Class - Inventory
+Class - 
+
+콜리전매니저
+ Class - CollisionManager
+
+움직이는 객체들
+ Class - EntityManager
+ Class - Entity (abstract)
+  	Method
+	CollisionWithBlock abstract
+	CollisionWithEntity abstract
+플레이어
+ Class - Player : Entity
+ Class - PlayerInventory
+
+몹
+ Class - Zombie : Entity
+ Class - DemonEye : Entity
+ Class - Slime : Entity
+
+
+
+아이템
+ Class - Item (abstract)
+ ㄴ 드래그 앤 드롭
+ Class - Armour : Item (abstract)
+ Class - Weapon : Item (abstract)
+ Class - UseableItem : Item (abstract)
+ Class - furniture : Item (abstract)
+
+
+
+++일차++
+기본적인 행동 패턴
+어제자 못한거 완성
+오늘자 구현
+만약 다했으면 다음일차꺼 진행
++α는 추가로 필요한 부분이 있으면 진행
+이미지 가공은 언제나 들어갈거임 => 필요한걸 그때그때 뽑아쓰는 용도
+ㄴ이 겜의 스프라이트 만들기 은근히 쉬워서 이 방식으로 함
+ㄴ이미지 가공에 적혀있는 항목은 그날 반드시 추출해야될걸로 판단되는 스프라이트들
+
+ㅁ1일
+새 프로젝트 생성 및 초기화
+프레임워크
+	벡터2
+	메인 카메라
+	인풋매니저
+	타임매니저
+	비트맵매니저
+	타임매니저
+	씬&씬매니저
+	사운드매니저
+	타일매니저
+폰트 적용
+인터페이스 클래스
+이미지 추출
+	.xnb 추출기
+	ㄴ이미지
+	ㄴ사운드
+	테라리아 폰트
+	
+이미지 가공
+	타일 이미지
+		흙/잔디흙
+		돌/광물
+	폰트
+ㅁ2일차
+프레임워크
+ㄴ1일차 못끝낸거 끝내기
+이미지 가공
+	+α 타일 이미지 (추가로 더 필요한거)
+	메인메뉴
+메인메뉴(씬&씬매니저)
+	메인메뉴 버튼
+	BGM
+	씬 넘어가기
+
+ㅁ3일차
+타일맵
+	기초 테스트 구간 만들기
+이미지 가공
+
+ㅁ4일차
+그림자 시스템 => 포기할 수 있음
+스프라이트 가공&저장 시스템 => 포기할 수 있음
+밤낮 시스템 => 포기할 수 있음
+이미지 가공
+
+ㅁ5일차
+전체 맵 완성 => 미룰 수 있음
+이미지 가공
+
+ㅁ6일차
+플레이어 & 콜리전매니저
+이미지 가공
+
+ㅁ7일차
+아이템->기초 아이템(Log)
+인벤토리
+드래그 앤 드롭
+이미지 가공
+
+ㅁ8일차
+아이템
+이미지 가공
+
+ㅁ9일차
+장비장착&설치&크래프팅
+이미지 가공
+
+ㅁ10일차
+저장 시스템
+이미지 가공
+
+ㅁ11일차
+몹
+이미지 가공
+
+ㅁ12일차
+보스
+이미지 가공
+
+ㅁ13일차
+버그 수정&못한 부분 도전
+
+ㅁ14일차(마지막 일차)
+플레이 찍기 + 발표준비
+
+		
+
+
+마녀의 숲 하고싶다
